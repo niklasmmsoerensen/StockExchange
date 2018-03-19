@@ -16,6 +16,10 @@
     <PackageReference Include="Microsoft.ServiceFabric.AspNetCore.Kestrel" Version="3.0.472" />
     <PackageReference Include="Microsoft.ServiceFabric.Data" Version="3.0.472" />
     <PackageReference Include="Microsoft.ServiceFabric.Services" Version="3.0.472" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="2.3.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="2.3.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="2.3.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup>
