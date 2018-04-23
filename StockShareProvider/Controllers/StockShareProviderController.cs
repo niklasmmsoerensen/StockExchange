@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace HTTPGateway.Controllers
 {
     [Route("api/[controller]")]
-    public class TestController : Controller
+    public class StockShareProviderController : Controller
     {
         [HttpGet]
-        public IActionResult Get()
+        public string Get()
         {
-            return new ObjectResult("ayy lmao");
+            return "ayy lmao";
         }
 
     }

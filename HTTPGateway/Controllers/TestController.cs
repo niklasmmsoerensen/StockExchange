@@ -32,19 +32,17 @@ namespace HTTPGateway.Controllers
 
             ServicePartitionList partitions = await _fabricClient.QueryManager.GetPartitionListAsync(serviceName);
 
-            List<string> result = new List<string>();
-         
-
             string proxyUrl =
-                $"{proxyAddress}/api/Test";
+                $"{proxyAddress}/api/StockShareProvider";
 
             using (HttpResponseMessage response = await this._httpClient.GetAsync(proxyUrl))
             {
-                var fsfs = response;
-            }
-            
+                var result = response.Content.ReadAsStringAsync();
 
-            return this.Json(result);
+                var jsonResult = this.Json(result);
+
+                return jsonResult;
+            }
         }
 
         private Uri GetProxyAddress(Uri serviceName)

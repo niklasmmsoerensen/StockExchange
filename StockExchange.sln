@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27428.2011
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "StockExchange", "StockExchange\StockExchange.sfproj", "{3A8B4977-2682-451C-9C5B-36D7F071686C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockShareProvider", "StockShareProvider\StockShareProvider.csproj", "{7F06D600-4F09-4185-87D9-7088B596A13C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTTPGateway", "HTTPGateway\HTTPGateway.csproj", "{C338D85F-D679-42B1-A065-5866C307BD31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HTTPGateway", "HTTPGateway\HTTPGateway.csproj", "{C338D85F-D679-42B1-A065-5866C307BD31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +18,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3A8B4977-2682-451C-9C5B-36D7F071686C}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{3A8B4977-2682-451C-9C5B-36D7F071686C}.Debug|Any CPU.Build.0 = Debug|x64
+		{3A8B4977-2682-451C-9C5B-36D7F071686C}.Debug|Any CPU.Deploy.0 = Debug|x64
 		{3A8B4977-2682-451C-9C5B-36D7F071686C}.Debug|x64.ActiveCfg = Debug|x64
 		{3A8B4977-2682-451C-9C5B-36D7F071686C}.Debug|x64.Build.0 = Debug|x64
 		{3A8B4977-2682-451C-9C5B-36D7F071686C}.Debug|x64.Deploy.0 = Debug|x64

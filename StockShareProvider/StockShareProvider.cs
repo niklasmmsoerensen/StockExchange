@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using HTTPGateway.Controllers;
 
 namespace StockShareProvider
 {
@@ -19,8 +20,8 @@ namespace StockShareProvider
     internal sealed class StockShareProvider : StatelessService
     {
         public StockShareProvider(StatelessServiceContext context)
-            : base(context)
-        { }
+            : base(context) => MessageReceiverController.SetupQueueListeners().GetAwaiter().GetResult();
+
 
         /// <summary>
         /// Optional override to create listeners (like tcp, http) for this service instance.
