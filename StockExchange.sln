@@ -7,7 +7,7 @@ Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "StockExchange", "StockExcha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockShareProvider", "StockShareProvider\StockShareProvider.csproj", "{7F06D600-4F09-4185-87D9-7088B596A13C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTTPGateway", "HTTPGateway\HTTPGateway.csproj", "{C338D85F-D679-42B1-A065-5866C307BD31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HTTPGateway", "HTTPGateway\HTTPGateway.csproj", "{C338D85F-D679-42B1-A065-5866C307BD31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using StockShareProvider.DbAccess;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace StockShareProvider
@@ -16,7 +15,11 @@ namespace StockShareProvider
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -25,6 +28,29 @@ namespace StockShareProvider
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            
+            var connectionString = Configuration.GetConnectionString("Default");
+
+            services.AddDbContext<ProviderContext>(options =>
+            {
+                options.UseSqlServer(connectionString, sqlOptions =>
+                {
+                    sqlOptions.
+                        MigrationsAssembly(
+                            typeof(Startup).
+                                GetTypeInfo().
+                                Assembly.
+                                GetName().Name);
+
+                    ////Configuring Connection Resiliency:
+                    //sqlOptions.
+                    //    EnableRetryOnFailure(maxRetryCount: 5,
+                    //        maxRetryDelay: TimeSpan.FromSeconds(30),
+                    //        errorNumbersToAdd: null);
+
+                });
+            });
+
 
             services.AddSwaggerGen(c =>
             {

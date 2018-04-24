@@ -1,10 +1,9 @@
-﻿using Microsoft.ServiceFabric.Services.Runtime;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Threading;
-using System.Threading.Tasks;
+using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace StockShareProvider
+namespace StockShareProvider.Microservice
 {
     internal static class Program
     {
