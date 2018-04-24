@@ -6,7 +6,7 @@ using StockShareProvider.DbAccess.Entities;
 namespace StockShareProvider.Controllers
 {
     [Route("api/[controller]")]
-    public class TestController : Controller
+    public class StockShareProviderController : Controller
     {
         private readonly ProviderContext _context;
 
@@ -17,9 +17,9 @@ namespace StockShareProvider.Controllers
 
 
         [HttpGet]
-        public IActionResult Get()
+        public string Get()
         {
-            return new ObjectResult("ayy lmao");
+            return "ayy lmao";
         }
 
         [HttpGet("DbTest")]
