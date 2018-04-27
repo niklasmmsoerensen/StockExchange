@@ -159,13 +159,13 @@ namespace HTTPGateway
         private static long GetReplicaOrInstanceId(ServiceContext context)
         {
             StatelessServiceContext stateless = context as StatelessServiceContext;
-            if (stateless != null)
+            if ((object)stateless != null)
             {
                 return stateless.InstanceId;
             }
 
             StatefulServiceContext stateful = context as StatefulServiceContext;
-            if (stateful != null)
+            if ((object)stateful != null)
             {
                 return stateful.ReplicaId;
             }

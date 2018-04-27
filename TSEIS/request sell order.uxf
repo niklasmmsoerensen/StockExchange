@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>380</x>
+      <y>300</y>
+      <w>120</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>HTTP gateway</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLActor</id>
+    <coordinates>
+      <x>70</x>
+      <y>300</y>
+      <w>60</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>User</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>340</x>
+      <y>120</y>
+      <w>190</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>The Stock Share Provider</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>460</x>
+      <y>200</y>
+      <w>140</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[command]
+2. insert sell order</panel_attributes>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>390</x>
+      <y>200</y>
+      <w>60</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+5. OK</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>130</x>
+      <y>360</y>
+      <w>270</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+6. OK</panel_attributes>
+    <additional_attributes>250.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>130</x>
+      <y>310</y>
+      <w>270</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[command]
+1. request sell order</panel_attributes>
+    <additional_attributes>10.0;20.0;250.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>340</x>
+      <y>480</y>
+      <w>190</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>The Stock Share Requester</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>390</x>
+      <y>380</y>
+      <w>30</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>460</x>
+      <y>380</y>
+      <w>30</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>780</x>
+      <y>290</y>
+      <w>170</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>The Stock Trader Broker</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>750</x>
+      <y>520</y>
+      <w>230</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>The Public Share Owner Control</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>770</x>
+      <y>100</y>
+      <w>190</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>The Tobin Taxing Control</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>30</x>
+      <y>110</y>
+      <w>110</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Sell Orders DB</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>30</x>
+      <y>470</y>
+      <w>110</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Buy orders DB</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1180</x>
+      <y>510</y>
+      <w>140</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Share Ownership DB</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>520</x>
+      <y>180</y>
+      <w>280</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+[event]
+7. New sell order</panel_attributes>
+    <additional_attributes>10.0;10.0;260.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>490</x>
+      <y>350</y>
+      <w>310</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[query]
+8. Matching buy order?
+</panel_attributes>
+    <additional_attributes>290.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>130</x>
+      <y>120</y>
+      <w>230</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+3. insert sell order
+19. delete sell order</panel_attributes>
+    <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>130</x>
+      <y>170</y>
+      <w>230</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+4. OK
+20. OK</panel_attributes>
+    <additional_attributes>10.0;20.0;210.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>520</x>
+      <y>370</y>
+      <w>320</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+11. Buy order match</panel_attributes>
+    <additional_attributes>300.0;10.0;10.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>130</x>
+      <y>480</y>
+      <w>230</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+9. Select buy orders
+matching sell order</panel_attributes>
+    <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>130</x>
+      <y>540</y>
+      <w>230</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+10. Rows &gt; 0
+</panel_attributes>
+    <additional_attributes>10.0;20.0;210.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>830</x>
+      <y>370</y>
+      <w>180</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[command]
+16. Share owner change</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>970</x>
+      <y>530</y>
+      <w>230</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+17. Update ownership
+</panel_attributes>
+    <additional_attributes>10.0;20.0;210.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>970</x>
+      <y>570</y>
+      <w>230</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+18. OK</panel_attributes>
+    <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>810</x>
+      <y>180</y>
+      <w>110</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[command]
+12. Tax order</panel_attributes>
+    <additional_attributes>10.0;110.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>900</x>
+      <y>180</y>
+      <w>70</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+15. OK</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>900</x>
+      <y>370</y>
+      <w>70</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+
+
+
+
+19. OK</panel_attributes>
+    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>520</x>
+      <y>120</y>
+      <w>280</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+[event]
+18. Sell order fulfilled</panel_attributes>
+    <additional_attributes>260.0;170.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1160</x>
+      <y>100</y>
+      <w>190</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Integration Service</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>950</x>
+      <y>110</y>
+      <w>230</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[command]
+13. Tax order</panel_attributes>
+    <additional_attributes>10.0;20.0;210.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>950</x>
+      <y>150</y>
+      <w>230</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+14. OK</panel_attributes>
+    <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+</diagram>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>11</zoom_level>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>286</x>
+      <y>220</y>
+      <w>121</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>396</x>
+      <y>352</y>
+      <w>198</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;microservice&gt;&gt;
+HTTP gateway
+--
+/request/buyorder
+/request/sellorder
+/orders/status</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>385</x>
+      <y>154</y>
+      <w>209</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;micoservice&gt;&gt;
+The Stock Share Provider
+--
+/insert/sellorder
+/request/sellorders
+
+--
+&lt;&lt;event&gt;&gt; newSellOrder
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>385</x>
+      <y>550</y>
+      <w>209</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;microservice&gt;&gt;
+The Stock Share Requester
+--
+/insert/buyorder
+/request/buyorders</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>682</x>
+      <y>341</y>
+      <w>220</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;microservice&gt;&gt;
+The Stock Trader Broker
+--
+Listening to:
+&lt;&lt;event&gt;&gt; newSellOrder
+&lt;&lt;event&gt;&gt; newBuyOrder
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>682</x>
+      <y>572</y>
+      <w>253</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;microservice&gt;&gt;
+The Public Share Owner Control
+--
+/shares/changeownership</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>682</x>
+      <y>143</y>
+      <w>209</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;microservice&gt;&gt;
+The Tobin Taxing Control
+--
+/tax/order</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>176</x>
+      <y>143</y>
+      <w>121</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>Sell Orders DB</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>187</x>
+      <y>539</y>
+      <w>121</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>Buy orders DB</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1023</x>
+      <y>561</y>
+      <w>154</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>Share Ownership DB</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>286</x>
+      <y>165</y>
+      <w>121</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1012</x>
+      <y>143</y>
+      <w>209</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;microservice&gt;&gt;
+Integration Service
+--
+/tax/order</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>297</x>
+      <y>616</y>
+      <w>110</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>297</x>
+      <y>561</y>
+      <w>110</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>924</x>
+      <y>649</y>
+      <w>121</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>924</x>
+      <y>594</y>
+      <w>121</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

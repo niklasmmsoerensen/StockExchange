@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace StockShareProvider
+namespace Frontend2
 {
-    [EventSource(Name = "MyCompany-StockExchange-StockShareProvider")]
+    [EventSource(Name = "MyCompany-StockExchange-Frontend2")]
     internal sealed class ServiceEventSource : EventSource
     {
         public static readonly ServiceEventSource Current = new ServiceEventSource();
@@ -159,13 +159,13 @@ namespace StockShareProvider
         private static long GetReplicaOrInstanceId(ServiceContext context)
         {
             StatelessServiceContext stateless = context as StatelessServiceContext;
-            if ((object)stateless != null)
+            if (stateless != null)
             {
                 return stateless.InstanceId;
             }
 
             StatefulServiceContext stateful = context as StatefulServiceContext;
-            if ((object)stateful != null)
+            if (stateful != null)
             {
                 return stateful.ReplicaId;
             }

@@ -32,6 +32,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Frontend2\Frontend2.csproj" />
     <ProjectReference Include="..\HTTPGateway\HTTPGateway.csproj" />
     <ProjectReference Include="..\StockShareProvider\StockShareProvider.csproj" />
   </ItemGroup>
