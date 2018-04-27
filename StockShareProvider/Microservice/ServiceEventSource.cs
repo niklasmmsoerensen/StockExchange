@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Fabric;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace StockShareProvider
+namespace StockShareProvider.Microservice
 {
     [EventSource(Name = "MyCompany-StockExchange-StockShareProvider")]
     internal sealed class ServiceEventSource : EventSource
