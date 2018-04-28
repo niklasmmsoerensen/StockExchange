@@ -1,11 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RabbitMQ.Client;
 using StockShareProvider.DbAccess;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -29,32 +31,62 @@ namespace StockShareProvider
         {
             services.AddMvc();
             
+            SetupDb(services);
+
+            SetupMQ(services);
+            
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            });
+        }
+
+        private void SetupMQ(IServiceCollection services)
+        {
+            var connectionFactory = new ConnectionFactory() { HostName = "localhost" }; // TODO hostname skal flyttes til appsettings.json?
+
+            var rabbitMQConnection = connectionFactory.CreateConnection();
+
+            var rabbitMQChannel = rabbitMQConnection.CreateModel();
+            
+            string EXCHANGE = "testExchange";
+            string QUEUE = "test2";
+
+            //only run if queue doesn't already exist
+            rabbitMQChannel.ExchangeDeclare(EXCHANGE, ExchangeType.Direct);
+            rabbitMQChannel.QueueDeclare(queue: QUEUE,
+                durable: false,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+            rabbitMQChannel.QueueBind(QUEUE, EXCHANGE, "test", null);
+
+            rabbitMQChannel.BasicPublish(exchange: EXCHANGE,
+                routingKey: "test",
+                basicProperties: null,
+                body: Encoding.UTF8.GetBytes("Hello from MessageReceiverController!"));
+
+            services.AddSingleton<IModel>(rabbitMQChannel);
+        }
+
+        private void SetupDb(IServiceCollection services)
+        {
             var connectionString = Configuration.GetConnectionString("Default");
 
             services.AddDbContext<ProviderContext>(options =>
             {
                 options.UseSqlServer(connectionString, sqlOptions =>
                 {
-                    sqlOptions.
-                        MigrationsAssembly(
-                            typeof(Startup).
-                                GetTypeInfo().
-                                Assembly.
-                                GetName().Name);
+                    sqlOptions.MigrationsAssembly(
+                        typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
 
                     ////Configuring Connection Resiliency:
                     //sqlOptions.
                     //    EnableRetryOnFailure(maxRetryCount: 5,
                     //        maxRetryDelay: TimeSpan.FromSeconds(30),
                     //        errorNumbersToAdd: null);
-
                 });
-            });
-
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
         }
 

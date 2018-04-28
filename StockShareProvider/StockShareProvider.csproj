@@ -7,20 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20180424111128_Initial.cs" />
-    <Compile Remove="Migrations\20180424111128_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20180424113437_Initial.cs" />
-    <Compile Remove="Migrations\20180424113437_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20180424113855_Initial.cs" />
-    <Compile Remove="Migrations\20180424113855_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20180424114125_Initial.cs" />
-    <Compile Remove="Migrations\20180424114125_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20180424115726_Initial.cs" />
-    <Compile Remove="Migrations\20180424115726_Initial.Designer.cs" />
+    <Compile Remove="Migrations\**" />
+    <Content Remove="Migrations\**" />
+    <EmbeddedResource Remove="Migrations\**" />
+    <None Remove="Migrations\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

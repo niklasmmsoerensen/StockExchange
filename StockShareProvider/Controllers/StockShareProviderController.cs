@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using StockShareProvider.DbAccess;
-using StockShareProvider.DbAccess.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace StockShareProvider.Controllers
 {

@@ -6,8 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
-using HTTPGateway.Controllers;
-using RabbitMQ.Client;
 
 namespace StockShareProvider.Microservice
 {
@@ -16,37 +14,11 @@ namespace StockShareProvider.Microservice
     /// </summary>
     internal sealed class StockShareProvider : StatelessService
     {
-        static private ConnectionFactory _RabbitMqFactory;
-        private IConnection _RabbitMqConnection;
-        private IModel _RabbitMqChannel;
-        private const string EXCHANGE = "testExchange";
-        private const string QUEUE = "test2";
-
         public StockShareProvider(StatelessServiceContext context) : base(context)
         {
-            RabbitMqFactory = new ConnectionFactory() { HostName = "localhost" };
-            using (_RabbitMqConnection = RabbitMqFactory.CreateConnection())
-            using (_RabbitMqChannel = _RabbitMqConnection.CreateModel())
-            {
-                //only run if queue doesn't already exist
-                _RabbitMqChannel.ExchangeDeclare(EXCHANGE, ExchangeType.Direct);
-                _RabbitMqChannel.QueueDeclare(queue: QUEUE,
-                                 durable: false,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
-                _RabbitMqChannel.QueueBind(QUEUE, EXCHANGE, "test", null);
-
-                var message = System.Text.Encoding.UTF8.GetBytes("Hello from MessageReceiverController!");
-
-                _RabbitMqChannel.BasicPublish(exchange: EXCHANGE,
-                                     routingKey: "test",
-                                     basicProperties: null,
-                                     body: message);
-            }
+            
         }
-        static public ConnectionFactory RabbitMqFactory { get => _RabbitMqFactory; set => _RabbitMqFactory = value; }
-
+        
         /// <summary>
         /// Optional override to create listeners (like tcp, http) for this service instance.
         /// </summary>

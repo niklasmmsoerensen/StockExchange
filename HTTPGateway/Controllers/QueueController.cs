@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Fabric;
-using System.Fabric.Query;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Azure.ServiceBus;
 
 namespace HTTPGateway.Controllers
 {
