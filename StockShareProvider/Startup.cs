@@ -44,14 +44,15 @@ namespace StockShareProvider
 
         private void SetupMQ(IServiceCollection services)
         {
-            var connectionFactory = new ConnectionFactory() { HostName = "localhost" }; // TODO hostname skal flyttes til appsettings.json?
+            string HostName = Configuration.GetSection("RabbitMQ")["HostName"];
+            string EXCHANGE = Configuration.GetSection("RabbitMQ")["Exchange"];
+            string QUEUE = Configuration.GetSection("RabbitMQ")["Queue"];
+
+            var connectionFactory = new ConnectionFactory() { HostName = HostName };
 
             var rabbitMQConnection = connectionFactory.CreateConnection();
 
             var rabbitMQChannel = rabbitMQConnection.CreateModel();
-            
-            string EXCHANGE = "testExchange";
-            string QUEUE = "test2";
 
             //only run if queue doesn't already exist
             rabbitMQChannel.ExchangeDeclare(EXCHANGE, ExchangeType.Direct);
