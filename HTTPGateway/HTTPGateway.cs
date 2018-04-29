@@ -14,6 +14,7 @@ using Microsoft.ServiceFabric.Services.Runtime;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace HTTPGateway
 {
@@ -26,28 +27,34 @@ namespace HTTPGateway
         private ConnectionFactory _RabbitMqFactory;
         private IConnection _RabbitMqConnection;
         static private IModel _RabbitMqChannel;
-        private const string EXCHANGE = "testExchange";
-        private const string QUEUE = "test2";
+        private string _RabbitMqHostName;
+        private string _RabbitMqExchange;
+        private string _RabbitMqQueue;
 
         static public IModel RabbitMqChannel { get => _RabbitMqChannel; set => _RabbitMqChannel = value; }
+        public string RabbitMqExchange { get => _RabbitMqExchange; set => _RabbitMqExchange = value; }
+        public string RabbitMqQueue { get => _RabbitMqQueue; set => _RabbitMqQueue = value; }
+        public string RabbitMqHostName { get => _RabbitMqHostName; set => _RabbitMqHostName = value; }
 
         public HTTPGateway(StatelessServiceContext context)
             : base(context)
         {
-            _RabbitMqFactory = new ConnectionFactory() { HostName = "localhost" };
+            LoadConfiguration();
 
-            _RabbitMqConnection = _RabbitMqFactory.CreateConnection();
+            _RabbitMqFactory = new ConnectionFactory() { HostName = RabbitMqHostName };
+
+           _RabbitMqConnection = _RabbitMqFactory.CreateConnection();
             _RabbitMqChannel = _RabbitMqConnection.CreateModel();
 
             //it doesn't create a new one if it already exists
-            _RabbitMqChannel.ExchangeDeclare(EXCHANGE, ExchangeType.Direct);
-            _RabbitMqChannel.QueueDeclare(queue: QUEUE,
+            _RabbitMqChannel.ExchangeDeclare(RabbitMqExchange, ExchangeType.Direct);
+            _RabbitMqChannel.QueueDeclare(queue: RabbitMqQueue,
                                 durable: false,
                                 exclusive: false,
                                 autoDelete: false,
                                 arguments: null);
             //binds queue and exchange
-            _RabbitMqChannel.QueueBind(QUEUE, EXCHANGE, "test", null);
+            _RabbitMqChannel.QueueBind(RabbitMqQueue, RabbitMqExchange, "test", null);
 
             //setup consumer/subscriber for our channel
             var consumer = new EventingBasicConsumer(_RabbitMqChannel);
@@ -73,7 +80,7 @@ namespace HTTPGateway
                 }; //calls QueueController when receiving a message
 
             //attach consumer to channel
-            String consumerTag = _RabbitMqChannel.BasicConsume(QUEUE, false, consumer);
+            String consumerTag = _RabbitMqChannel.BasicConsume(RabbitMqQueue, false, consumer);
             
         }
 
@@ -105,6 +112,18 @@ namespace HTTPGateway
                                     .Build();
                     }))
             };
+        }
+
+        private void LoadConfiguration()
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+            
+            RabbitMqHostName = configuration.GetSection("RabbitMQ")["HostName"];
+            RabbitMqExchange = configuration.GetSection("RabbitMQ")["Exchange"];
+            RabbitMqQueue = configuration.GetSection("RabbitMQ")["Queue"];
         }
 
         internal static Uri GetStockShareProviderServiceName(ServiceContext context)
