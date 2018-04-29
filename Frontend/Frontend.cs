@@ -11,14 +11,14 @@ using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace Frontend2
+namespace Frontend
 {
     /// <summary>
     /// The FabricRuntime creates an instance of this class for each service type instance. 
     /// </summary>
-    internal sealed class Frontend2 : StatelessService
+    internal sealed class Frontend : StatelessService
     {
-        public Frontend2(StatelessServiceContext context)
+        public Frontend(StatelessServiceContext context)
             : base(context)
         { }
 
@@ -47,11 +47,6 @@ namespace Frontend2
                                     .Build();
                     }))
             };
-        }
-
-        internal static Uri GetHTTPGatewayServiceName(ServiceContext context)
-        {
-            return new Uri($"{context.CodePackageActivationContext.ApplicationName}/HTTPGateway");
         }
     }
 }

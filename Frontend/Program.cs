@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Frontend2
+namespace Frontend
 {
     internal static class Program
     {
@@ -20,10 +20,10 @@ namespace Frontend2
                 // When Service Fabric creates an instance of this service type,
                 // an instance of the class is created in this host process.
 
-                ServiceRuntime.RegisterServiceAsync("Frontend2Type",
-                    context => new Frontend2(context)).GetAwaiter().GetResult();
+                ServiceRuntime.RegisterServiceAsync("FrontendType",
+                    context => new Frontend(context)).GetAwaiter().GetResult();
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(Frontend2).Name);
+                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(Frontend).Name);
 
                 // Prevents this host process from terminating so services keeps running. 
                 Thread.Sleep(Timeout.Infinite);

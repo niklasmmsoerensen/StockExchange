@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace Frontend2
+namespace Frontend
 {
-    [EventSource(Name = "MyCompany-StockExchange-Frontend2")]
+    [EventSource(Name = "MyCompany-StockExchange-Frontend")]
     internal sealed class ServiceEventSource : EventSource
     {
         public static readonly ServiceEventSource Current = new ServiceEventSource();
