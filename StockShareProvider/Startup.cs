@@ -17,6 +17,7 @@ namespace StockShareProvider
 {
     public class Startup
     {
+        private Logger myLog = new Logger("StockShareProvider");
         public Startup(IConfiguration configuration)
         {
             var builder = new ConfigurationBuilder()
@@ -31,7 +32,7 @@ namespace StockShareProvider
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<ILogger>(t => new LoggerStub());
+            services.AddScoped<ILogger>(t => myLog);
             services.AddMvc();
             
             SetupDb(services);

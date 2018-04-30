@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shared;
+using Shared.Abstract;
 
 namespace Frontend
 {
@@ -29,13 +30,13 @@ namespace Frontend
             try
             {
                 myLog.Info("Adding service");
+                services.AddScoped<ILogger>(t => myLog);
                 services.AddMvc();
             }
             catch(Exception e)
             {
                 myLog.Error("Error in adding service: ", e);
             }
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
