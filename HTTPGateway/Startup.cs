@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Shared;
 using Swashbuckle.AspNetCore.Swagger;
+using ILogger = Shared.ILogger;
 
 namespace HTTPGateway
 {
