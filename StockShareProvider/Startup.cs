@@ -85,12 +85,6 @@ namespace StockShareProvider
                 {
                     sqlOptions.MigrationsAssembly(
                         typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-
-                    ////Configuring Connection Resiliency:
-                    //sqlOptions.
-                    //    EnableRetryOnFailure(maxRetryCount: 5,
-                    //        maxRetryDelay: TimeSpan.FromSeconds(30),
-                    //        errorNumbersToAdd: null);
                 });
             });
         }
