@@ -115,7 +115,7 @@ namespace HTTPGateway
         }
 
         private void LoadConfiguration()
-        {
+        {   
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")

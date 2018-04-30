@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Shared.Abstract;
 
 namespace Shared
 {
@@ -16,60 +17,60 @@ namespace Shared
 
         public void Debug(string message)
         {
-            LogString(message, _log);
+            LogString($"Debug   {message}");
         }
 
         public void Debug(string message, Exception exception)
         {
-            LogString(message + " " + exception.Message , _log);
+            LogString($"Debug   {message}   {exception.Message}");
         }
 
         public void Error(string message)
         {
-            LogString(message, _log);
+            LogString($"Error   {message}");
         }
 
         public void Error(string message, Exception exception)
         {
-            LogString(message + " " + exception.Message + " " + exception.StackTrace, _log);
+            LogString($"Error   {message}   {exception.Message}");
         }
 
         public void Info(string message)
         {
-            LogString(message, _log);
+            LogString($"Info   {message}");
         }
 
         public void Info(string message, Exception exception)
         {
-            LogString(message + " " + exception.Message, _log);
+            LogString($"Info   {message}   {exception.Message}");
         }
 
         public void Warn(string message)
         {
-            LogString(message, _log);
+            LogString($"Warn   {message}");
         }
 
         public void Warn(string message, Exception exception)
         {
-            LogString(message + " " + exception.Message, _log);
+            LogString($"Warn   {message}   {exception.Message}");
         }
 
         private void LogStart(string microservice)
         {
-            var dateTimeFormat = "MM-dd-yyy_HH_mm_ss";
+            var dateTimeFormat = "yyyy-MM-dd_HH_mm_ss";
             var date = DateTime.Now.ToString(dateTimeFormat);
-            var logFile = "StockExchangeLog " + microservice + " " + date + ".log";
+            var logFile = "StockExchangeLog_" + microservice + "_" + date + ".log";
 
-            string logPath = @"c:\Logs";
+            string logPath = @"C:\Logs";
             string logFileTest = Path.Combine(logPath, logFile);
 
             _log = !File.Exists(logFileTest) ? new StreamWriter(logFileTest) : File.AppendText(logFileTest);
         }
 
-        private void LogString(string stringToLog, StreamWriter log)
+        private void LogString(string stringToLog)
         {
-            log.WriteLine(stringToLog);
-            log.Flush();
+            _log.WriteLine(stringToLog);
+            _log.Flush();
         }
     }
 }

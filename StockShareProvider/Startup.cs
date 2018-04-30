@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
 using Shared;
+using Shared.Abstract;
 using StockShareProvider.DbAccess;
 using Swashbuckle.AspNetCore.Swagger;
 

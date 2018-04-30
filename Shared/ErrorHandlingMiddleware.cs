@@ -2,7 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
+using Shared.Abstract;
 
 namespace Shared
 {
@@ -35,56 +35,5 @@ namespace Shared
             context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
             return context.Response.WriteAsync(exception.Message);
         }
-    }
-
-    public class LoggerStub : ILogger
-    {
-        public void Debug(string message)
-        {
-        }
-
-        public void Debug(string message, Exception exception)
-        {
-        }
-
-        public void Info(string message)
-        {
-        }
-
-        public void Info(string message, Exception exception)
-        {
-        }
-
-        public void Warn(string message)
-        {
-        }
-
-        public void Warn(string message, Exception exception)
-        {
-        }
-
-        public void Error(string message)
-        {
-        }
-
-        public void Error(string message, Exception exception)
-        {
-            
-        }
-    }
-
-    public interface ILogger
-    {
-        void Debug(string message);
-        void Debug(string message, Exception exception);
-
-        void Info(string message);
-        void Info(string message, Exception exception);
-
-        void Warn(string message);
-        void Warn(string message, Exception exception);
-
-        void Error(string message);
-        void Error(string message, Exception exception);
     }
 }
