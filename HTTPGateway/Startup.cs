@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Shared;
 using Swashbuckle.AspNetCore.Swagger;
+using ILogger = Shared.ILogger;
 
 namespace HTTPGateway
 {
@@ -30,6 +31,7 @@ namespace HTTPGateway
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<ILogger>(t => new LoggerStub());
             services.AddMvc();
 
             services.AddSwaggerGen(c =>
