@@ -11,13 +11,14 @@ using RabbitMQ.Client;
 using Shared;
 using Shared.Abstract;
 using StockShareProvider.DbAccess;
+using StockShareProvider.Handlers;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace StockShareProvider
 {
     public class Startup
     {
-        private Logger myLog = new Logger("StockShareProvider");
+        private Logger _myLog = new Logger("StockShareProvider");
         public Startup(IConfiguration configuration)
         {
             var builder = new ConfigurationBuilder()
@@ -32,7 +33,10 @@ namespace StockShareProvider
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<ILogger>(t => myLog);
+            services.AddScoped<ILogger>(t => _myLog);
+
+            services.AddScoped(typeof(SellOrderHandler));
+
             services.AddMvc();
             
             SetupDb(services);
