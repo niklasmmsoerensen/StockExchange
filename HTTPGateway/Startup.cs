@@ -17,7 +17,9 @@ namespace HTTPGateway
 {
     public class Startup
     {
-        Logger myLog = new Logger("HTTPGateway");
+        private readonly Logger _myLog = new Logger("HTTPGateway");
+
+
         public Startup(IConfiguration configuration)
         {
             var builder = new ConfigurationBuilder()
@@ -34,8 +36,8 @@ namespace HTTPGateway
         {
             try
             {
-                services.AddScoped<ILogger>(t => myLog);
-                myLog.Info("ConfigureServices called ");
+                services.AddScoped<ILogger>(t => _myLog);
+                _myLog.Info("ConfigureServices called ");
                 services.AddMvc();
 
                 services.AddSwaggerGen(c =>
@@ -45,7 +47,7 @@ namespace HTTPGateway
             }
             catch(Exception e)
             {
-                myLog.Error("Error in configureServices: ", e);
+                _myLog.Error("Error in configureServices: ", e);
             }
             
 
@@ -56,7 +58,7 @@ namespace HTTPGateway
         {
             try
             {
-                myLog.Info("Configure called ");
+                _myLog.Info("Configure called ");
                 app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
                 app.UseSwagger();
@@ -72,7 +74,7 @@ namespace HTTPGateway
             }
             catch (Exception e)
             {
-                myLog.Error("Error in Configure: ", e);
+                _myLog.Error("Error in Configure: ", e);
             }
         }
     }
