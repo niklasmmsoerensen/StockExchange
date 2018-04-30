@@ -34,6 +34,8 @@ namespace HTTPGateway
         {
             try
             {
+                services.AddScoped<ILogger>(t => myLog);
+                myLog.Info("ConfigureServices called ");
                 services.AddMvc();
 
                 services.AddSwaggerGen(c =>
@@ -52,18 +54,26 @@ namespace HTTPGateway
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
-
-            app.UseSwagger();
-
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
-
-            if (env.IsDevelopment())
+            try
             {
-                app.UseDeveloperExceptionPage();
-            }
+                myLog.Info("Configure called ");
+                app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
-            app.UseMvc();
+                app.UseSwagger();
+
+                app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
+
+                if (env.IsDevelopment())
+                {
+                    app.UseDeveloperExceptionPage();
+                }
+
+                app.UseMvc();
+            }
+            catch (Exception e)
+            {
+                myLog.Error("Error in Configure: ", e);
+            }
         }
     }
 }

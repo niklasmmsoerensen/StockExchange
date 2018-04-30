@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using System.Net.Http;
 
 namespace Frontend
 {
@@ -39,6 +40,9 @@ namespace Frontend
                                     .UseKestrel()
                                     .ConfigureServices(
                                         services => services
+                                            .AddSingleton(serviceContext)
+                                            .AddSingleton(new HttpClient())
+                                            .AddSingleton(new FabricClient())
                                             .AddSingleton<StatelessServiceContext>(serviceContext))
                                     .UseContentRoot(Directory.GetCurrentDirectory())
                                     .UseStartup<Startup>()
@@ -47,6 +51,11 @@ namespace Frontend
                                     .Build();
                     }))
             };
+        }
+
+        internal static Uri GetHTTPGatewayServiceName(ServiceContext context)
+        {
+            return new Uri($"{context.CodePackageActivationContext.ApplicationName}/HTTPGateway");
         }
     }
 }
