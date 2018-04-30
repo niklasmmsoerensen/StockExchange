@@ -17,6 +17,7 @@ namespace HTTPGateway
 {
     public class Startup
     {
+        Logger myLog = new Logger("HTTPGateway");
         public Startup(IConfiguration configuration)
         {
             var builder = new ConfigurationBuilder()
@@ -31,13 +32,20 @@ namespace HTTPGateway
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<ILogger>(t => new LoggerStub());
-            services.AddMvc();
-
-            services.AddSwaggerGen(c =>
+            try
             {
-                c.SwaggerDoc("v1", new Info { Title = "HTTPGateway", Version = "v1" });
-            });
+                services.AddMvc();
+
+                services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new Info { Title = "HTTPGateway", Version = "v1" });
+                });
+            }
+            catch(Exception e)
+            {
+                myLog.Error("Error in configureServices: ", e);
+            }
+            
 
         }
 

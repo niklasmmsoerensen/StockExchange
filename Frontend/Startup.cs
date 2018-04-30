@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Fabric.Query;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +14,8 @@ namespace Frontend
 {
     public class Startup
     {
+        private Logger myLog = new Logger("Frontend");
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -22,8 +26,16 @@ namespace Frontend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<ILogger>(t => new LoggerStub());
-            services.AddMvc();
+            try
+            {
+                myLog.Info("Adding service");
+                services.AddMvc();
+            }
+            catch(Exception e)
+            {
+                myLog.Error("Error in adding service: ", e);
+            }
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
