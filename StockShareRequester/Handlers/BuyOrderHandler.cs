@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Shared.Models;
 
 namespace StockShareRequester.Handlers
 {
@@ -35,23 +36,16 @@ namespace StockShareRequester.Handlers
             }
         }
 
-        public ResultModel GetMatchingBuyOrders(BuyOrderModel buyOrder)
+        public List<BuyOrder> GetMatchingBuyOrders(int stockId)
         {
-            try
+            var result = _dbContext.BuyOrders.Where(x => x.StockId.Equals(stockId)).Select(x => x).ToList();
+            if (result.Count > 0)
             {
-                var result = _dbContext.BuyOrders.Where(x => x.StockId.Equals(buyOrder.StockId)).Select(x => x).ToList();
-                if (result.Count > 0)
-                {
-                    return new ResultModel(Result.Ok);
-                }
-                else
-                {
-                    return new ResultModel(Result.Ok, "No matching buy orders found");
-                }
+                return result;
             }
-            catch (Exception e)
+            else
             {
-                return new ResultModel(Result.Error, e.ToString());
+                return new List<BuyOrder>();
             }
         }
     }

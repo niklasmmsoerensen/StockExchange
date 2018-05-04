@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="14.2">
-  <zoom_level>11</zoom_level>
+  <zoom_level>14</zoom_level>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>286</x>
-      <y>220</y>
-      <w>121</w>
-      <h>33</h>
+      <x>350</x>
+      <y>294</y>
+      <w>154</w>
+      <h>42</h>
     </coordinates>
     <panel_attributes>lt=-&gt;</panel_attributes>
     <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
@@ -15,34 +15,38 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>396</x>
-      <y>352</y>
-      <w>198</w>
-      <h>110</h>
+      <x>490</x>
+      <y>462</y>
+      <w>252</w>
+      <h>168</h>
     </coordinates>
     <panel_attributes>&lt;&lt;microservice&gt;&gt;
 HTTP gateway
 --
 /request/buyorder
 /request/sellorder
-/orders/status</panel_attributes>
+/orders/status
+/getAllStocks</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>385</x>
-      <y>154</y>
-      <w>209</w>
-      <h>132</h>
+      <x>476</x>
+      <y>210</y>
+      <w>266</w>
+      <h>210</h>
     </coordinates>
     <panel_attributes>&lt;&lt;micoservice&gt;&gt;
 The Stock Share Provider
 --
 /insert/sellorder
 /request/sellorders
-
 --
+Subscribes:
+&lt;&lt;event&gt;&gt; sellOrderFulfilled
+--
+Publishes:
 &lt;&lt;event&gt;&gt; newSellOrder
 
 </panel_attributes>
@@ -51,56 +55,64 @@ The Stock Share Provider
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>385</x>
-      <y>550</y>
-      <w>209</w>
-      <h>99</h>
+      <x>476</x>
+      <y>714</y>
+      <w>266</w>
+      <h>224</h>
     </coordinates>
     <panel_attributes>&lt;&lt;microservice&gt;&gt;
 The Stock Share Requester
 --
 /insert/buyorder
-/request/buyorders</panel_attributes>
+/request/buyorders
+--
+Subscribes:
+&lt;&lt;event&gt;&gt; buyOrderFulfilled
+--
+Publishes:
+&lt;&lt;event&gt;&gt; newBuyOrder</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>682</x>
-      <y>341</y>
-      <w>220</w>
-      <h>132</h>
+      <x>910</x>
+      <y>462</y>
+      <w>252</w>
+      <h>154</h>
     </coordinates>
     <panel_attributes>&lt;&lt;microservice&gt;&gt;
-The Stock Trader Broker
+The Stock Share Broker
 --
-Listening to:
+Subscribes:
 &lt;&lt;event&gt;&gt; newSellOrder
 &lt;&lt;event&gt;&gt; newBuyOrder
+
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>682</x>
-      <y>572</y>
-      <w>253</w>
-      <h>99</h>
+      <x>1330</x>
+      <y>742</y>
+      <w>322</w>
+      <h>126</h>
     </coordinates>
     <panel_attributes>&lt;&lt;microservice&gt;&gt;
 The Public Share Owner Control
 --
-/shares/changeownership</panel_attributes>
+/shares/changeownership
+/validateOwnership</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>682</x>
-      <y>143</y>
-      <w>209</w>
-      <h>99</h>
+      <x>1330</x>
+      <y>196</y>
+      <w>266</w>
+      <h>126</h>
     </coordinates>
     <panel_attributes>&lt;&lt;microservice&gt;&gt;
 The Tobin Taxing Control
@@ -111,43 +123,79 @@ The Tobin Taxing Control
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>176</x>
-      <y>143</y>
-      <w>121</w>
-      <h>132</h>
-    </coordinates>
-    <panel_attributes>Sell Orders DB</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>187</x>
-      <y>539</y>
-      <w>121</w>
-      <h>132</h>
-    </coordinates>
-    <panel_attributes>Buy orders DB</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1023</x>
-      <y>561</y>
+      <x>210</x>
+      <y>196</y>
       <w>154</w>
-      <h>132</h>
+      <h>168</h>
     </coordinates>
-    <panel_attributes>Share Ownership DB</panel_attributes>
+    <panel_attributes>
+
+Sell Orders DB
+customelement=
+// DB Symbol
+drawArc(5,5,26,8,0,180,true) fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,5,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawRectangle(5,9,26,15) lw=0.1 bg=#222222 //Parameters (x, y, width, height)
+drawLine(5,9,5,24)fg=black //Parameters (x1, y1, x2, y2) 
+drawLine(31,9,31,24)fg=black //Parameters (x1, y1, x2, y2) 
+drawArc(5,10,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,15,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>224</x>
+      <y>700</y>
+      <w>154</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>
+
+Buy orders DB
+customelement=
+// DB Symbol
+drawArc(5,5,26,8,0,180,true) fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,5,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawRectangle(5,9,26,15) lw=0.1 bg=#222222 //Parameters (x, y, width, height)
+drawLine(5,9,5,24)fg=black //Parameters (x1, y1, x2, y2) 
+drawLine(31,9,31,24)fg=black //Parameters (x1, y1, x2, y2) 
+drawArc(5,10,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,15,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1764</x>
+      <y>728</y>
+      <w>196</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>
+
+Share Ownership DB
+customelement=
+// DB Symbol
+drawArc(5,5,26,8,0,180,true) fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,5,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawRectangle(5,9,26,15) lw=0.1 bg=#222222 //Parameters (x, y, width, height)
+drawLine(5,9,5,24)fg=black //Parameters (x1, y1, x2, y2) 
+drawLine(31,9,31,24)fg=black //Parameters (x1, y1, x2, y2) 
+drawArc(5,10,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,15,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>286</x>
-      <y>165</y>
-      <w>121</w>
-      <h>33</h>
+      <x>350</x>
+      <y>224</y>
+      <w>154</w>
+      <h>42</h>
     </coordinates>
     <panel_attributes>lt=-&gt;</panel_attributes>
     <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
@@ -155,10 +203,10 @@ The Tobin Taxing Control
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1012</x>
-      <y>143</y>
-      <w>209</w>
-      <h>99</h>
+      <x>1750</x>
+      <y>196</y>
+      <w>266</w>
+      <h>126</h>
     </coordinates>
     <panel_attributes>&lt;&lt;microservice&gt;&gt;
 Integration Service
@@ -169,10 +217,10 @@ Integration Service
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>297</x>
-      <y>616</y>
-      <w>110</w>
-      <h>33</h>
+      <x>364</x>
+      <y>798</y>
+      <w>140</w>
+      <h>42</h>
     </coordinates>
     <panel_attributes>lt=-&gt;</panel_attributes>
     <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
@@ -180,10 +228,10 @@ Integration Service
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>297</x>
-      <y>561</y>
-      <w>110</w>
-      <h>33</h>
+      <x>364</x>
+      <y>728</y>
+      <w>140</w>
+      <h>42</h>
     </coordinates>
     <panel_attributes>lt=-&gt;</panel_attributes>
     <additional_attributes>80.0;10.0;10.0;10.0</additional_attributes>
@@ -191,10 +239,10 @@ Integration Service
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>924</x>
-      <y>649</y>
-      <w>121</w>
-      <h>33</h>
+      <x>1638</x>
+      <y>840</y>
+      <w>154</w>
+      <h>42</h>
     </coordinates>
     <panel_attributes>lt=-&gt;</panel_attributes>
     <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
@@ -202,12 +250,77 @@ Integration Service
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>924</x>
-      <y>594</y>
-      <w>121</w>
-      <h>33</h>
+      <x>1638</x>
+      <y>770</y>
+      <w>154</w>
+      <h>42</h>
     </coordinates>
     <panel_attributes>lt=-&gt;</panel_attributes>
     <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1330</x>
+      <y>462</y>
+      <w>280</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;microservice&gt;&gt;
+The Stock Share Trader
+--
+/new/Purchase
+--
+Publishes:
+&lt;&lt;event&gt;&gt; sellOrderFulfilled
+&lt;&lt;event&gt;&gt; newBuyOrder
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1778</x>
+      <y>462</y>
+      <w>168</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>
+
+Transactions DB
+customelement=
+// DB Symbol
+drawArc(5,5,26,8,0,180,true) fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,5,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawRectangle(5,9,26,15) lw=0.1 bg=#222222 //Parameters (x, y, width, height)
+drawLine(5,9,5,24)fg=black //Parameters (x1, y1, x2, y2) 
+drawLine(31,9,31,24)fg=black //Parameters (x1, y1, x2, y2) 
+drawArc(5,10,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,15,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1596</x>
+      <y>560</y>
+      <w>210</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;130.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1596</x>
+      <y>518</y>
+      <w>210</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>130.0;10.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>

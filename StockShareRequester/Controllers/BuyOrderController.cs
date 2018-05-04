@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Shared.Models;
 using StockShareRequester.Handlers;
 using StockShareRequester.Models;
+using StockShareRequester.Queue;
+using StockShareRequester.Queue.Abstract;
 
 namespace StockShareRequester.Controllers
 {
@@ -14,9 +14,11 @@ namespace StockShareRequester.Controllers
     public class BuyOrderController : Controller
     {
         private BuyOrderHandler _handler { get; set; }
-        public BuyOrderController(BuyOrderHandler handler)
+        private readonly IQueueGateWay _queueGateWay;
+        public BuyOrderController(BuyOrderHandler handler, IQueueGateWay queueGateway)
         {
             _handler = handler;
+            _queueGateWay = queueGateway;
         }
 
         [HttpGet]
@@ -29,26 +31,32 @@ namespace StockShareRequester.Controllers
         public IActionResult Insert([FromBody] BuyOrderModel model)
         {
             var result = _handler.InsertBuyOrder(model);
-            return CheckResult(result);
-        }
 
-        [HttpPost("GetMatchingBuyOrders")]
-        public IActionResult GetMatchingBuyOrders([FromBody] BuyOrderModel model)
-        {
-            var result = _handler.GetMatchingBuyOrders(model);
-            return CheckResult(result);
-        }
-
-        private IActionResult CheckResult(ResultModel result)
-        {
             if (result.Result.Equals(Result.Ok))
             {
+                string jsonBuyOrder = JsonConvert.SerializeObject(model);
+                _queueGateWay.PublishNewBuyOrder(jsonBuyOrder);
                 return Ok(result.Error);
             }
             else
             {
                 return BadRequest(result.Error);
             }
+        }
+
+        [HttpGet("GetMatchingBuyOrders")]
+        public IActionResult GetMatchingBuyOrders(int stockId)
+        {
+            try
+            {
+                var result = _handler.GetMatchingBuyOrders(stockId);
+                return new ObjectResult(result);
+            }
+            catch (Exception e)
+            {
+                return new ObjectResult("GetMatchingBuyOrders exception: " + e);
+            }
+            
         }
     }
 }
