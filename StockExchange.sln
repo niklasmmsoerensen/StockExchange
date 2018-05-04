@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockShareRequester", "StockShareRequester\StockShareRequester.csproj", "{32AE6DF6-EC64-460C-8FBC-F4F5A4BC3B24}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockShareBroker", "StockShareBroker\StockShareBroker.csproj", "{C0A90F41-5D8A-4B42-94F7-18E6FC3FA0AD}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublicShareOwnerControl", "PublicShareOwnerControl\PublicShareOwnerControl.csproj", "{E2E38249-D292-470D-A387-1DB413A67DA9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockShareTrader", "StockShareTrader\StockShareTrader.csproj", "{038327BB-0F38-4697-8652-2F7ED363E59A}"
@@ -82,6 +84,14 @@ Global
 		{32AE6DF6-EC64-460C-8FBC-F4F5A4BC3B24}.Release|Any CPU.Build.0 = Release|Any CPU
 		{32AE6DF6-EC64-460C-8FBC-F4F5A4BC3B24}.Release|x64.ActiveCfg = Release|Any CPU
 		{32AE6DF6-EC64-460C-8FBC-F4F5A4BC3B24}.Release|x64.Build.0 = Release|Any CPU
+		{C0A90F41-5D8A-4B42-94F7-18E6FC3FA0AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0A90F41-5D8A-4B42-94F7-18E6FC3FA0AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0A90F41-5D8A-4B42-94F7-18E6FC3FA0AD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C0A90F41-5D8A-4B42-94F7-18E6FC3FA0AD}.Debug|x64.Build.0 = Debug|Any CPU
+		{C0A90F41-5D8A-4B42-94F7-18E6FC3FA0AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0A90F41-5D8A-4B42-94F7-18E6FC3FA0AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0A90F41-5D8A-4B42-94F7-18E6FC3FA0AD}.Release|x64.ActiveCfg = Release|Any CPU
+		{C0A90F41-5D8A-4B42-94F7-18E6FC3FA0AD}.Release|x64.Build.0 = Release|Any CPU
 		{E2E38249-D292-470D-A387-1DB413A67DA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E2E38249-D292-470D-A387-1DB413A67DA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2E38249-D292-470D-A387-1DB413A67DA9}.Debug|x64.ActiveCfg = Debug|Any CPU
