@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,15 +11,19 @@ using StockShareRequester.Handlers;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.IO;
+using System.Net.Http;
 using RabbitMQ.Client;
-using StockShareProvider.Queue;
-using StockShareProvider.Queue.Abstract;
+using RabbitMQ.Client.Events;
+using StockShareRequester.Models;
+using StockShareRequester.Queue;
+using StockShareRequester.Queue.Abstract;
 
 namespace StockShareRequester
 {
     public class Startup
     {
         private Logger myLog = new Logger("StockShareRequester");
+        private MessageHandler _messageHandler;
         public Startup(IConfiguration configuration)
         {
             var builder = new ConfigurationBuilder()
@@ -34,6 +39,7 @@ namespace StockShareRequester
         public void ConfigureServices(IServiceCollection services)
         {
             SetupDb(services);
+            SetupMQ(services);
 
             services.AddScoped(typeof(BuyOrderHandler));
 
@@ -51,6 +57,20 @@ namespace StockShareRequester
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+
+            var dbContext = (RequesterContext) app.ApplicationServices.GetService(typeof(RequesterContext));
+            var queueGateway = (QueueGateWay) app.ApplicationServices.GetService(typeof(IQueueGateWay));
+            _messageHandler = new MessageHandler(dbContext, myLog);
+
+            //setup consumer/subscriber for our channel
+            var consumer = new EventingBasicConsumer(queueGateway.Channel);
+            consumer.Received += (ch, ea) =>
+            {
+                _messageHandler.HandleMessage(ea);
+            };
+            queueGateway.Channel.BasicConsume(queue: queueGateway.Queue,
+                autoAck: true,
+                consumer: consumer);
 
             app.UseSwagger();
 
@@ -85,9 +105,9 @@ namespace StockShareRequester
                 autoDelete: false,
                 arguments: null);
             rabbitMQChannel.QueueBind(newBuyOrderQueue, mainExhange, routingKey, null);
-
+            
             services.AddSingleton<IModel>(rabbitMQChannel);
-            services.AddScoped<IQueueGateWay>(t => new QueueGateWay(routingKey, mainExhange, rabbitMQChannel));
+            services.AddScoped<IQueueGateWay>(t => new QueueGateWay(routingKey, mainExhange, rabbitMQChannel, newBuyOrderQueue));
         }
 
         private void SetupDb(IServiceCollection services)
