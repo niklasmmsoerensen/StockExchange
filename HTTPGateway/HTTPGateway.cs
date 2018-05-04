@@ -128,7 +128,7 @@ namespace HTTPGateway
 
         internal static Uri GetStockShareProviderServiceName(ServiceContext context)
         {
-            return new Uri($"{context.CodePackageActivationContext.ApplicationName}/StockShareProvider");
+            return new Uri($"{context.CodePackageActivationContext.ApplicationName}/PublicShareOwnerControl");
         }
 
         internal static Uri GetHttpGatewayServiceName(ServiceContext context)
