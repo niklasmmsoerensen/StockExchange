@@ -10,6 +10,9 @@ using StockShareRequester.Handlers;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.IO;
+using RabbitMQ.Client;
+using StockShareProvider.Queue;
+using StockShareProvider.Queue.Abstract;
 
 namespace StockShareRequester
 {
@@ -59,6 +62,32 @@ namespace StockShareRequester
             }
 
             app.UseMvc();
+        }
+
+        private void SetupMQ(IServiceCollection services)
+        {
+            string hostName = Configuration.GetSection("RabbitMQ")["HostName"];
+            string mainExhange = Configuration.GetSection("RabbitMQ")["Exchange"];
+            string newBuyOrderQueue = Configuration.GetSection("RabbitMQ")["Queue"];
+            string routingKey = Configuration.GetSection("RabbitMQ")["RoutingKey"];
+
+            var connectionFactory = new ConnectionFactory() { HostName = hostName };
+
+            var rabbitMQConnection = connectionFactory.CreateConnection();
+
+            var rabbitMQChannel = rabbitMQConnection.CreateModel();
+
+            //only run if queue doesn't already exist
+            rabbitMQChannel.ExchangeDeclare(mainExhange, ExchangeType.Direct);
+            rabbitMQChannel.QueueDeclare(queue: newBuyOrderQueue,
+                durable: false,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+            rabbitMQChannel.QueueBind(newBuyOrderQueue, mainExhange, routingKey, null);
+
+            services.AddSingleton<IModel>(rabbitMQChannel);
+            services.AddScoped<IQueueGateWay>(t => new QueueGateWay(routingKey, mainExhange, rabbitMQChannel));
         }
 
         private void SetupDb(IServiceCollection services)
