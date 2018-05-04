@@ -1,4 +1,4 @@
-﻿namespace StockShareProvider.Controllers.Models
+﻿namespace Shared.Models
 {
     public class SellOrderInsertModel
     {

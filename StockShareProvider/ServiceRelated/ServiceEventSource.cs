@@ -3,7 +3,7 @@ using System.Diagnostics.Tracing;
 using System.Fabric;
 using System.Threading.Tasks;
 
-namespace StockShareProvider.Microservice
+namespace StockShareProvider.ServiceRelated
 {
     [EventSource(Name = "MyCompany-StockExchange-StockShareProvider")]
     internal sealed class ServiceEventSource : EventSource
