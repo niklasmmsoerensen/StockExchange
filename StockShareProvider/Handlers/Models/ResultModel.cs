@@ -1,8 +1,9 @@
 ﻿namespace StockShareProvider.Handlers.Models
 {
-    public class ResultModel
+    public class ResultModel<T>
     {
-        public Result Result { get; set; }
+        public T Result { get; set; }
+        public Result ResultCode { get; set; }
         public string Error { get; set; }
     }
 

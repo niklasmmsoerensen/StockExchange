@@ -57,8 +57,10 @@ namespace StockShareProvider
         {
             string hostName = Configuration.GetSection("RabbitMQ")["HostName"];
             string mainExhange = Configuration.GetSection("RabbitMQ")["Exchange"];
-            string newSellOrderQueue = Configuration.GetSection("RabbitMQ")["Queue"];
-            string routingKey = Configuration.GetSection("RabbitMQ")["RoutingKey"];
+            string newSellOrderQueue = Configuration.GetSection("RabbitMQ")["NewSellOrderQueue"];
+            string sellOrderFulfilledQueue = Configuration.GetSection("RabbitMQ")["SellOrderFulfilledQueue"];
+            string newSellOrderRoutingKey = Configuration.GetSection("RabbitMQ")["NewSellOrderRoutingKey"];
+            string sellOrderFulfilledKey = Configuration.GetSection("RabbitMQ")["SellOrderFulfilledKey"];
 
             var connectionFactory = new ConnectionFactory() { HostName = hostName };
 
@@ -73,10 +75,12 @@ namespace StockShareProvider
                 exclusive: false,
                 autoDelete: false,
                 arguments: null);
-            rabbitMQChannel.QueueBind(newSellOrderQueue, mainExhange, routingKey, null);
+            rabbitMQChannel.QueueBind(newSellOrderQueue, mainExhange, newSellOrderRoutingKey, null);
+
+            
 
             services.AddSingleton<IModel>(rabbitMQChannel);
-            services.AddScoped<IQueueGateWay>(t => new QueueGateWay(routingKey, mainExhange, rabbitMQChannel));
+            services.AddScoped<IQueueGateWay>(t => new QueueGateWay(newSellOrderRoutingKey, mainExhange, rabbitMQChannel));
         }
 
         private void SetupDb(IServiceCollection services)

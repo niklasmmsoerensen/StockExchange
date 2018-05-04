@@ -1,6 +1,6 @@
 ﻿namespace Shared.Models
 {
-    public class SellOrderInsertModel
+    public class SellOrderModel
     {
         public int StockID { get; set; }
         public int UserID { get; set; }
