@@ -2,6 +2,8 @@
 <ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="StockExchangeType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
     <Parameter Name="StockShareBroker_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="PublicShareOwnerControl_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="StockShareTrader_InstanceCount" DefaultValue="-1" />
     <Parameter Name="StockShareRequester_InstanceCount" DefaultValue="-1" />
     <Parameter Name="Frontend_InstanceCount" DefaultValue="-1" />
     <Parameter Name="HTTPGateway_InstanceCount" DefaultValue="-1" />
@@ -12,6 +14,14 @@
        ServiceManifest.xml file. -->
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="StockShareBrokerPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="PublicShareOwnerControlPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="StockShareTraderPkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
   </ServiceManifestImport>
   <ServiceManifestImport>
@@ -36,6 +46,16 @@
          ServiceFabric PowerShell module.
          
          The attribute ServiceTypeName below must match the name defined in the imported ServiceManifest.xml file. -->
+    <Service Name="PublicShareOwnerControl" ServicePackageActivationMode="ExclusiveProcess">
+      <StatelessService ServiceTypeName="PublicShareOwnerControlType" InstanceCount="[PublicShareOwnerControl_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
+    <Service Name="StockShareTrader" ServicePackageActivationMode="ExclusiveProcess">
+      <StatelessService ServiceTypeName="StockShareTraderType" InstanceCount="[StockShareTrader_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
     <Service Name="StockShareBroker" ServicePackageActivationMode="ExclusiveProcess">
       <StatelessService ServiceTypeName="StockShareBrokerType" InstanceCount="[StockShareBroker_InstanceCount]">
         <SingletonPartition />

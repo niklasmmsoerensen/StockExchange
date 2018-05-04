@@ -26,8 +26,37 @@ namespace Frontend.Controllers
             _serviceContext = serviceContext;
         }
 
+        /*
         public IActionResult Index()
         {
+            return View();
+        }*/
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            Uri serviceName = Frontend.GetHTTPGatewayServiceName(_serviceContext);
+            Uri proxyAddress = this.GetProxyAddress(serviceName);
+
+            ServicePartitionList partitions = await _fabricClient.QueryManager.GetPartitionListAsync(serviceName);
+
+            List<string> result = new List<string>();
+
+
+            string proxyUrl =
+                $"{proxyAddress}/api/Test";
+
+            using (HttpResponseMessage response = await this._httpClient.GetAsync(proxyUrl))
+            {
+                var testResult = response.Content.ReadAsStringAsync();
+                var jsonResult = Json(testResult);
+                Debug.WriteLine(jsonResult);
+                testlog.Info(jsonResult.Value.ToString());
+
+
+                return View("Index");
+            }
+
             return View();
         }
 
@@ -45,6 +74,7 @@ namespace Frontend.Controllers
             return View();
         }
 
+        /*
         [HttpGet]
         public async Task<IActionResult> GetTest()
         {
@@ -69,7 +99,7 @@ namespace Frontend.Controllers
 
                 return View("Index");
             }
-        }
+        }*/
 
         public IActionResult Error()
         {

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="14.2">
-  <zoom_level>10</zoom_level>
+  <zoom_level>11</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>380</x>
-      <y>300</y>
-      <w>120</w>
-      <h>90</h>
+      <x>583</x>
+      <y>638</y>
+      <w>132</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>HTTP gateway</panel_attributes>
     <additional_attributes/>
@@ -15,10 +15,10 @@
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>70</x>
-      <y>300</y>
-      <w>60</w>
-      <h>110</h>
+      <x>242</x>
+      <y>638</y>
+      <w>66</w>
+      <h>121</h>
     </coordinates>
     <panel_attributes>User</panel_attributes>
     <additional_attributes/>
@@ -26,10 +26,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>340</x>
-      <y>120</y>
-      <w>190</w>
-      <h>90</h>
+      <x>539</x>
+      <y>440</y>
+      <w>209</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>The Stock Share Provider</panel_attributes>
     <additional_attributes/>
@@ -37,60 +37,59 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>460</x>
-      <y>200</y>
-      <w>140</w>
-      <h>120</h>
+      <x>671</x>
+      <y>528</y>
+      <w>154</w>
+      <h>132</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-[command]
 2. insert sell order</panel_attributes>
     <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>390</x>
-      <y>200</y>
-      <w>60</w>
-      <h>120</h>
+      <x>594</x>
+      <y>528</y>
+      <w>66</w>
+      <h>132</h>
     </coordinates>
-    <panel_attributes>lt=-&gt;
-5. OK</panel_attributes>
+    <panel_attributes>lt=.&gt;
+7. OK</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>130</x>
-      <y>360</y>
-      <w>270</w>
-      <h>40</h>
+      <x>308</x>
+      <y>704</y>
+      <w>297</w>
+      <h>44</h>
     </coordinates>
-    <panel_attributes>lt=-&gt;
+    <panel_attributes>lt=.&gt;
 6. OK</panel_attributes>
     <additional_attributes>250.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>130</x>
-      <y>310</y>
-      <w>270</w>
-      <h>50</h>
+      <x>308</x>
+      <y>649</y>
+      <w>297</w>
+      <h>55</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-[command]
+[HTTP]
 1. request sell order</panel_attributes>
     <additional_attributes>10.0;20.0;250.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>340</x>
-      <y>480</y>
-      <w>190</w>
-      <h>90</h>
+      <x>539</x>
+      <y>836</y>
+      <w>209</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>The Stock Share Requester</panel_attributes>
     <additional_attributes/>
@@ -98,10 +97,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>390</x>
-      <y>380</y>
-      <w>30</w>
-      <h>120</h>
+      <x>594</x>
+      <y>726</y>
+      <w>33</w>
+      <h>132</h>
     </coordinates>
     <panel_attributes>lt=-&gt;</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
@@ -109,10 +108,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>460</x>
-      <y>380</y>
-      <w>30</w>
-      <h>120</h>
+      <x>671</x>
+      <y>726</y>
+      <w>33</w>
+      <h>132</h>
     </coordinates>
     <panel_attributes>lt=-&gt;</panel_attributes>
     <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
@@ -120,21 +119,21 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>780</x>
-      <y>290</y>
-      <w>170</w>
-      <h>90</h>
+      <x>1023</x>
+      <y>627</y>
+      <w>187</w>
+      <h>99</h>
     </coordinates>
-    <panel_attributes>The Stock Trader Broker</panel_attributes>
+    <panel_attributes>The Stock Share Broker</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>750</x>
-      <y>520</y>
-      <w>230</w>
-      <h>90</h>
+      <x>1309</x>
+      <y>880</y>
+      <w>253</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>The Public Share Owner Control</panel_attributes>
     <additional_attributes/>
@@ -142,10 +141,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>770</x>
-      <y>100</y>
-      <w>190</w>
-      <h>90</h>
+      <x>1331</x>
+      <y>418</y>
+      <w>209</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>The Tobin Taxing Control</panel_attributes>
     <additional_attributes/>
@@ -153,147 +152,182 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>30</x>
-      <y>110</y>
-      <w>110</w>
-      <h>120</h>
+      <x>198</x>
+      <y>429</y>
+      <w>121</w>
+      <h>132</h>
     </coordinates>
-    <panel_attributes>Sell Orders DB</panel_attributes>
+    <panel_attributes>
+
+Sell Orders DB
+
+customelement=
+// DB Symbol
+drawArc(5,5,26,8,0,180,true) fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,5,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawRectangle(5,9,26,15) lw=0.1 bg=#222222 //Parameters (x, y, width, height)
+drawLine(5,9,5,24)fg=black //Parameters (x1, y1, x2, y2) 
+drawLine(31,9,31,24)fg=black //Parameters (x1, y1, x2, y2) 
+drawArc(5,10,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,15,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>30</x>
-      <y>470</y>
-      <w>110</w>
-      <h>120</h>
+      <x>198</x>
+      <y>825</y>
+      <w>121</w>
+      <h>132</h>
     </coordinates>
-    <panel_attributes>Buy orders DB</panel_attributes>
+    <panel_attributes>
+
+Buy orders DB
+customelement=
+// DB Symbol
+drawArc(5,5,26,8,0,180,true) fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,5,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawRectangle(5,9,26,15) lw=0.1 bg=#222222 //Parameters (x, y, width, height)
+drawLine(5,9,5,24)fg=black //Parameters (x1, y1, x2, y2) 
+drawLine(31,9,31,24)fg=black //Parameters (x1, y1, x2, y2) 
+drawArc(5,10,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,15,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1180</x>
-      <y>510</y>
-      <w>140</w>
-      <h>120</h>
+      <x>1782</x>
+      <y>869</y>
+      <w>154</w>
+      <h>132</h>
     </coordinates>
-    <panel_attributes>Share Ownership DB</panel_attributes>
+    <panel_attributes>
+
+Share Ownership DB
+customelement=
+// DB Symbol
+drawArc(5,5,26,8,0,180,true) fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,5,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawRectangle(5,9,26,15) lw=0.1 bg=#222222 //Parameters (x, y, width, height)
+drawLine(5,9,5,24)fg=black //Parameters (x1, y1, x2, y2) 
+drawLine(31,9,31,24)fg=black //Parameters (x1, y1, x2, y2) 
+drawArc(5,10,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,15,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>520</x>
-      <y>180</y>
-      <w>280</w>
-      <h>160</h>
+      <x>737</x>
+      <y>484</y>
+      <w>352</w>
+      <h>165</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
-[event]
-7. New sell order</panel_attributes>
-    <additional_attributes>10.0;10.0;260.0;140.0</additional_attributes>
+&lt;&lt;event&gt;&gt;
+8. New sell order</panel_attributes>
+    <additional_attributes>10.0;20.0;300.0;20.0;300.0;130.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>490</x>
-      <y>350</y>
-      <w>310</w>
-      <h>150</h>
+      <x>737</x>
+      <y>693</y>
+      <w>308</w>
+      <h>187</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-[query]
-8. Matching buy order?
+9. Matching buy order?
 </panel_attributes>
-    <additional_attributes>290.0;10.0;10.0;130.0</additional_attributes>
+    <additional_attributes>260.0;10.0;110.0;10.0;110.0;150.0;10.0;150.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>130</x>
-      <y>120</y>
-      <w>230</w>
-      <h>50</h>
+      <x>308</x>
+      <y>440</y>
+      <w>253</w>
+      <h>55</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-3. insert sell order
-19. delete sell order</panel_attributes>
+5. insert sell order
+23. delete sell order</panel_attributes>
     <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>130</x>
-      <y>170</y>
-      <w>230</w>
-      <h>50</h>
+      <x>308</x>
+      <y>495</y>
+      <w>253</w>
+      <h>55</h>
     </coordinates>
-    <panel_attributes>lt=-&gt;
-4. OK
-20. OK</panel_attributes>
+    <panel_attributes>lt=.&gt;
+6. OK
+24. OK</panel_attributes>
     <additional_attributes>10.0;20.0;210.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>520</x>
-      <y>370</y>
-      <w>320</w>
-      <h>220</h>
+      <x>737</x>
+      <y>715</y>
+      <w>484</w>
+      <h>209</h>
     </coordinates>
-    <panel_attributes>lt=&lt;-
-11. Buy order match</panel_attributes>
-    <additional_attributes>300.0;10.0;10.0;200.0</additional_attributes>
+    <panel_attributes>lt=&lt;.
+12. Buy order match</panel_attributes>
+    <additional_attributes>300.0;10.0;300.0;170.0;10.0;170.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>130</x>
-      <y>480</y>
-      <w>230</w>
-      <h>50</h>
+      <x>308</x>
+      <y>836</y>
+      <w>253</w>
+      <h>55</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-9. Select buy orders
+10. Select buy orders
 matching sell order</panel_attributes>
     <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>130</x>
-      <y>540</y>
-      <w>230</w>
-      <h>50</h>
+      <x>308</x>
+      <y>902</y>
+      <w>253</w>
+      <h>55</h>
     </coordinates>
-    <panel_attributes>lt=-&gt;
-10. Rows &gt; 0
+    <panel_attributes>lt=.&gt;
+11. Match found
 </panel_attributes>
     <additional_attributes>10.0;20.0;210.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>830</x>
-      <y>370</y>
-      <w>180</w>
-      <h>170</h>
+      <x>1397</x>
+      <y>715</y>
+      <w>198</w>
+      <h>187</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-[command]
 16. Share owner change</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;150.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>970</x>
-      <y>530</y>
-      <w>230</w>
-      <h>50</h>
+      <x>1551</x>
+      <y>891</y>
+      <w>253</w>
+      <h>55</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 17. Update ownership
@@ -303,49 +337,48 @@ matching sell order</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>970</x>
-      <y>570</y>
-      <w>230</w>
-      <h>40</h>
+      <x>1551</x>
+      <y>935</y>
+      <w>253</w>
+      <h>44</h>
     </coordinates>
-    <panel_attributes>lt=-&gt;
+    <panel_attributes>lt=.&gt;
 18. OK</panel_attributes>
     <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>810</x>
-      <y>180</y>
-      <w>110</w>
-      <h>130</h>
+      <x>1375</x>
+      <y>506</y>
+      <w>121</w>
+      <h>143</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-[command]
-12. Tax order</panel_attributes>
+14. Tax order</panel_attributes>
     <additional_attributes>10.0;110.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>900</x>
-      <y>180</y>
-      <w>70</w>
-      <h>130</h>
+      <x>1474</x>
+      <y>506</y>
+      <w>77</w>
+      <h>143</h>
     </coordinates>
-    <panel_attributes>lt=-&gt;
+    <panel_attributes>lt=.&gt;
 15. OK</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>900</x>
-      <y>370</y>
-      <w>70</w>
-      <h>170</h>
+      <x>1474</x>
+      <y>715</y>
+      <w>77</w>
+      <h>187</h>
     </coordinates>
-    <panel_attributes>lt=-&gt;
+    <panel_attributes>lt=.&gt;
 
 
 
@@ -356,23 +389,23 @@ matching sell order</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>520</x>
-      <y>120</y>
-      <w>280</w>
-      <h>190</h>
+      <x>737</x>
+      <y>440</y>
+      <w>638</w>
+      <h>209</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
-[event]
-18. Sell order fulfilled</panel_attributes>
-    <additional_attributes>260.0;170.0;10.0;10.0</additional_attributes>
+&lt;&lt;event&gt;&gt;
+22. Sell order fulfilled</panel_attributes>
+    <additional_attributes>560.0;170.0;560.0;90.0;360.0;90.0;360.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1160</x>
-      <y>100</y>
-      <w>190</w>
-      <h>90</h>
+      <x>1760</x>
+      <y>418</y>
+      <w>209</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>Integration Service</panel_attributes>
     <additional_attributes/>
@@ -380,26 +413,126 @@ matching sell order</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>950</x>
-      <y>110</y>
-      <w>230</w>
-      <h>50</h>
+      <x>1529</x>
+      <y>429</y>
+      <w>253</w>
+      <h>44</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-[command]
 13. Tax order</panel_attributes>
     <additional_attributes>10.0;20.0;210.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>950</x>
-      <y>150</y>
-      <w>230</w>
-      <h>40</h>
+      <x>1529</x>
+      <y>473</y>
+      <w>253</w>
+      <h>44</h>
     </coordinates>
-    <panel_attributes>lt=-&gt;
+    <panel_attributes>lt=.&gt;
 14. OK</panel_attributes>
     <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1738</x>
+      <y>616</y>
+      <w>121</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>
+
+Transactions DB
+customelement=
+// DB Symbol
+drawArc(5,5,26,8,0,180,true) fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,5,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawRectangle(5,9,26,15) lw=0.1 bg=#222222 //Parameters (x, y, width, height)
+drawLine(5,9,5,24)fg=black //Parameters (x1, y1, x2, y2) 
+drawLine(31,9,31,24)fg=black //Parameters (x1, y1, x2, y2) 
+drawArc(5,10,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,15,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1353</x>
+      <y>627</y>
+      <w>187</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>The Stock Share Trader</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1529</x>
+      <y>671</y>
+      <w>231</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+21. OK</panel_attributes>
+    <additional_attributes>190.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1529</x>
+      <y>638</y>
+      <w>231</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+20. Insert Transaction</panel_attributes>
+    <additional_attributes>10.0;20.0;190.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1199</x>
+      <y>649</y>
+      <w>176</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+13. New purchase</panel_attributes>
+    <additional_attributes>10.0;20.0;140.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>627</x>
+      <y>363</y>
+      <w>1562</w>
+      <h>715</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+3. Validate ownership
+</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0;1270.0;10.0;1270.0;630.0;750.0;630.0;750.0;560.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>660</x>
+      <y>385</y>
+      <w>1474</w>
+      <h>671</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+
+
+
+
+
+4. Validation OK
+</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0;1220.0;10.0;1220.0;590.0;760.0;590.0;760.0;540.0</additional_attributes>
   </element>
 </diagram>
