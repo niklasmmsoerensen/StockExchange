@@ -33,9 +33,5 @@ namespace StockShareProvider.Controllers
             
             return Ok();
         }
-        
-        [HttpGet("IsMatching")]
-        public IActionResult IsMatching()
-
     }
 }
