@@ -31,6 +31,7 @@ namespace StockShareRequester
         public void ConfigureServices(IServiceCollection services)
         {
             SetupDb(services);
+
             services.AddScoped(typeof(BuyOrderHandler));
 
             services.AddScoped<ILogger>(t => myLog);
