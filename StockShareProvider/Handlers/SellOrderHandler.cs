@@ -18,15 +18,15 @@ namespace StockShareProvider.Handlers
             _dbContext = dbContext;
         }
 
-        public ResultModel InsertSellOrder(SellOrderInsertModel insertModel)
+        public ResultModel<SellOrderModel> InsertSellOrder(SellOrderModel insertModel)
         {
             var usersSellOrders = _dbContext.SellOrders.Where(t => t.UserID.Equals(insertModel.UserID)).ToList();
 
             if(HasEqualSellOrders(usersSellOrders, insertModel))
             {
-                return new ResultModel
+                return new ResultModel<SellOrderModel>
                        {
-                           Result = Result.Error,
+                           ResultCode = Result.Error,
                            Error = "User has existing duplicate sell order"
                        };
             }
@@ -41,13 +41,39 @@ namespace StockShareProvider.Handlers
                                       });
             _dbContext.SaveChanges();
 
-            return new ResultModel
+            return new ResultModel<SellOrderModel>
                    {
-                       Result = Result.Ok
+                       ResultCode = Result.Ok
                    };
         }
 
-        private bool HasEqualSellOrders(List<SellOrder> usersSellOrders, SellOrderInsertModel insertModel)
+        public ResultModel<List<SellOrderModel>> Matching(int stockId)
+        {
+            try
+            {
+                var matchingBuyOrders = _dbContext.SellOrders.Where(t => t.StockID.Equals(stockId)).Select(t => new SellOrderModel()
+                                                                                                                {
+                                                                                                                    UserID = t.UserID,
+                                                                                                                    StockID = t.StockID,
+                                                                                                                    SellPrice = t.SellPrice
+                                                                                                                }).ToList();
+                return new ResultModel<List<SellOrderModel>>
+                       {
+                           Result = matchingBuyOrders,
+                           ResultCode = Result.Ok
+                       };
+            }
+            catch (Exception e)
+            {
+                return new ResultModel<List<SellOrderModel>>()
+                       {
+                           Error = e.Message,
+                           ResultCode = Result.Error
+                       };
+            }
+        }
+
+        private bool HasEqualSellOrders(List<SellOrder> usersSellOrders, SellOrderModel insertModel)
         {
             return usersSellOrders.Any(t =>
                 t.StockID.Equals(insertModel.StockID) && t.SellPrice.Equals(insertModel.SellPrice));

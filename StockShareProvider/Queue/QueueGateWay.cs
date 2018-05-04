@@ -6,22 +6,29 @@ namespace StockShareProvider.Queue
 {
     public class QueueGateWay : IQueueGateWay
     {
-        private readonly string _routingKey;
-        private readonly string _exchange;
         private readonly IModel _channel;
+        private readonly string _exchange;
 
-        public QueueGateWay(string routingKey, string exchange, IModel queue)
+        private readonly string _newSellOrderRoutingKey;
+
+        private readonly string _sellOrderFulfilledRoutingKey;
+        private readonly string _sellOrderFulfilledQueue;
+
+        
+        public QueueGateWay(IModel channel, string exchange, string newSellOrderRoutingKey, 
+            string sellOrderFulfilledRoutingKey, string sellOrderFulfilledQueue)
         {
-            _routingKey = routingKey;
+            _channel = channel;
             _exchange = exchange;
-            _channel = queue;
-            
+            _newSellOrderRoutingKey = newSellOrderRoutingKey;
+            _sellOrderFulfilledRoutingKey = sellOrderFulfilledRoutingKey;
+            _sellOrderFulfilledQueue = sellOrderFulfilledQueue;
         }
 
         public void PublishNewSellOrder(string messageBody)
         {
             _channel.BasicPublish(exchange: _exchange,
-                routingKey: _routingKey,
+                routingKey: _newSellOrderRoutingKey,
                 basicProperties: null,
                 body: Encoding.UTF8.GetBytes(messageBody));
         }
