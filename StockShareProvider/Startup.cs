@@ -8,12 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using Shared;
 using Shared.Abstract;
 using StockShareProvider.DbAccess;
 using StockShareProvider.Handlers;
 using StockShareProvider.Queue;
 using StockShareProvider.Queue.Abstract;
+using StockShareProvider.ServiceRelated;
 using Swashbuckle.AspNetCore.Swagger;
 using SellOrderHandler = StockShareProvider.Handlers.SellOrderHandler;
 
@@ -21,7 +23,15 @@ namespace StockShareProvider
 {
     public class Startup
     {
-        private Logger _myLog = new Logger("StockShareProvider");
+        private readonly Logger _myLog = new Logger("StockShareProvider");
+        private MessageHandler _messageHandler;
+        private string _hostName;
+        private string _mainExhange;
+        private string _sellOrderFulfilledQueue;
+        private string _newSellOrderRoutingKey;
+        private string _sellOrderFulfilledRoutingKey;
+
+
         public Startup(IConfiguration configuration)
         {
             var builder = new ConfigurationBuilder()
@@ -55,32 +65,37 @@ namespace StockShareProvider
 
         private void SetupMQ(IServiceCollection services)
         {
-            string hostName = Configuration.GetSection("RabbitMQ")["HostName"];
-            string mainExhange = Configuration.GetSection("RabbitMQ")["Exchange"];
-            string newSellOrderQueue = Configuration.GetSection("RabbitMQ")["NewSellOrderQueue"];
-            string sellOrderFulfilledQueue = Configuration.GetSection("RabbitMQ")["SellOrderFulfilledQueue"];
-            string newSellOrderRoutingKey = Configuration.GetSection("RabbitMQ")["NewSellOrderRoutingKey"];
-            string sellOrderFulfilledKey = Configuration.GetSection("RabbitMQ")["SellOrderFulfilledKey"];
+            _hostName = Configuration.GetSection("RabbitMQ")["HostName"];
+            _mainExhange = Configuration.GetSection("RabbitMQ")["Exchange"];
 
-            var connectionFactory = new ConnectionFactory() { HostName = hostName };
+            _newSellOrderRoutingKey = Configuration.GetSection("RabbitMQ")["NewSellOrderRoutingKey"];
+
+            _sellOrderFulfilledRoutingKey = Configuration.GetSection("RabbitMQ")["SellOrderFulfilledKey"];
+            _sellOrderFulfilledQueue = Configuration.GetSection("RabbitMQ")["SellOrderFulfilledQueue"];
+            
+
+            var connectionFactory = new ConnectionFactory() { HostName = _hostName };
 
             var rabbitMQConnection = connectionFactory.CreateConnection();
 
             var rabbitMQChannel = rabbitMQConnection.CreateModel();
 
             //only run if queue doesn't already exist
-            rabbitMQChannel.ExchangeDeclare(mainExhange, ExchangeType.Direct);
-            rabbitMQChannel.QueueDeclare(queue: newSellOrderQueue,
+            rabbitMQChannel.ExchangeDeclare(_mainExhange, ExchangeType.Direct);
+            
+
+            rabbitMQChannel.QueueDeclare(queue: _sellOrderFulfilledQueue,
                 durable: false,
                 exclusive: false,
                 autoDelete: false,
                 arguments: null);
-            rabbitMQChannel.QueueBind(newSellOrderQueue, mainExhange, newSellOrderRoutingKey, null);
 
+            rabbitMQChannel.QueueBind(_sellOrderFulfilledQueue, _mainExhange, _sellOrderFulfilledRoutingKey, null);
             
-
             services.AddSingleton<IModel>(rabbitMQChannel);
-            services.AddScoped<IQueueGateWay>(t => new QueueGateWay(newSellOrderRoutingKey, mainExhange, rabbitMQChannel));
+
+            services.AddScoped<IQueueGateWay>(t => new QueueGateWay(rabbitMQChannel, _mainExhange, _newSellOrderRoutingKey, 
+                _sellOrderFulfilledRoutingKey, _sellOrderFulfilledQueue));
         }
 
         private void SetupDb(IServiceCollection services)
@@ -101,6 +116,15 @@ namespace StockShareProvider
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+
+            var dbContext = (ProviderContext)app.ApplicationServices.GetService(typeof(ProviderContext));
+            var channel = (IModel)app.ApplicationServices.GetService(typeof(IModel));
+            
+            _messageHandler = new MessageHandler(dbContext);
+
+            var consumer = new EventingBasicConsumer(channel);
+            consumer.Received += (ch, ea) => { _messageHandler.SellOrderFulfilled(ea.Body); };
+            channel.BasicConsume(_sellOrderFulfilledQueue, true, consumer);
 
             app.UseSwagger();
 

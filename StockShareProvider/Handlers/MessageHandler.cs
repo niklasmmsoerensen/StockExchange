@@ -13,12 +13,11 @@ namespace StockShareProvider.Handlers
         public MessageHandler(ProviderContext dbContext)
         {
             _dbContext = dbContext;
-
-            _dbContext.SellOrders.Where(t => t.StockID == 5)
         }
 
-        public void SellOrderFulfilled(int sellOrderId)
+        public void SellOrderFulfilled(byte[] sellOrderId)
         {
+            // TODO muligvis noget casting her 
             var sellOrderToRemove = _dbContext.SellOrders.Single(t => t.StockID.Equals(sellOrderId));
             _dbContext.Remove(sellOrderToRemove);
             _dbContext.SaveChanges();
