@@ -48,7 +48,7 @@ namespace Frontend.Controllers
         [HttpGet]
         public async Task<IActionResult> GetTest()
         {
-
+            testlog.Info("gettest called");
             Uri serviceName = Frontend.GetHTTPGatewayServiceName(_serviceContext);
             Uri proxyAddress = this.GetProxyAddress(serviceName);
 
