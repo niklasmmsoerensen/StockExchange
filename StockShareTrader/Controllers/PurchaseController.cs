@@ -25,9 +25,8 @@ namespace StockShareTrader.Controllers
 
             if (result.Result.Equals(Result.Ok))
             {
-                string jsonBuyOrder = JsonConvert.SerializeObject(model);
                 //check if order was buy or sell order
-                _queueGateWay.PublishSellOrderFulfilled(jsonBuyOrder);
+                _queueGateWay.PublishSellOrderFulfilled(model.StockId.ToString());
                 return Ok(result.Error);
             }
             else

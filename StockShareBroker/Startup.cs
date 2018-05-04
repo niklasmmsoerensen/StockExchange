@@ -13,13 +13,14 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using Shared;
+using Swashbuckle.AspNetCore.Swagger;
 using ILogger = Shared.Abstract.ILogger;
 
 namespace StockShareBroker
 {
     public class Startup
     {
-        private readonly ILogger _myLog = new Logger("StockShareProvider");
+        private readonly ILogger _myLog = new Logger("StockShareBroker");
         private string _hostName;
         private string _mainExhange;
         private string _newSellOrderQueue;
@@ -44,6 +45,12 @@ namespace StockShareBroker
 
             SetupMQ(services);
             services.AddMvc();
+
+            //configure swagger
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "StockShareBroker", Version = "v1" });
+            });
         }
 
         private void SetupMQ(IServiceCollection services)
