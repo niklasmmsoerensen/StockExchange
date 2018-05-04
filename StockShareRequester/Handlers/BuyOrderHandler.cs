@@ -33,7 +33,26 @@ namespace StockShareRequester.Handlers
             {
                 return new ResultModel(Result.Error, e.ToString());
             }
+        }
 
+        public ResultModel GetMatchingBuyOrders(BuyOrderModel buyOrder)
+        {
+            try
+            {
+                var result = _dbContext.BuyOrders.Where(x => x.StockId.Equals(buyOrder.StockId)).Select(x => x).ToList();
+                if (result.Count > 0)
+                {
+                    return new ResultModel(Result.Ok);
+                }
+                else
+                {
+                    return new ResultModel(Result.Ok, "No matching buy orders found");
+                }
+            }
+            catch (Exception e)
+            {
+                return new ResultModel(Result.Error, e.ToString());
+            }
         }
     }
 }

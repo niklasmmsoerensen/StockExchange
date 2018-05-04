@@ -25,13 +25,30 @@ namespace StockShareRequester.Controllers
             return "ayy lmao";
         }
 
-        [HttpPost]
-        public string Insert([FromBody] BuyOrderModel model)
+        [HttpPost("Insert")]
+        public IActionResult Insert([FromBody] BuyOrderModel model)
         {
-            _handler.InsertBuyOrder(model);
-
-            return "";
+            var result = _handler.InsertBuyOrder(model);
+            return CheckResult(result);
         }
 
+        [HttpPost("GetMatchingBuyOrders")]
+        public IActionResult GetMatchingBuyOrders([FromBody] BuyOrderModel model)
+        {
+            var result = _handler.GetMatchingBuyOrders(model);
+            return CheckResult(result);
+        }
+
+        private IActionResult CheckResult(ResultModel result)
+        {
+            if (result.Result.Equals(Result.Ok))
+            {
+                return Ok(result.Error);
+            }
+            else
+            {
+                return BadRequest(result.Error);
+            }
+        }
     }
 }
