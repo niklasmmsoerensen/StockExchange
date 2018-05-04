@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+using RabbitMQ.Client;
 using Shared;
 using Shared.Abstract;
+using StockShareTrader.DbAccess;
+using StockShareTrader.Handlers;
+using StockShareTrader.Queue;
+using StockShareTrader.Queue.Abstract;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace StockShareTrader
@@ -31,6 +33,11 @@ namespace StockShareTrader
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            SetupDb(services);
+            SetupMQ(services);
+
+            services.AddScoped(typeof(PurchaseHandler));
+
             services.AddMvc();
 
             services.AddScoped<ILogger>(t => myLog);
@@ -62,6 +69,40 @@ namespace StockShareTrader
             {
                 app.UseDeveloperExceptionPage();
             }
+        }
+
+        private void SetupMQ(IServiceCollection services)
+        {
+            string hostName = Configuration.GetSection("RabbitMQ")["HostName"];
+            string mainExhange = Configuration.GetSection("RabbitMQ")["Exchange"];
+            string sellOrderFulfilledRoutingKey = Configuration.GetSection("RabbitMQ")["RoutingKeySellOrderFulfilled"];
+            string buyOrderFulfilledRoutingKey = Configuration.GetSection("RabbitMQ")["RoutingKeyBuyOrderFulfilled"];
+
+            var connectionFactory = new ConnectionFactory() { HostName = hostName };
+
+            var rabbitMQConnection = connectionFactory.CreateConnection();
+
+            var rabbitMQChannel = rabbitMQConnection.CreateModel();
+
+            //doesn't make a new exchange if it already exists
+            rabbitMQChannel.ExchangeDeclare(mainExhange, ExchangeType.Direct);
+
+            services.AddSingleton<IModel>(rabbitMQChannel);
+            services.AddScoped<IQueueGateWay>(t => new QueueGateWay(mainExhange, rabbitMQChannel, sellOrderFulfilledRoutingKey, buyOrderFulfilledRoutingKey));
+        }
+
+        private void SetupDb(IServiceCollection services)
+        {
+            var connectionString = Configuration.GetConnectionString("Default");
+
+            services.AddDbContext<TraderContext>(options =>
+            {
+                options.UseSqlServer(connectionString, sqlOptions =>
+                {
+                    sqlOptions.MigrationsAssembly(
+                        typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                });
+            });
         }
     }
 }

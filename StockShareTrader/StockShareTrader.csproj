@@ -12,11 +12,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.2" />
     <PackageReference Include="Microsoft.ServiceFabric" Version="6.1.480" />
     <PackageReference Include="Microsoft.ServiceFabric.AspNetCore.Kestrel" Version="3.0.480" />
     <PackageReference Include="Microsoft.ServiceFabric.Data" Version="3.0.480" />
     <PackageReference Include="Microsoft.ServiceFabric.Services" Version="3.0.480" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="RabbitMQ.Client" Version="5.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="2.4.0" />
