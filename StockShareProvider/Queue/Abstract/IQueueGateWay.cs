@@ -1,6 +1,6 @@
 ﻿namespace StockShareProvider.Queue.Abstract
 {
-    public interface IQueueGateWay
+    public interface IQueueGateway
     {
         void PublishNewSellOrder(string messageBody);
     }

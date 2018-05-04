@@ -11,9 +11,9 @@ namespace StockShareProvider.Controllers
     public class SellOrderController : Controller
     {
         private readonly SellOrderHandler _handler;
-        private readonly IQueueGateWay _queueGateWay;
+        private readonly IQueueGateway _queueGateWay;
 
-        public SellOrderController(SellOrderHandler handler, IQueueGateWay mqChannel)
+        public SellOrderController(SellOrderHandler handler, IQueueGateway mqChannel)
         {
             _handler = handler;
             _queueGateWay = mqChannel;

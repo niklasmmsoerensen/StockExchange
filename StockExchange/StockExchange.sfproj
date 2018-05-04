@@ -34,6 +34,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Frontend\Frontend.csproj" />
     <ProjectReference Include="..\HTTPGateway\HTTPGateway.csproj" />
+    <ProjectReference Include="..\StockShareBroker\StockShareBroker.csproj" />
     <ProjectReference Include="..\StockShareProvider\StockShareProvider.csproj" />
     <ProjectReference Include="..\StockShareRequester\StockShareRequester.csproj" />
   </ItemGroup>
