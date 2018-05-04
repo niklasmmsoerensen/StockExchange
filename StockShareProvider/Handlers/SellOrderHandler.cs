@@ -5,6 +5,7 @@ using StockShareProvider.Controllers;
 using StockShareProvider.Controllers.Models;
 using StockShareProvider.DbAccess;
 using StockShareProvider.DbAccess.Entities;
+using StockShareProvider.Handlers.Models;
 
 namespace StockShareProvider.Handlers
 {
@@ -23,7 +24,7 @@ namespace StockShareProvider.Handlers
 
             if(HasEqualSellOrders(usersSellOrders, insertModel))
             {
-                return new ResultModel()
+                return new ResultModel
                        {
                            Result = Result.Error,
                            Error = "User has existing duplicate sell order"
@@ -40,7 +41,7 @@ namespace StockShareProvider.Handlers
                                       });
             _dbContext.SaveChanges();
 
-            return new ResultModel()
+            return new ResultModel
                    {
                        Result = Result.Ok
                    };
@@ -50,16 +51,6 @@ namespace StockShareProvider.Handlers
         {
             return usersSellOrders.Any(t =>
                 t.StockID.Equals(insertModel.StockID) && t.SellPrice.Equals(insertModel.SellPrice));
-        }
-
-        public class ResultModel
-        {
-            public Result Result { get; set; }
-            public string Error { get; set; }
-        }
-
-        public enum Result { Ok, Error }
+        }   
     }
-
-    
 }
