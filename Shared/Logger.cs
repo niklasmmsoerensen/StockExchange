@@ -58,8 +58,10 @@ namespace Shared
             var dateTimeFormat = "yyyy-MM-dd_HH_mm_ss";
             var date = DateTime.Now.ToString(dateTimeFormat);
             var logFile = "StockExchangeLog_" + microservice + "_" + date + ".log";
-
-            string logPath = @"C:\Logs";
+            
+            string basePath = @"C:\Logs";
+            string logPath = basePath + "\\" + microservice;
+            Directory.CreateDirectory(logPath);
             string logFileTest = Path.Combine(logPath, logFile);
 
             _log = !File.Exists(logFileTest) ? new StreamWriter(logFileTest) : File.AppendText(logFileTest);
