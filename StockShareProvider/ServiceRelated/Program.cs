@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace StockShareProvider.Microservice
+namespace StockShareProvider.ServiceRelated
 {
     internal static class Program
     {
@@ -20,9 +20,9 @@ namespace StockShareProvider.Microservice
                 // an instance of the class is created in this host process.
 
                 ServiceRuntime.RegisterServiceAsync("StockShareProviderType",
-                    context => new StockShareProvider(context)).GetAwaiter().GetResult();
+                    context => new ServiceRelated.StockShareProvider(context)).GetAwaiter().GetResult();
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(StockShareProvider).Name);
+                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(ServiceRelated.StockShareProvider).Name);
 
                 // Prevents this host process from terminating so services keeps running. 
                 Thread.Sleep(Timeout.Infinite);

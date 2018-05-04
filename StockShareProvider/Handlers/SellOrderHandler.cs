@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Shared.Models;
 using StockShareProvider.Controllers;
-using StockShareProvider.Controllers.Models;
 using StockShareProvider.DbAccess;
 using StockShareProvider.DbAccess.Entities;
 using StockShareProvider.Handlers.Models;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using StockShareProvider.Controllers.Models;
+using Shared.Models;
 using StockShareProvider.Handlers.Models;
 using StockShareProvider.Queue.Abstract;
 using SellOrderHandler = StockShareProvider.Handlers.SellOrderHandler;
@@ -29,9 +29,13 @@ namespace StockShareProvider.Controllers
                 return BadRequest(resultModel.Error);
             }
 
-            //_queueGateWay.PublishNewSellOrder(JsonConverter<SellOrderInsertModel>());
+            _queueGateWay.PublishNewSellOrder(JsonConvert.SerializeObject(insertModel));
             
             return Ok();
         }
+        
+        [HttpGet("IsMatching")]
+        public IActionResult IsMatching()
+
     }
 }
