@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20180430161654_test.cs" />
-    <Compile Remove="Migrations\20180430161654_test.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -27,7 +22,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="2.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="2.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="2.4.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="2.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="2.4.0" />
   </ItemGroup>
 
   <ItemGroup>

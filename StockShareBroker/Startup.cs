@@ -1,35 +1,30 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
-using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
 using Shared;
-using Shared.Abstract;
-using StockShareProvider.DbAccess;
-using StockShareProvider.Handlers;
-using StockShareProvider.Queue;
-using StockShareProvider.Queue.Abstract;
-using StockShareProvider.ServiceRelated;
 using Swashbuckle.AspNetCore.Swagger;
-using SellOrderHandler = StockShareProvider.Handlers.SellOrderHandler;
+using ILogger = Shared.Abstract.ILogger;
 
-namespace StockShareProvider
+namespace StockShareBroker
 {
     public class Startup
     {
-        private readonly ILogger _myLog = new Logger("StockShareProvider");
-        private MessageHandler _messageHandler;
+        private readonly ILogger _myLog = new Logger("StockShareBroker");
         private string _hostName;
         private string _mainExhange;
-        private string _sellOrderFulfilledQueue;
+        private string _newSellOrderQueue;
         private string _newSellOrderRoutingKey;
-        private string _sellOrderFulfilledRoutingKey;
 
 
         public Startup(IConfiguration configuration)
@@ -48,18 +43,13 @@ namespace StockShareProvider
         {
             services.AddScoped<ILogger>(t => _myLog);
 
-            services.AddScoped(typeof(SellOrderHandler));
-
-            services.AddMvc();
-            
-            SetupDb(services);
-
             SetupMQ(services);
-            
+            services.AddMvc();
 
+            //configure swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "StockShareProvider", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "StockShareBroker", Version = "v1" });
             });
         }
 
@@ -68,11 +58,9 @@ namespace StockShareProvider
             _hostName = Configuration.GetSection("RabbitMQ")["HostName"];
             _mainExhange = Configuration.GetSection("RabbitMQ")["Exchange"];
 
+            _newSellOrderQueue = Configuration.GetSection("RabbitMQ")["NewSellOrderQueue"];
             _newSellOrderRoutingKey = Configuration.GetSection("RabbitMQ")["NewSellOrderRoutingKey"];
 
-            _sellOrderFulfilledRoutingKey = Configuration.GetSection("RabbitMQ")["SellOrderFulfilledKey"];
-            _sellOrderFulfilledQueue = Configuration.GetSection("RabbitMQ")["SellOrderFulfilledQueue"];
-            
 
             var connectionFactory = new ConnectionFactory() { HostName = _hostName };
 
@@ -82,48 +70,31 @@ namespace StockShareProvider
 
             //only run if queue doesn't already exist
             rabbitMQChannel.ExchangeDeclare(_mainExhange, ExchangeType.Direct);
-            
 
-            rabbitMQChannel.QueueDeclare(queue: _sellOrderFulfilledQueue,
+
+            rabbitMQChannel.QueueDeclare(queue: _newSellOrderQueue,
                 durable: false,
                 exclusive: false,
                 autoDelete: false,
                 arguments: null);
 
-            rabbitMQChannel.QueueBind(_sellOrderFulfilledQueue, _mainExhange, _sellOrderFulfilledRoutingKey, null);
-            
+            rabbitMQChannel.QueueBind(_newSellOrderQueue, _mainExhange, _newSellOrderRoutingKey, null);
+
             services.AddSingleton<IModel>(rabbitMQChannel);
 
-            services.AddScoped<IQueueGateway>(t => new QueueGateway(rabbitMQChannel, _mainExhange, _newSellOrderRoutingKey));
+            // TODO tilføj handler til queue events 
         }
 
-        private void SetupDb(IServiceCollection services)
-        {
-            var connectionString = Configuration.GetConnectionString("Default");
-
-            services.AddDbContext<ProviderContext>(options =>
-            {
-                options.UseSqlServer(connectionString, sqlOptions =>
-                {
-                    sqlOptions.MigrationsAssembly(
-                        typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-                });
-            });
-        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
-            var dbContext = (ProviderContext)app.ApplicationServices.GetService(typeof(ProviderContext));
-            var channel = (IModel)app.ApplicationServices.GetService(typeof(IModel));
-            
-            _messageHandler = new MessageHandler(dbContext);
-
-            var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += (ch, ea) => { _messageHandler.SellOrderFulfilled(Encoding.UTF8.GetString(ea.Body)); };
-            channel.BasicConsume(_sellOrderFulfilledQueue, true, consumer);
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
             app.UseSwagger();
 

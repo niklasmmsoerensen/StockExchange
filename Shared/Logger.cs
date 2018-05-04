@@ -15,42 +15,42 @@ namespace Shared
 
         public void Debug(string message)
         {
-            LogString($"Debug   {message}");
+            LogString($"[Debug]   {message}");
         }
 
         public void Debug(string message, Exception exception)
         {
-            LogString($"Debug   {message}   {exception.Message}");
+            LogString($"[Debug]   {message}   {exception.Message}");
         }
 
         public void Error(string message)
         {
-            LogString($"Error   {message}");
+            LogString($"[Error]   {message}");
         }
 
         public void Error(string message, Exception exception)
         {
-            LogString($"Error   {message}   {exception.Message}");
+            LogString($"[Error]   {message}   {exception.Message}");
         }
 
         public void Info(string message)
         {
-            LogString($"Info   {message}");
+            LogString($"[Info]   {message}");
         }
 
         public void Info(string message, Exception exception)
         {
-            LogString($"Info   {message}   {exception.Message}");
+            LogString($"[Info]   {message}   {exception.Message}");
         }
 
         public void Warn(string message)
         {
-            LogString($"Warn   {message}");
+            LogString($"[Warn]   {message}");
         }
 
         public void Warn(string message, Exception exception)
         {
-            LogString($"Warn   {message}   {exception.Message}");
+            LogString($"[Warn]   {message}   {exception.Message}");
         }
 
         private void LogStart(string microservice)
