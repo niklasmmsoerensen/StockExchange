@@ -12,7 +12,10 @@ using Shared;
 using Shared.Abstract;
 using StockShareProvider.DbAccess;
 using StockShareProvider.Handlers;
+using StockShareProvider.Queue;
+using StockShareProvider.Queue.Abstract;
 using Swashbuckle.AspNetCore.Swagger;
+using SellOrderHandler = StockShareProvider.Handlers.SellOrderHandler;
 
 namespace StockShareProvider
 {
@@ -52,31 +55,28 @@ namespace StockShareProvider
 
         private void SetupMQ(IServiceCollection services)
         {
-            string HostName = Configuration.GetSection("RabbitMQ")["HostName"];
-            string EXCHANGE = Configuration.GetSection("RabbitMQ")["Exchange"];
-            string QUEUE = Configuration.GetSection("RabbitMQ")["Queue"];
+            string hostName = Configuration.GetSection("RabbitMQ")["HostName"];
+            string mainExhange = Configuration.GetSection("RabbitMQ")["Exchange"];
+            string newSellOrderQueue = Configuration.GetSection("RabbitMQ")["Queue"];
+            string routingKey = Configuration.GetSection("RabbitMQ")["RoutingKey"];
 
-            var connectionFactory = new ConnectionFactory() { HostName = HostName };
+            var connectionFactory = new ConnectionFactory() { HostName = hostName };
 
             var rabbitMQConnection = connectionFactory.CreateConnection();
 
             var rabbitMQChannel = rabbitMQConnection.CreateModel();
 
             //only run if queue doesn't already exist
-            rabbitMQChannel.ExchangeDeclare(EXCHANGE, ExchangeType.Direct);
-            rabbitMQChannel.QueueDeclare(queue: QUEUE,
+            rabbitMQChannel.ExchangeDeclare(mainExhange, ExchangeType.Direct);
+            rabbitMQChannel.QueueDeclare(queue: newSellOrderQueue,
                 durable: false,
                 exclusive: false,
                 autoDelete: false,
                 arguments: null);
-            rabbitMQChannel.QueueBind(QUEUE, EXCHANGE, "test", null);
-
-            rabbitMQChannel.BasicPublish(exchange: EXCHANGE,
-                routingKey: "test",
-                basicProperties: null,
-                body: Encoding.UTF8.GetBytes("Hello from MessageReceiverController!"));
+            rabbitMQChannel.QueueBind(newSellOrderQueue, mainExhange, routingKey, null);
 
             services.AddSingleton<IModel>(rabbitMQChannel);
+            services.AddScoped<IQueueGateWay>(t => new QueueGateWay(routingKey, mainExhange, rabbitMQChannel));
         }
 
         private void SetupDb(IServiceCollection services)
