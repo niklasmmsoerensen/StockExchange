@@ -33,15 +33,15 @@ namespace HTTPGateway.Controllers
             ServicePartitionList partitions = await _fabricClient.QueryManager.GetPartitionListAsync(serviceName);
 
             string proxyUrl =
-                $"{proxyAddress}/api/UpdateStock";
+                $"{proxyAddress}/api/Stock";
 
             using (HttpResponseMessage response = await this._httpClient.GetAsync(proxyUrl))
             {
                 var result = response.Content.ReadAsStringAsync();
 
-                var jsonResult = this.Json(result);
+                //var jsonResult = this.Json(result);
 
-                return jsonResult;
+                return new ObjectResult(result.Result);
             }
         }
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace PublicShareOwnerControl.Migrations
 {
-    public partial class Initialmigration : Migration
+    public partial class newInitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,13 +13,14 @@ namespace PublicShareOwnerControl.Migrations
                 name: "Stocks",
                 columns: table => new
                 {
-                    UserID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     StockID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    StockName = table.Column<string>(nullable: true),
+                    UserID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Stocks", x => x.UserID);
+                    table.PrimaryKey("PK_Stocks", x => x.StockID);
                 });
         }
 

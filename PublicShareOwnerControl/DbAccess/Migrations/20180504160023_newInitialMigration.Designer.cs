@@ -4,14 +4,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using PublicShareOwnerControl.DbAccess;
 using System;
 
 namespace PublicShareOwnerControl.Migrations
 {
     [DbContext(typeof(OwnerControlContext))]
-    [Migration("20180504115926_Initial migration")]
-    partial class Initialmigration
+    [Migration("20180504160023_newInitialMigration")]
+    partial class newInitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,12 +23,14 @@ namespace PublicShareOwnerControl.Migrations
 
             modelBuilder.Entity("PublicShareOwnerControl.DbAccess.Entities.Stock", b =>
                 {
-                    b.Property<int>("UserID")
+                    b.Property<int>("StockID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("StockID");
+                    b.Property<string>("StockName");
 
-                    b.HasKey("UserID");
+                    b.Property<int>("UserID");
+
+                    b.HasKey("StockID");
 
                     b.ToTable("Stocks");
                 });

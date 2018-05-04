@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.ServiceFabric.AspNetCore.Kestrel" Version="3.0.472" />
     <PackageReference Include="Microsoft.ServiceFabric.Data" Version="3.0.472" />
     <PackageReference Include="Microsoft.ServiceFabric.Services" Version="3.0.472" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
   <ItemGroup>
