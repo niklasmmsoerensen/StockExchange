@@ -18,12 +18,14 @@ namespace PublicShareOwnerControl.DbAccess.Migrations
 
             modelBuilder.Entity("PublicShareOwnerControl.DbAccess.Entities.Stock", b =>
                 {
-                    b.Property<int>("UserID")
+                    b.Property<int>("StockID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("StockID");
+                    b.Property<string>("StockName");
 
-                    b.HasKey("UserID");
+                    b.Property<int>("UserID");
+
+                    b.HasKey("StockID");
 
                     b.ToTable("Stocks");
                 });

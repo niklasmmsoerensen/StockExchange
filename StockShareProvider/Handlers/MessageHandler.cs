@@ -14,12 +14,20 @@ namespace StockShareProvider.Handlers
             _dbContext = dbContext;
         }
 
-        public void SellOrderFulfilled(byte[] sellOrderId)
+        public void SellOrderFulfilled(string sellOrderId)
         {
-            // TODO muligvis noget casting her 
-            var sellOrderToRemove = _dbContext.SellOrders.Single(t => t.StockID.Equals(sellOrderId));
-            _dbContext.Remove(sellOrderToRemove);
-            _dbContext.SaveChanges();
+            try
+            {
+                // TODO muligvis noget casting her
+                var sellOrderToRemove = _dbContext.SellOrders.Single(t => t.StockID.Equals(Int32.Parse(sellOrderId)));
+                _dbContext.Remove(sellOrderToRemove);
+                _dbContext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                //log exception
+            }
+            
         }   
     }
 }

@@ -1,8 +1,6 @@
 ﻿<!DOCTYPE html>
 
-@{
-    ViewData["Title"] = "Home Page";
-}
+@model List<Shared.Models.StockModel>
 
 <html>
     <head>
@@ -28,18 +26,15 @@
                             <th class="text-center">Action</th>
                         </tr>
                     </thead>
-                    <tr>
-                        <td value="StockID">1</td>
-                        <td value="StockName">Vesteas A/S</td>
-                        <td>100$</td>
-                        <td class="text-center"><a class='btn btn-success btn-xs' href='@Url.Action("GetTest", "Home")'><span class="glyphicon glyphicon-usd"></span> Buy</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Sell</a></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>LetHjemmeside.dk</td>
-                        <td>0.001$</td>
-                        <td class="text-center"><a class='btn btn-success btn-xs' href="#"><span class="glyphicon glyphicon-usd"></span> Buy</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Sell</a></td>
-                    </tr>
+                    @foreach (var stock in Model)
+                    {
+                        <tr>
+                            <td>@stock.StockID</td>
+                            <td>@stock.StockName</td>
+                            <td>0.001$</td>
+                            <td class="text-center"><a class='btn btn-success btn-xs' href="#"><span class="glyphicon glyphicon-usd"></span> Buy</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Sell</a></td>
+                        </tr>
+                    }
                 </table>
             </div>
         </div>

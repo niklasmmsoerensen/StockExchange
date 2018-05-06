@@ -9,6 +9,8 @@ using System.Fabric;
 using System.Fabric.Query;
 using System.Net.Http;
 using Shared;
+using Shared.Models;
+using Newtonsoft.Json;
 
 namespace Frontend.Controllers
 {
@@ -48,16 +50,21 @@ namespace Frontend.Controllers
 
             using (HttpResponseMessage response = await this._httpClient.GetAsync(proxyUrl))
             {
-                var testResult = response.Content.ReadAsStringAsync();
-                var jsonResult = Json(testResult);
-                Debug.WriteLine(jsonResult);
-                testlog.Info(jsonResult.Value.ToString());
+                var resultTest = response.Content.ReadAsStringAsync();
 
+                try
+                {
+                    var tempStockModel = JsonConvert.DeserializeObject<List<StockModel>>(resultTest.Result);
 
-                return View("Index");
+                    return View("Index", tempStockModel);
+                }
+                catch(Exception e)
+                {
+                    
+                }
+
+                return null;
             }
-
-            return View();
         }
 
         public IActionResult About()

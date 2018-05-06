@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using PublicShareOwnerControl.Controllers.Models;
 using PublicShareOwnerControl.DbAccess;
 using PublicShareOwnerControl.DbAccess.Entities;
+using Shared;
+using Shared.Models;
 
 namespace PublicShareOwnerControl.Handlers
 {
@@ -12,6 +14,10 @@ namespace PublicShareOwnerControl.Handlers
     {
         private readonly OwnerControlContext _dbContext;
     
+        public StockHandler(OwnerControlContext dbcontext)
+        {
+            _dbContext = dbcontext;
+        }
 
         public ResultModel<object> UpdateStock(StockModel stockToUpdate)
         {

@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PublicShareOwnerControl.Handlers;
 using PublicShareOwnerControl.Controllers.Models;
+using Shared;
+using Shared.Models;
+using Newtonsoft.Json;
 
 
 namespace PublicShareOwnerControl.Controllers
@@ -50,7 +53,7 @@ namespace PublicShareOwnerControl.Controllers
                 return BadRequest(resultModel.Error);
             }
 
-            return new ObjectResult(resultModel.Result); 
+            return new ObjectResult(JsonConvert.SerializeObject(resultModel.ReturnResult)); 
         }
     }
 }

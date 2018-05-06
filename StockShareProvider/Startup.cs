@@ -122,7 +122,7 @@ namespace StockShareProvider
             _messageHandler = new MessageHandler(dbContext);
 
             var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += (ch, ea) => { _messageHandler.SellOrderFulfilled(ea.Body); };
+            consumer.Received += (ch, ea) => { _messageHandler.SellOrderFulfilled(Encoding.UTF8.GetString(ea.Body)); };
             channel.BasicConsume(_sellOrderFulfilledQueue, true, consumer);
 
             app.UseSwagger();
