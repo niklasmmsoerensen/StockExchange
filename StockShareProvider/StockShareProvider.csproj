@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\Models\" />
+    <Folder Include="Handlers\Models\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

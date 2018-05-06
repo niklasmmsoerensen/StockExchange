@@ -1,6 +1,8 @@
 ﻿using System;
+using Shared.Infrastructure;
+using Shared.Models;
 using StockShareTrader.DbAccess;
-using StockShareTrader.Models;
+using StockShareTrader.DbAccess.Entities;
 
 namespace StockShareTrader.Handlers
 {

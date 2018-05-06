@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Fabric;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace PublicShareOwnerControl
+namespace PublicShareOwnerControl.ServiceRelated
 {
     [EventSource(Name = "MyCompany-StockExchange-PublicShareOwnerControl")]
     internal sealed class ServiceEventSource : EventSource

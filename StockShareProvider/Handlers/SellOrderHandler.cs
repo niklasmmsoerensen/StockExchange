@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Shared.Infrastructure;
 using Shared.Models;
 using StockShareProvider.Controllers;
 using StockShareProvider.DbAccess;
 using StockShareProvider.DbAccess.Entities;
-using StockShareProvider.Handlers.Models;
 
 namespace StockShareProvider.Handlers
 {

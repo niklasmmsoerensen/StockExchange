@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using StockShareTrader.Models;
+using StockShareTrader.DbAccess.Entities;
 
 namespace StockShareTrader.DbAccess
 {

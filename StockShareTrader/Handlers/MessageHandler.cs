@@ -3,7 +3,7 @@ using RabbitMQ.Client.Events;
 using Shared;
 using StockShareTrader.DbAccess;
 
-namespace StockShareRequester.Handlers
+namespace StockShareTrader.Handlers
 {
     public class MessageHandler
     {

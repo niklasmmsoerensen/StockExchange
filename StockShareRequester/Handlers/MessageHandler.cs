@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using RabbitMQ.Client.Events;
 using Shared;
 using Shared.Models;
-using StockShareProvider.DbAccess;
+using StockShareRequester.DbAccess;
 using StockShareRequester.Models;
 
 namespace StockShareRequester.Handlers

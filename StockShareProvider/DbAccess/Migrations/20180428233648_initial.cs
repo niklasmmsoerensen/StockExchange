@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
-namespace StockShareProvider.Migrations
+namespace StockShareProvider.DbAccess.Migrations
 {
     // ReSharper disable once InconsistentNaming
     public partial class initial : Migration

@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using StockShareRequester.Models;
+using StockShareRequester.DbAccess.Entities;
 
-namespace StockShareProvider.DbAccess
+namespace StockShareRequester.DbAccess
 {
     public class RequesterContext : DbContext
     {

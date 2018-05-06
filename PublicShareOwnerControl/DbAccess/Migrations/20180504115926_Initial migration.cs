@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
-namespace PublicShareOwnerControl.Migrations
+namespace PublicShareOwnerControl.DbAccess.Migrations
 {
     public partial class Initialmigration : Migration
     {

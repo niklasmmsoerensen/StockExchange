@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Shared.Infrastructure;
 using Shared.Models;
-using StockShareProvider.Handlers.Models;
 using StockShareProvider.Queue.Abstract;
 using SellOrderHandler = StockShareProvider.Handlers.SellOrderHandler;
 

@@ -2,7 +2,6 @@
 using System.Linq;
 using Shared.Models;
 using StockShareProvider.DbAccess;
-using StockShareProvider.Handlers.Models;
 
 namespace StockShareProvider.Handlers
 {

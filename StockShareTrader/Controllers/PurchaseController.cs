@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Shared.Infrastructure;
+using Shared.Models;
 using StockShareTrader.Handlers;
-using StockShareTrader.Models;
 using StockShareTrader.Queue.Abstract;
 
 namespace StockShareTrader.Controllers
@@ -23,7 +24,7 @@ namespace StockShareTrader.Controllers
         {
             var result = _handler.InsertTransaction(model);
 
-            if (result.Result.Equals(Result.Ok))
+            if (result.ResultCode.Equals(Result.Ok))
             {
                 string jsonBuyOrder = JsonConvert.SerializeObject(model);
                 //check if order was buy or sell order
