@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Shared.Infrastructure;
 using Shared.Models;
 using StockShareRequester.Handlers;
-using StockShareRequester.Models;
 using StockShareRequester.Queue;
 using StockShareRequester.Queue.Abstract;
 
@@ -32,7 +32,7 @@ namespace StockShareRequester.Controllers
         {
             var result = _handler.InsertBuyOrder(model);
 
-            if (result.Result.Equals(Result.Ok))
+            if (result.ResultCode.Equals(Result.Ok))
             {
                 string jsonBuyOrder = JsonConvert.SerializeObject(model);
                 _queueGateWay.PublishNewBuyOrder(jsonBuyOrder);

@@ -64,13 +64,13 @@ namespace Shared
             Directory.CreateDirectory(logPath);
             string logFileTest = Path.Combine(logPath, logFile);
 
-            //_log = !File.Exists(logFileTest) ? new StreamWriter(logFileTest) : File.AppendText(logFileTest);
+            _log = !File.Exists(logFileTest) ? new StreamWriter(logFileTest) : File.AppendText(logFileTest);
         }
 
         private void LogString(string stringToLog)
         {
-            //_log.WriteLine(stringToLog);
-            //_log.Flush();
+            _log.WriteLine(stringToLog);
+            _log.Flush();
         }
     }
 }

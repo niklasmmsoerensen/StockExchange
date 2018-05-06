@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Shared.Infrastructure;
 using Shared.Models;
-using StockShareProvider.Controllers;
 using StockShareProvider.DbAccess;
 using StockShareProvider.DbAccess.Entities;
 
@@ -18,13 +17,13 @@ namespace StockShareProvider.Handlers
             _dbContext = dbContext;
         }
 
-        public ResultModel<SellOrderModel> InsertSellOrder(SellOrderModel insertModel)
+        public ResultModel InsertSellOrder(SellOrderModel insertModel)
         {
             var usersSellOrders = _dbContext.SellOrders.Where(t => t.UserID.Equals(insertModel.UserID)).ToList();
 
             if(HasEqualSellOrders(usersSellOrders, insertModel))
             {
-                return new ResultModel<SellOrderModel>
+                return new ResultModel
                        {
                            ResultCode = Result.Error,
                            Error = "User has existing duplicate sell order"
@@ -41,7 +40,7 @@ namespace StockShareProvider.Handlers
                                       });
             _dbContext.SaveChanges();
 
-            return new ResultModel<SellOrderModel>
+            return new ResultModel
                    {
                        ResultCode = Result.Ok
                    };

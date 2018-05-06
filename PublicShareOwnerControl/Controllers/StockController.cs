@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PublicShareOwnerControl.Handlers;
-using PublicShareOwnerControl.Controllers.Models;
 using Shared;
 using Shared.Models;
 using Newtonsoft.Json;
+using Shared.Infrastructure;
 
 
 namespace PublicShareOwnerControl.Controllers
@@ -35,7 +35,7 @@ namespace PublicShareOwnerControl.Controllers
         {
             var result = _handler.UpdateStock(stockModel);
 
-            if (result.Result == Result.Error)
+            if (result.ResultCode == Result.Error)
             {
                 return BadRequest(result.Error);
             }
@@ -48,12 +48,12 @@ namespace PublicShareOwnerControl.Controllers
         {
             var resultModel = _handler.GetAllStocks();
 
-            if(resultModel.Result == Result.Error)
+            if(resultModel.ResultCode == Result.Error)
             {
                 return BadRequest(resultModel.Error);
             }
 
-            return new ObjectResult(JsonConvert.SerializeObject(resultModel.ReturnResult)); 
+            return new ObjectResult(JsonConvert.SerializeObject(resultModel.Result)); 
         }
     }
 }

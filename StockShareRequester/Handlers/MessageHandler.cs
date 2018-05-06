@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using Newtonsoft.Json;
 using RabbitMQ.Client.Events;
 using Shared;
 using Shared.Models;
 using StockShareRequester.DbAccess;
-using StockShareRequester.Models;
 
 namespace StockShareRequester.Handlers
 {

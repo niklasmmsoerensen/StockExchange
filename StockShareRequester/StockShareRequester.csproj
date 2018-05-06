@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20180430161654_test.cs" />
-    <Compile Remove="Migrations\20180430161654_test.Designer.cs" />
+    <Compile Remove="DbAccess\Migrations\20180430161654_test.cs" />
+    <Compile Remove="DbAccess\Migrations\20180430161654_test.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DbAccess\Migrations\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

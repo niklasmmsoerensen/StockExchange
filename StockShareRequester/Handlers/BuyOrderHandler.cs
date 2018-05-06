@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StockShareRequester.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Shared.Infrastructure;
 using Shared.Models;
 using StockShareRequester.DbAccess;
 using StockShareRequester.DbAccess.Entities;

@@ -14,7 +14,6 @@ using System.Net.Http;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using StockShareRequester.DbAccess;
-using StockShareRequester.Models;
 using StockShareRequester.Queue;
 using StockShareRequester.Queue.Abstract;
 
