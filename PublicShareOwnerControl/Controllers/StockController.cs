@@ -23,13 +23,6 @@ namespace PublicShareOwnerControl.Controllers
             _handler = handler;
         }
 
-        /*
-        [HttpGet]
-        public string Get()
-        {
-            return "LetHjemmeside123";
-        }*/
-
         [HttpGet("ValidateStockOwnership")]
         public IActionResult ValidateStockOwnership(StockValidationModel stockValidationModel)
         {
