@@ -29,16 +29,11 @@ namespace PublicShareOwnerControl.Controllers
             var model = new StockValidationModel(stockId, userIdToCheck);
             var result = _handler.ValidateStockOwnership(model);
             
-            if(result.ResultCode == Result.Error)
-            {
-                return new ObjectResult(false);
-            }
-
-            return new ObjectResult(true);
+            return new ObjectResult(result.Result);
         }
 
-        [HttpPost]
-        public IActionResult UpdateStock([FromBody]StockModel stockModel)
+        [HttpPost("UpdateOwnership")]
+        public IActionResult UpdateOwnership([FromBody]StockModel stockModel)
         {
             var result = _handler.UpdateStock(stockModel);
 
