@@ -53,8 +53,7 @@ namespace StockShareProvider.ServiceRelated
 
         internal static Uri GetPublicShareOwnerControlServiceName(ServiceContext context)
         {
-            return new Uri($"{context.CodePackageActivationContext.ApplicationName}/StockShareTrader");
-            //return new Uri($"{context.CodePackageActivationContext.ApplicationName}/PublicShareOwnerControl");
+            return new Uri($"{context.CodePackageActivationContext.ApplicationName}/PublicShareOwnerControl");
         }
     }
 }

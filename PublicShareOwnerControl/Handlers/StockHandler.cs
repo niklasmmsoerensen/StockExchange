@@ -36,7 +36,7 @@ namespace PublicShareOwnerControl.Handlers
             }
         }
 
-        public ResultModel ValidateStockOwnership(StockValidationModel stockValidationModel)
+        public ResultModel<bool> ValidateStockOwnership(StockValidationModel stockValidationModel)
         {
             try
             {
@@ -44,14 +44,14 @@ namespace PublicShareOwnerControl.Handlers
 
                 if(matchingStockInDb.Count > 0)
                 {
-                    return new ResultModel { ResultCode = Result.Ok};
+                    return new ResultModel<bool> { ResultCode = Result.Ok, Result = true};
                 }
 
-                return new ResultModel{ ResultCode = Result.Error, Error = "User does not have the stock"};
+                return new ResultModel<bool>{ ResultCode = Result.Error, Error = "User does not have the stock", Result = false};
             }
             catch (Exception e)
             {
-                return new ResultModel { ResultCode = Result.Error, Error = e.ToString() };
+                return new ResultModel<bool> { ResultCode = Result.Error, Error = e.ToString(), Result = false };
             }
         }
 

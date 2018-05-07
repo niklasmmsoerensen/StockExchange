@@ -28,9 +28,34 @@ namespace Frontend.Controllers
         }
 
         /*
-        public IActionResult Index()
+        [HttpPost]
+        public async SendBuyRequest([FromBody]StockModel stockModel)
         {
-            return View();
+            Uri serviceName = Frontend.GetHTTPGatewayServiceName(_serviceContext);
+            Uri proxyAddress = this.GetProxyAddress(serviceName);
+
+            ServicePartitionList partitions = await _fabricClient.QueryManager.GetPartitionListAsync(serviceName);
+
+            string proxyUrl =
+                $"{proxyAddress}/api/Test";
+            
+            using (HttpResponseMessage response = await this._httpClient.GetAsync(proxyUrl))
+            {
+                var resultTest = response.Content.ReadAsStringAsync();
+
+                try
+                {
+                    var tempStockModel = JsonConvert.DeserializeObject<List<StockModel>>(resultTest.Result);
+
+                    return View("Index", tempStockModel);
+                }
+                catch (Exception e)
+                {
+
+                }
+
+                return null;
+            }
         }*/
 
         [HttpGet]
@@ -79,33 +104,6 @@ namespace Frontend.Controllers
 
             return View();
         }
-
-        /*
-        [HttpGet]
-        public async Task<IActionResult> GetTest()
-        {
-            testlog.Info("gettest called");
-            Uri serviceName = Frontend.GetHTTPGatewayServiceName(_serviceContext);
-            Uri proxyAddress = this.GetProxyAddress(serviceName);
-
-            ServicePartitionList partitions = await _fabricClient.QueryManager.GetPartitionListAsync(serviceName);
-
-            List<string> result = new List<string>();
-
-
-            string proxyUrl =
-                $"{proxyAddress}/api/Test";
-
-            using (HttpResponseMessage response = await this._httpClient.GetAsync(proxyUrl))
-            {
-                var testResult = response.Content.ReadAsStringAsync();
-                var jsonResult = Json(testResult);
-                Debug.WriteLine(jsonResult);
-                testlog.Info(jsonResult.Value.ToString());
-
-                return View("Index");
-            }
-        }*/
 
         public IActionResult Error()
         {
