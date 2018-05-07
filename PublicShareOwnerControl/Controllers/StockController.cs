@@ -30,8 +30,21 @@ namespace PublicShareOwnerControl.Controllers
             return "LetHjemmeside123";
         }*/
 
+        [HttpGet("ValidateStockOwnership")]
+        public IActionResult ValidateStockOwnership(StockValidationModel stockValidationModel)
+        {
+            var result = _handler.ValidateStockOwnership(stockValidationModel);
+            
+            if(result.ResultCode == Result.Error)
+            {
+                return BadRequest(result.Error);
+            }
+
+            return new ObjectResult(result);
+        }
+
         [HttpPost]
-        public IActionResult Insert([FromBody]StockModel stockModel)
+        public IActionResult UpdateStock([FromBody]StockModel stockModel)
         {
             var result = _handler.UpdateStock(stockModel);
 
@@ -43,7 +56,7 @@ namespace PublicShareOwnerControl.Controllers
             return Ok();
         }
 
-        [HttpGet]
+        [HttpGet("GetAllStocks")]
         public IActionResult GetAllStocks()
         {
             var resultModel = _handler.GetAllStocks();
