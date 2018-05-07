@@ -24,13 +24,32 @@ namespace PublicShareOwnerControl.Handlers
             try
             {
                 var result = _dbContext.Stocks.Single(x => x.StockID.Equals(stockToUpdate.StockID));
-                result.UserID = stockToUpdate.UserID;
+                result.UserID = stockToUpdate.NewOwnerID;
 
                  _dbContext.SaveChanges();
 
                 return new ResultModel { ResultCode = Result.Ok };
             }
             catch(Exception e)
+            {
+                return new ResultModel { ResultCode = Result.Error, Error = e.ToString() };
+            }
+        }
+
+        public ResultModel ValidateStockOwnership(StockValidationModel stockValidationModel)
+        {
+            try
+            {
+                var matchingStockInDb = _dbContext.Stocks.Where(T => T.StockID == stockValidationModel.StockID && T.UserID == stockValidationModel.UserIdToCheck ).Select(T => new StockModel {StockID = T.StockID, UserID = T.UserID}).ToList();
+
+                if(matchingStockInDb.Count > 0)
+                {
+                    return new ResultModel { ResultCode = Result.Ok};
+                }
+
+                return new ResultModel{ ResultCode = Result.Error, Error = "User does not have the stock"};
+            }
+            catch (Exception e)
             {
                 return new ResultModel { ResultCode = Result.Error, Error = e.ToString() };
             }
@@ -49,6 +68,5 @@ namespace PublicShareOwnerControl.Handlers
                 return new ResultModel<List<StockModel>> { ResultCode = Result.Error, Error = e.ToString()};
             }
         }
-
     }
 }
