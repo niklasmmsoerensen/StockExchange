@@ -43,6 +43,7 @@ namespace TobinTaxControl.Controllers
 
                 if (httpResponse.Result.IsSuccessStatusCode)
                 {
+                    // TODO mark taxation in db as accomplished (needs expanded entity)
                     return Ok();
                 }
                 else

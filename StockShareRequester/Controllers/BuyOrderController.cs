@@ -15,10 +15,11 @@ namespace StockShareRequester.Controllers
     [Route("api/BuyOrder")]
     public class BuyOrderController : Controller
     {
-        private BuyOrderHandler _handler { get; set; }
+        private readonly BuyOrderHandler _handler;
         private readonly IQueueGateWay _queueGateWay;
 
-        public BuyOrderController(HttpClient httpClient, FabricClient fabricClient, StatelessServiceContext serviceContext, BuyOrderHandler handler, IQueueGateWay queueGateway)
+        public BuyOrderController(HttpClient httpClient, FabricClient fabricClient, StatelessServiceContext serviceContext,
+            BuyOrderHandler handler, IQueueGateWay queueGateway)
         {
             _handler = handler;
             _queueGateWay = queueGateway;
@@ -31,7 +32,7 @@ namespace StockShareRequester.Controllers
         }
 
         [HttpPost("Insert")]
-        public async Task<IActionResult> Insert([FromBody] BuyOrderModel model)
+        public IActionResult Insert([FromBody] BuyOrderModel model)
         {
             var result = _handler.InsertBuyOrder(model);
 
@@ -50,16 +51,16 @@ namespace StockShareRequester.Controllers
         [HttpGet("GetMatchingBuyOrders")]
         public IActionResult GetMatchingBuyOrders(int stockId)
         {
-            try
+            var result = _handler.GetMatchingBuyOrders(stockId);
+
+            if (result.ResultCode == Result.Ok)
             {
-                var result = _handler.GetMatchingBuyOrders(stockId);
                 return new ObjectResult(result);
             }
-            catch (Exception e)
+            else
             {
-                return new ObjectResult("GetMatchingBuyOrders exception: " + e);
+                return BadRequest(result.Error);
             }
-            
         }
 
         private Uri GetProxyAddress(Uri serviceName)
