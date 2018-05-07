@@ -1,10 +1,9 @@
-﻿using Microsoft.ServiceFabric.Services.Runtime;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Threading;
-using System.Threading.Tasks;
+using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace TobinTaxControl
+namespace TobinTaxIntegrationService.ServiceRelated
 {
     internal static class Program
     {
@@ -20,10 +19,10 @@ namespace TobinTaxControl
                 // When Service Fabric creates an instance of this service type,
                 // an instance of the class is created in this host process.
 
-                ServiceRuntime.RegisterServiceAsync("TobinTaxControlType",
-                    context => new TobinTaxControl(context)).GetAwaiter().GetResult();
+                ServiceRuntime.RegisterServiceAsync("TobinTaxIntegrationServiceType",
+                    context => new TobinTaxIntegrationService(context)).GetAwaiter().GetResult();
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(TobinTaxControl).Name);
+                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(TobinTaxIntegrationService).Name);
 
                 // Prevents this host process from terminating so services keeps running. 
                 Thread.Sleep(Timeout.Infinite);

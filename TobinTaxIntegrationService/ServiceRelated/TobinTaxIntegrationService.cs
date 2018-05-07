@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Fabric;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
@@ -8,14 +7,14 @@ using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace StockShareBroker
+namespace TobinTaxIntegrationService.ServiceRelated
 {
     /// <summary>
     /// The FabricRuntime creates an instance of this class for each service type instance. 
     /// </summary>
-    internal sealed class StockShareBroker : StatelessService
+    internal sealed class TobinTaxIntegrationService : StatelessService
     {
-        public StockShareBroker(StatelessServiceContext context)
+        public TobinTaxIntegrationService(StatelessServiceContext context)
             : base(context)
         { }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -13,14 +14,22 @@ using Microsoft.Extensions.Options;
 using Shared;
 using Swashbuckle.AspNetCore.Swagger;
 using TobinTaxControl.DbAccess;
+using TobinTaxControl.Handlers;
+using ILogger = Shared.Abstract.ILogger;
 
 namespace TobinTaxControl
 {
     public class Startup
     {
+        private readonly Logger _myLog = new Logger("TobinTaxControl");
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -35,6 +44,8 @@ namespace TobinTaxControl
                 c.SwaggerDoc("v1", new Info { Title = "TobinTaxControl", Version = "v1" });
             });
 
+            services.AddScoped<ILogger>(t => _myLog);
+            services.AddScoped(typeof(TaxHandler));
             services.AddMvc();
         }
 

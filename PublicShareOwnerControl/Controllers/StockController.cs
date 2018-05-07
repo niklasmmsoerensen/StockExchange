@@ -23,21 +23,17 @@ namespace PublicShareOwnerControl.Controllers
             _handler = handler;
         }
 
-        [HttpGet("ValidateStockOwnership")]
-        public IActionResult ValidateStockOwnership(StockValidationModel stockValidationModel)
+        [HttpGet("ValidateStockOwnership/{stockId}/{userIdToCheck}")]
+        public IActionResult ValidateStockOwnership(int stockId, int userIdToCheck)
         {
-            var result = _handler.ValidateStockOwnership(stockValidationModel);
+            var model = new StockValidationModel(stockId, userIdToCheck);
+            var result = _handler.ValidateStockOwnership(model);
             
-            if(result.ResultCode == Result.Error)
-            {
-                return BadRequest(result.Error);
-            }
-
-            return new ObjectResult(result);
+            return new ObjectResult(result.Result);
         }
 
-        [HttpPost]
-        public IActionResult UpdateStock([FromBody]StockModel stockModel)
+        [HttpPost("UpdateOwnership")]
+        public IActionResult UpdateOwnership([FromBody]StockModel stockModel)
         {
             var result = _handler.UpdateStock(stockModel);
 
