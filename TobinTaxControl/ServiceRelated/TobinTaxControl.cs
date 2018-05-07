@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Fabric;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Net.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace TobinTaxControl
+namespace TobinTaxControl.ServiceRelated
 {
     /// <summary>
     /// The FabricRuntime creates an instance of this class for each service type instance. 
@@ -39,7 +37,9 @@ namespace TobinTaxControl
                                     .UseKestrel()
                                     .ConfigureServices(
                                         services => services
-                                            .AddSingleton<StatelessServiceContext>(serviceContext))
+                                            .AddSingleton<StatelessServiceContext>(serviceContext)
+                                            .AddSingleton(new HttpClient())
+                                            .AddSingleton(new FabricClient()))
                                     .UseContentRoot(Directory.GetCurrentDirectory())
                                     .UseStartup<Startup>()
                                     .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
@@ -47,6 +47,11 @@ namespace TobinTaxControl
                                     .Build();
                     }))
             };
+        }
+
+        internal static Uri GetTobinTaxIntegrationService(ServiceContext context)
+        {
+            return new Uri($"{context.CodePackageActivationContext.ApplicationName}/TobinTaxIntegrationService");
         }
     }
 }

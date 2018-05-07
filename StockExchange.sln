@@ -26,7 +26,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PublicShareOwnerControl", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockShareTrader", "StockShareTrader\StockShareTrader.csproj", "{038327BB-0F38-4697-8652-2F7ED363E59A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TobinTaxControl", "TobinTaxControl\TobinTaxControl.csproj", "{84D6B562-F0EA-4A20-9B59-4D8E2B07FB97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TobinTaxControl", "TobinTaxControl\TobinTaxControl.csproj", "{84D6B562-F0EA-4A20-9B59-4D8E2B07FB97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TobinTaxIntegrationService", "TobinTaxIntegrationService\TobinTaxIntegrationService.csproj", "{FF5832D9-DC97-4663-BD30-7A970AD61DC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -118,6 +120,14 @@ Global
 		{84D6B562-F0EA-4A20-9B59-4D8E2B07FB97}.Release|Any CPU.Build.0 = Release|Any CPU
 		{84D6B562-F0EA-4A20-9B59-4D8E2B07FB97}.Release|x64.ActiveCfg = Release|Any CPU
 		{84D6B562-F0EA-4A20-9B59-4D8E2B07FB97}.Release|x64.Build.0 = Release|Any CPU
+		{FF5832D9-DC97-4663-BD30-7A970AD61DC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF5832D9-DC97-4663-BD30-7A970AD61DC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF5832D9-DC97-4663-BD30-7A970AD61DC4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FF5832D9-DC97-4663-BD30-7A970AD61DC4}.Debug|x64.Build.0 = Debug|Any CPU
+		{FF5832D9-DC97-4663-BD30-7A970AD61DC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF5832D9-DC97-4663-BD30-7A970AD61DC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF5832D9-DC97-4663-BD30-7A970AD61DC4}.Release|x64.ActiveCfg = Release|Any CPU
+		{FF5832D9-DC97-4663-BD30-7A970AD61DC4}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

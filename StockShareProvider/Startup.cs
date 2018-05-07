@@ -24,7 +24,6 @@ namespace StockShareProvider
     public class Startup
     {
         private readonly ILogger _myLog = new Logger("StockShareProvider");
-        private MessageHandler _messageHandler;
         private string _hostName;
         private string _mainExhange;
         private string _sellOrderFulfilledQueue;
@@ -49,6 +48,7 @@ namespace StockShareProvider
             services.AddScoped<ILogger>(t => _myLog);
 
             services.AddScoped(typeof(SellOrderHandler));
+            services.AddScoped(typeof(MessageHandler));
 
             services.AddMvc();
             
@@ -116,13 +116,11 @@ namespace StockShareProvider
         {
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
-            var dbContext = (ProviderContext)app.ApplicationServices.GetService(typeof(ProviderContext));
             var channel = (IModel)app.ApplicationServices.GetService(typeof(IModel));
-            
-            _messageHandler = new MessageHandler(dbContext);
+            var messageHandler = (MessageHandler)app.ApplicationServices.GetService(typeof(MessageHandler));
 
             var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += (ch, ea) => { _messageHandler.SellOrderFulfilled(Encoding.UTF8.GetString(ea.Body)); };
+            consumer.Received += (ch, ea) => {messageHandler.SellOrderFulfilled(Encoding.UTF8.GetString(ea.Body)); };
             channel.BasicConsume(_sellOrderFulfilledQueue, true, consumer);
 
             app.UseSwagger();

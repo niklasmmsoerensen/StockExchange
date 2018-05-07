@@ -13,7 +13,7 @@ namespace TobinTaxControl.DbAccess
 
         }
 
-        public DbSet<Tax> Taxes { get; set; }
+        public DbSet<Taxation> Taxes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

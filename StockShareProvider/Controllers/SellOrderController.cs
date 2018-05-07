@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Shared.Abstract;
 using Shared.Infrastructure;
 using Shared.Models;
 using StockShareProvider.Queue.Abstract;
@@ -12,21 +13,24 @@ namespace StockShareProvider.Controllers
     {
         private readonly SellOrderHandler _handler;
         private readonly IQueueGateway _queueGateWay;
+        private readonly ILogger _log;
 
-        public SellOrderController(SellOrderHandler handler, IQueueGateway mqChannel)
+        public SellOrderController(SellOrderHandler handler, IQueueGateway mqChannel, ILogger log)
         {
             _handler = handler;
             _queueGateWay = mqChannel;
+            _log = log;
         }
 
         [HttpPost]
         public IActionResult Insert([FromBody] SellOrderModel insertModel)
         {
-            var resultModel = _handler.InsertSellOrder(insertModel);
+            var result = _handler.InsertSellOrder(insertModel);
 
-            if (resultModel.ResultCode == Result.Error)
+            if (result.ResultCode == Result.Error)
             {
-                return BadRequest(resultModel.Error);
+                _log.Error($"Error inserting sell order: {result.Error}");
+                return BadRequest(result.Error);
             }
 
             _queueGateWay.PublishNewSellOrder(JsonConvert.SerializeObject(insertModel));
@@ -37,14 +41,15 @@ namespace StockShareProvider.Controllers
         [HttpGet("Matching")]
         public IActionResult MatchingSellOrders(int stockId)
         {
-            var resultModel = _handler.Matching(stockId);
+            var result = _handler.Matching(stockId);
 
-            if (resultModel.ResultCode == Result.Error)
+            if (result.ResultCode == Result.Error)
             {
-                return BadRequest(resultModel.Error);
+                _log.Error($"Error matching sell order: {result.Error}");
+                return BadRequest(result.Error);
             }
 
-            return new ObjectResult(resultModel.Result);
+            return new ObjectResult(result.Result);
         }
     }
 }
