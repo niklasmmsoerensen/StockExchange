@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
+using System.Net.Http;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Frontend.Models;
 using System.Fabric;
 using System.Fabric.Query;
-using System.Net.Http;
+using Shared.Infrastructure;
 using Shared;
 using Shared.Models;
 using Newtonsoft.Json;
@@ -29,32 +30,33 @@ namespace Frontend.Controllers
 
         /*
         [HttpPost]
-        public async SendBuyRequest([FromBody]StockModel stockModel)
+        public async Task<IActionResult> SendBuyRequest([FromBody]BuyOrderModel buyModel)
         {
             Uri serviceName = Frontend.GetHTTPGatewayServiceName(_serviceContext);
             Uri proxyAddress = this.GetProxyAddress(serviceName);
 
-            ServicePartitionList partitions = await _fabricClient.QueryManager.GetPartitionListAsync(serviceName);
+            string requestUrl =
+                $"{proxyAddress}/api/Order/Buy";
 
-            string proxyUrl =
-                $"{proxyAddress}/api/Test";
-            
-            using (HttpResponseMessage response = await this._httpClient.GetAsync(proxyUrl))
+            using (HttpRequestMessage request =
+                new HttpRequestMessage(HttpMethod.Post, requestUrl)
+                {
+                    Content = new StringContent(JsonConvert.SerializeObject(buyModel),
+                        System.Text.Encoding.UTF8, "application/json")
+                })
             {
-                var resultTest = response.Content.ReadAsStringAsync();
-
-                try
+                using (HttpResponseMessage response = await _httpClient.SendAsync(request))
                 {
-                    var tempStockModel = JsonConvert.DeserializeObject<List<StockModel>>(resultTest.Result);
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        return new ObjectResult(new ResultModel(Result.Error, "HTTPGateway returned an error"));
+                    }
 
-                    return View("Index", tempStockModel);
+                    else
+                    {
+                        return Ok();
+                    }
                 }
-                catch (Exception e)
-                {
-
-                }
-
-                return null;
             }
         }*/
 
