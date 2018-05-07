@@ -13,6 +13,11 @@ namespace Shared.Models
             UserId = userId;
             Price = price;
         }
+
+        public TransactionModel()
+        {
+            
+        }
         
         public int StockId { get; set; }
         public int UserId { get; set; }

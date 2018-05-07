@@ -51,12 +51,17 @@ namespace StockShareBroker.ServiceRelated
 
         internal static Uri GetStockShareRequesterService(ServiceContext context)
         {
-            return new Uri($"{context.CodePackageActivationContext.ApplicationName}/StockShareProvider");
+            return new Uri($"{context.CodePackageActivationContext.ApplicationName}/StockShareRequester");
         }
 
         internal static Uri GetStockShareProviderService(ServiceContext context)
         {
-            return new Uri($"{context.CodePackageActivationContext.ApplicationName}/StockShareRequester");
+            return new Uri($"{context.CodePackageActivationContext.ApplicationName}/StockShareProvider");
+        }
+
+        internal static Uri GetStockShareTraderSerivce(ServiceContext context)
+        {
+            return new Uri($"{context.CodePackageActivationContext.ApplicationName}/StockShareTrader");
         }
     }
 }

@@ -19,7 +19,6 @@ namespace StockShareBroker.Handlers
         private readonly HttpClient _httpClient;
         private readonly StatelessServiceContext _serviceContext;
 
-
         public MessageHandler(ILogger log, HttpClient httpClient, StatelessServiceContext serviceContext)
         {
             _log = log;
@@ -36,27 +35,60 @@ namespace StockShareBroker.Handlers
 
                 var existingBuyOrdersForStock = GetExistingBuyOrdersForStock(newSellOrder.StockID);
 
-                // TODO muligvis udvid så den først oprettede buyorder går igennem i stedet for bare en random (firstordefault)
-                var matchingBuyOrder = existingBuyOrdersForStock.Result.Where(t => t.Price >= newSellOrder.SellPrice).ToList().FirstOrDefault();
+                // TODO mulighed for udvidelse af business logik
+                // TODO f.eks. udvid så den først oprettede buyorder går igennem i stedet for bare en random (firstordefault)
+                var matchingBuyOrder = existingBuyOrdersForStock.Result.FirstOrDefault(buyOrder => buyOrder.Price >= newSellOrder.SellPrice);
 
                 if (matchingBuyOrder != null)
                 {
-                    // create a purchase
+                    var transactionModel = new TransactionModel
+                                           {
+                                               StockId = matchingBuyOrder.StockId,
+                                               UserId = matchingBuyOrder.UserId,
+                                               Price = newSellOrder.SellPrice
+                                           };
+                    var response = PostPurchase(transactionModel);
+
+                    if (!response.Result.IsSuccessStatusCode)
+                    {
+                        _log.Error($"NewSellOrderHandler - Error posting data to StockShareTrader - StatusCode = {response.Result.StatusCode}");
+                    }
                 }
-                // else do nuffin
             }
             catch (Exception e)
             {
                 _log.Error($"Error on NewSellOrderHandler: {e.Message}");
             }
-            
         }
 
-        public void NewSellBuyOrder(byte[] messageBody)
+        public void NewBuyOrderHandler(byte[] messageBody)
         {
             try
             {
+                var messageBodyString = Encoding.UTF8.GetString(messageBody);
+                var newBuyOrder = JsonConvert.DeserializeObject<BuyOrderModel>(messageBodyString);
 
+                var existingSellOrdersForStock = GetExistingSellOrdersForStock(newBuyOrder.StockId);
+
+                // TODO mulighed for udvidelse af business logik
+                var matchingSellOrder = existingSellOrdersForStock.Result.FirstOrDefault(sellOrder => sellOrder.SellPrice <= newBuyOrder.Price);
+
+                if (matchingSellOrder != null)
+                {
+                    var transactionModel = new TransactionModel
+                                           {
+                                               StockId = matchingSellOrder.StockID,
+                                               UserId = matchingSellOrder.UserID,
+                                               Price = matchingSellOrder.SellPrice
+                                           };
+
+                    var response = PostPurchase(transactionModel);
+
+                    if (!response.Result.IsSuccessStatusCode)
+                    {
+                        _log.Error($"NewBuyOrderHandler - Error posting data to StockShareTrader - StatusCode = {response.Result.StatusCode}");
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -66,7 +98,7 @@ namespace StockShareBroker.Handlers
 
         private async Task<List<BuyOrderModel>> GetExistingBuyOrdersForStock(int stockId)
         {
-            Uri serviceName = ServiceRelated.StockShareBroker.GetStockShareProviderService(_serviceContext);
+            Uri serviceName = ServiceRelated.StockShareBroker.GetStockShareRequesterService(_serviceContext);
             Uri proxyAddress = GetProxyAddress(serviceName);
 
             string proxyUrl = $"{proxyAddress}/api/BuyOrder/GetMatchingBuyOrders/{stockId}";
@@ -78,31 +110,39 @@ namespace StockShareBroker.Handlers
             }
         }
 
-        private async Task<List<BuyOrderModel>> GetExistingSellOrdersForStock(int stockId)
+        private async Task<List<SellOrderModel>> GetExistingSellOrdersForStock(int stockId)
         {
             Uri serviceName = ServiceRelated.StockShareBroker.GetStockShareProviderService(_serviceContext);
             Uri proxyAddress = GetProxyAddress(serviceName);
 
-            string proxyUrl = $"{proxyAddress}/api/BuyOrder/GetMatchingBuyOrders/{stockId}";
-
+            string proxyUrl = $"{proxyAddress}/api/SellOrder/GetMatchingSellOrders/{stockId}";
+            
             using (HttpResponseMessage response = await _httpClient.GetAsync(proxyUrl))
             {
                 var jsonStringResult = response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<BuyOrderModel>>(jsonStringResult.ToString());
+                return JsonConvert.DeserializeObject<List<SellOrderModel>>(jsonStringResult.ToString());
             }
         }
 
-        private async Task<List<BuyOrderModel>> PostPurchase(int stockId)
+        private async Task<HttpResponseMessage> PostPurchase(TransactionModel transactionModel)
         {
-            Uri serviceName = ServiceRelated.StockShareBroker.GetStockShareProviderService(_serviceContext);
+            Uri serviceName = ServiceRelated.StockShareBroker.GetStockShareTraderSerivce(_serviceContext);
             Uri proxyAddress = GetProxyAddress(serviceName);
 
-            string proxyUrl = $"{proxyAddress}/api/BuyOrder/GetMatchingBuyOrders/{stockId}";
+            string proxyUrl = $"{proxyAddress}/api/Purchase";
 
-            using (HttpResponseMessage response = await _httpClient.GetAsync(proxyUrl))
+            var jsonModel = JsonConvert.SerializeObject(transactionModel);
+
+            HttpRequestMessage request =
+                new HttpRequestMessage(HttpMethod.Post, proxyUrl)
+                {
+                    Content = new StringContent(jsonModel,
+                        Encoding.UTF8, "application/json")
+                };
+
+            using (HttpResponseMessage response = await _httpClient.SendAsync(request))
             {
-                var jsonStringResult = response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<BuyOrderModel>>(jsonStringResult.ToString());
+                return response;
             }
         }
 
