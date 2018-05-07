@@ -19,7 +19,7 @@ namespace StockShareTrader.Controllers
             _queueGateWay = queueGateway;
         }
 
-        [HttpPost("Insert")]
+        [HttpPost("New")]
         public IActionResult Insert([FromBody] TransactionModel model)
         {
             var result = _handler.InsertTransaction(model);
