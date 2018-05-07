@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Shared.Abstract;
 using Shared.Infrastructure;
 using Shared.Models;
 using StockShareProvider.Queue.Abstract;
@@ -21,14 +22,17 @@ namespace StockShareProvider.Controllers
         private readonly HttpClient _httpClient;
         private readonly FabricClient _fabricClient;
         private readonly StatelessServiceContext _serviceContext;
+        private readonly ILogger _log;
 
-        public SellOrderController(HttpClient httpClient, FabricClient fabricClient, StatelessServiceContext serviceContext, SellOrderHandler handler, IQueueGateway mqChannel)
+        public SellOrderController(HttpClient httpClient, FabricClient fabricClient, StatelessServiceContext serviceContext,
+            SellOrderHandler handler, IQueueGateway mqChannel, ILogger log)
         {
             _httpClient = httpClient;
             _fabricClient = fabricClient;
             _serviceContext = serviceContext;
             _handler = handler;
             _queueGateWay = mqChannel;
+            _log = log;
         }
 
         [HttpPost]
@@ -77,14 +81,15 @@ namespace StockShareProvider.Controllers
         [HttpGet("Matching")]
         public IActionResult MatchingSellOrders(int stockId)
         {
-            var resultModel = _handler.Matching(stockId);
+            var result = _handler.Matching(stockId);
 
-            if (resultModel.ResultCode == Result.Error)
+            if (result.ResultCode == Result.Error)
             {
-                return BadRequest(resultModel.Error);
+                _log.Error($"Error matching sell order: {result.Error}");
+                return BadRequest(result.Error);
             }
 
-            return new ObjectResult(resultModel.Result);
+            return new ObjectResult(result.Result);
         }
 
         private Uri GetProxyAddress(Uri serviceName)

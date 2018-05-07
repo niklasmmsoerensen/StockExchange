@@ -13,11 +13,15 @@ using Microsoft.Extensions.Options;
 using Shared;
 using Swashbuckle.AspNetCore.Swagger;
 using TobinTaxControl.DbAccess;
+using TobinTaxControl.Handlers;
+using ILogger = Shared.Abstract.ILogger;
 
 namespace TobinTaxControl
 {
     public class Startup
     {
+        private readonly Logger _myLog = new Logger("TobinTaxControl");
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -35,6 +39,8 @@ namespace TobinTaxControl
                 c.SwaggerDoc("v1", new Info { Title = "TobinTaxControl", Version = "v1" });
             });
 
+            services.AddScoped<ILogger>(t => _myLog);
+            services.AddScoped(typeof(TaxHandler));
             services.AddMvc();
         }
 

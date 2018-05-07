@@ -40,6 +40,7 @@
     <ProjectReference Include="..\StockShareRequester\StockShareRequester.csproj" />
     <ProjectReference Include="..\StockShareTrader\StockShareTrader.csproj" />
     <ProjectReference Include="..\TobinTaxControl\TobinTaxControl.csproj" />
+    <ProjectReference Include="..\TobinTaxIntegrationService\TobinTaxIntegrationService.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <PropertyGroup>

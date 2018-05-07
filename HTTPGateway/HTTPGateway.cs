@@ -103,8 +103,7 @@ namespace HTTPGateway
                                         services => services
                                             .AddSingleton(serviceContext)
                                             .AddSingleton(new HttpClient())
-                                            .AddSingleton(new FabricClient())
-                                            .AddSingleton(serviceContext))
+                                            .AddSingleton(new FabricClient()))
                                     .UseContentRoot(Directory.GetCurrentDirectory())
                                     .UseStartup<Startup>()
                                     .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
