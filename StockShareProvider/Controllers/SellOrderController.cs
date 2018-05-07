@@ -40,20 +40,20 @@ namespace StockShareProvider.Controllers
                 Uri serviceName = ServiceRelated.StockShareProvider.GetPublicShareOwnerControlServiceName(_serviceContext);
                 Uri proxyAddress = this.GetProxyAddress(serviceName);
 
-                string proxyUrl =
-                    $"{proxyAddress}/api/Purchase/Insert";
+                string requestUrl =
+                    $"{proxyAddress}/api/Stock/ValidateStockOwnership/{insertModel.StockID}/{insertModel.UserID}";
 
-                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, proxyUrl))
+                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUrl))
                 {
-                    string json = JsonConvert.SerializeObject(insertModel);
-
-                    request.Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-
                     using (HttpResponseMessage response = await this._httpClient.SendAsync(request))
                     {
                         //check if validation was OK
-                        var resultTest = response.Content.ReadAsStringAsync();
-
+                        var result = response.Content.ReadAsStringAsync()?.Result;
+                        if (result.Equals("false"))
+                        {
+                            //user does not own this stock
+                            return new ObjectResult(new ResultModel(Result.Error, "User " + insertModel.UserID + " does not own stock with ID " + insertModel.StockID)); 
+                        }
                     }
                 }
 
@@ -61,7 +61,7 @@ namespace StockShareProvider.Controllers
 
                 if (resultModel.ResultCode == Result.Error)
                 {
-                    return BadRequest(resultModel.Error);
+                    return new ObjectResult(resultModel);
                 }
 
                 _queueGateWay.PublishNewSellOrder(JsonConvert.SerializeObject(insertModel));
