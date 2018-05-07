@@ -27,7 +27,7 @@ namespace HTTPGateway.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            Uri serviceName = HTTPGateway.GetStockShareProviderServiceName(_serviceContext);
+            Uri serviceName = HTTPGateway.GetPublicShareOwnerControlServiceName(_serviceContext);
             Uri proxyAddress = this.GetProxyAddress(serviceName);
 
             ServicePartitionList partitions = await _fabricClient.QueryManager.GetPartitionListAsync(serviceName);
