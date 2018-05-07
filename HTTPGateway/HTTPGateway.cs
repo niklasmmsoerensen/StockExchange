@@ -23,65 +23,10 @@ namespace HTTPGateway
     /// </summary>
     internal sealed class HTTPGateway : StatelessService
     {
-        //RabbitMQ stuff
-        private ConnectionFactory _RabbitMqFactory;
-        private IConnection _RabbitMqConnection;
-        static private IModel _RabbitMqChannel;
-        private string _RabbitMqHostName;
-        private string _RabbitMqExchange;
-        private string _RabbitMqQueue;
-
-        static public IModel RabbitMqChannel { get => _RabbitMqChannel; set => _RabbitMqChannel = value; }
-        public string RabbitMqExchange { get => _RabbitMqExchange; set => _RabbitMqExchange = value; }
-        public string RabbitMqQueue { get => _RabbitMqQueue; set => _RabbitMqQueue = value; }
-        public string RabbitMqHostName { get => _RabbitMqHostName; set => _RabbitMqHostName = value; }
-
         public HTTPGateway(StatelessServiceContext context)
             : base(context)
         {
             LoadConfiguration();
-
-            _RabbitMqFactory = new ConnectionFactory() { HostName = RabbitMqHostName };
-
-           _RabbitMqConnection = _RabbitMqFactory.CreateConnection();
-            _RabbitMqChannel = _RabbitMqConnection.CreateModel();
-
-            //it doesn't create a new one if it already exists
-            _RabbitMqChannel.ExchangeDeclare(RabbitMqExchange, ExchangeType.Direct);
-            _RabbitMqChannel.QueueDeclare(queue: RabbitMqQueue,
-                                durable: false,
-                                exclusive: false,
-                                autoDelete: false,
-                                arguments: null);
-            //binds queue and exchange
-            _RabbitMqChannel.QueueBind(RabbitMqQueue, RabbitMqExchange, "test", null);
-
-            //setup consumer/subscriber for our channel
-            var consumer = new EventingBasicConsumer(_RabbitMqChannel);
-            consumer.Received += async (ch, ea) =>
-                {
-                    //Setup Uri to call QueueController, don't know if this is the right way to do it when you want to call a controller within the service itself
-                    Uri serviceName = HTTPGateway.GetHttpGatewayServiceName(context);
-                    Uri proxyAddress = new Uri($"http://localhost:19081{serviceName.AbsolutePath}");
-                    string proxyUrl = $"{proxyAddress}/api/Queue";
-
-                    //the body of the message from the queue
-                    var body = ea.Body;
-
-                    //call QueueController
-                    HttpClient httpClient = new HttpClient();
-                    using (HttpResponseMessage response = await httpClient.GetAsync(proxyUrl))
-                    {
-                        var result = response.Content.ReadAsStringAsync();
-                    }
-
-                    //acknowledge message from queue
-                    _RabbitMqChannel.BasicAck(ea.DeliveryTag, false);
-                }; //calls QueueController when receiving a message
-
-            //attach consumer to channel
-            String consumerTag = _RabbitMqChannel.BasicConsume(RabbitMqQueue, false, consumer);
-            
         }
 
         /// <summary>
@@ -119,20 +64,20 @@ namespace HTTPGateway
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
-            
-            RabbitMqHostName = configuration.GetSection("RabbitMQ")["HostName"];
-            RabbitMqExchange = configuration.GetSection("RabbitMQ")["Exchange"];
-            RabbitMqQueue = configuration.GetSection("RabbitMQ")["Queue"];
         }
 
-        internal static Uri GetStockShareProviderServiceName(ServiceContext context)
+        internal static Uri GetPublicShareOwnerControlServiceName(ServiceContext context)
         {
             return new Uri($"{context.CodePackageActivationContext.ApplicationName}/PublicShareOwnerControl");
         }
-
-        internal static Uri GetHttpGatewayServiceName(ServiceContext context)
+        internal static Uri GetStockShareProviderServiceName(ServiceContext context)
         {
-            return new Uri($"{context.CodePackageActivationContext.ApplicationName}/HTTPGateway");
+            return new Uri($"{context.CodePackageActivationContext.ApplicationName}/StockShareProvider");
+        }
+
+        internal static Uri GetStockShareRequesterServiceName(ServiceContext context)
+        {
+            return new Uri($"{context.CodePackageActivationContext.ApplicationName}/StockShareRequester");
         }
     }
 }

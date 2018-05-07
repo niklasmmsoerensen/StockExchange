@@ -52,11 +52,11 @@ namespace StockShareProvider.Controllers
                     using (HttpResponseMessage response = await this._httpClient.SendAsync(request))
                     {
                         //check if validation was OK
-                        var result = response.Content.ReadAsStringAsync()?.Result;
+                        var result = response.Content.ReadAsStringAsync().Result;
                         if (result.Equals("false"))
                         {
                             //user does not own this stock
-                            return new ObjectResult(new ResultModel(Result.Error, "User " + insertModel.UserID + " does not own stock with ID " + insertModel.StockID)); 
+                            return new ObjectResult(new ResultModel<bool>(Result.Ok, false, "User " + insertModel.UserID + " does not own stock with ID " + insertModel.StockID)); 
                         }
                     }
                 }

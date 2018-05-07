@@ -18,21 +18,14 @@ namespace StockShareRequester.Controllers
         private readonly BuyOrderHandler _handler;
         private readonly IQueueGateWay _queueGateWay;
 
-        public BuyOrderController(HttpClient httpClient, FabricClient fabricClient, StatelessServiceContext serviceContext,
-            BuyOrderHandler handler, IQueueGateWay queueGateway)
+        public BuyOrderController(BuyOrderHandler handler, IQueueGateWay queueGateway)
         {
             _handler = handler;
             _queueGateWay = queueGateway;
         }
-
-        [HttpGet]
-        public string Get()
-        {
-            return "ayy lmao";
-        }
-
-        [HttpPost("Insert")]
-        public IActionResult Insert([FromBody] BuyOrderModel model)
+        
+        [HttpPost]
+        public async Task<IActionResult> Insert([FromBody] BuyOrderModel model)
         {
             var result = _handler.InsertBuyOrder(model);
 
