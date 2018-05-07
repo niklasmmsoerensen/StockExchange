@@ -2,54 +2,80 @@
 
 @model List<Shared.Models.StockModel>
 
+
+
 <html>
-    <head>
-        <title>
-            Bootstrap Site
-        </title>
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>
+        Bootstrap Site
+    </title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    </head>
-    
-    <body>
+<script>
+    $(document).ready(function () {
+        $(".btn.btn-success.btn-xs").click(function ()
+        {
+            //$.post("/Home/Index", { StockID: '3', UserID: '7' });
 
-        <div class="container">
-            <div class="row col-md-6 col-md-offset-2 custyle">
-                <table class="table table-striped custab">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Stock name</th>
-                            <th>Price</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </thead>
-                    @foreach (var stock in Model)
-                    {
-                        <tr>
-                            <td>@stock.StockID</td>
-                            <td>@stock.StockName</td>
-                            <td>0.001$</td>
-                            <td class="text-center"><a class='btn btn-success btn-xs' href="#"><span class="glyphicon glyphicon-usd"></span> Buy</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Sell</a></td>
-                        </tr>
-                    }
-                </table>
-            </div>
+
+            //$.post("HomeController/Niklas", { StockID: $("#txtFirstName").val(), LastName: $("#txtLastName") }, function (data)
+            //{
+            //}
+
+            //alert("test");
+            alert("StockID: " + $(this).closest('tr').find('td:eq(0)').text() + "  \nCompany name: " + $(this).closest('tr').find('td:eq(1)').text() + "  \nRequesting user " + $(this).closest('tr').find('#uid').val());
+            
+        });
+    });
+</script>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row col-md-6 col-md-offset-2 custyle">
+            <table class="table table-striped custab">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Stock name</th>
+                        <th>Owner</th>
+                        <th class="text-center">Action</th>
+                        <th>Requesting User</th>
+                    </tr>
+                </thead>
+                @foreach (var stock in Model)
+                {
+                    var index = Model.IndexOf(stock);
+                <tr>
+                    <td>@stock.StockID</td>
+                    <td>@stock.StockName</td>
+                    <td>User @stock.UserID</td>
+                    <td class="text-center">
+                        <a class='btn btn-success btn-xs' id='@index' href=''><span class="glyphicon glyphicon-usd"></span> Buy</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Sell</a>
+                    </td>
+                    <td><input type='text' id='uid' value='' style="width:50px" /></td>
+                </tr>
+                }
+            </table>
         </div>
+    </div>
 
-        <div class="container">
-            <div class="row col-md-6 col-md-offset-2 custyle">
-            </div>
+
+    <div class="container">
+        <div class="row col-md-6 col-md-offset-2 custyle">
         </div>
+    </div>
 
-        <script src="http://code.jquery.com/jquery-3.3.1.min.js"
-                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-                crossorigin="anonymous"></script>
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    </body>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
 
 </html>

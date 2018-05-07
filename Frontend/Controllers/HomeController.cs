@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
+using System.Net.Http;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Frontend.Models;
 using System.Fabric;
 using System.Fabric.Query;
-using System.Net.Http;
+using Shared.Infrastructure;
 using Shared;
 using Shared.Models;
 using Newtonsoft.Json;
@@ -28,9 +29,35 @@ namespace Frontend.Controllers
         }
 
         /*
-        public IActionResult Index()
+        [HttpPost]
+        public async Task<IActionResult> SendBuyRequest([FromBody]BuyOrderModel buyModel)
         {
-            return View();
+            Uri serviceName = Frontend.GetHTTPGatewayServiceName(_serviceContext);
+            Uri proxyAddress = this.GetProxyAddress(serviceName);
+
+            string requestUrl =
+                $"{proxyAddress}/api/Order/Buy";
+
+            using (HttpRequestMessage request =
+                new HttpRequestMessage(HttpMethod.Post, requestUrl)
+                {
+                    Content = new StringContent(JsonConvert.SerializeObject(buyModel),
+                        System.Text.Encoding.UTF8, "application/json")
+                })
+            {
+                using (HttpResponseMessage response = await _httpClient.SendAsync(request))
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        return new ObjectResult(new ResultModel(Result.Error, "HTTPGateway returned an error"));
+                    }
+
+                    else
+                    {
+                        return Ok();
+                    }
+                }
+            }
         }*/
 
         [HttpGet]
@@ -79,33 +106,6 @@ namespace Frontend.Controllers
 
             return View();
         }
-
-        /*
-        [HttpGet]
-        public async Task<IActionResult> GetTest()
-        {
-            testlog.Info("gettest called");
-            Uri serviceName = Frontend.GetHTTPGatewayServiceName(_serviceContext);
-            Uri proxyAddress = this.GetProxyAddress(serviceName);
-
-            ServicePartitionList partitions = await _fabricClient.QueryManager.GetPartitionListAsync(serviceName);
-
-            List<string> result = new List<string>();
-
-
-            string proxyUrl =
-                $"{proxyAddress}/api/Test";
-
-            using (HttpResponseMessage response = await this._httpClient.GetAsync(proxyUrl))
-            {
-                var testResult = response.Content.ReadAsStringAsync();
-                var jsonResult = Json(testResult);
-                Debug.WriteLine(jsonResult);
-                testlog.Info(jsonResult.Value.ToString());
-
-                return View("Index");
-            }
-        }*/
 
         public IActionResult Error()
         {
