@@ -16,7 +16,6 @@ namespace Frontend.Controllers
 {
     public class HomeController : Controller
     {
-        Logger testlog = new Logger("MarcTest");
         private readonly HttpClient _httpClient;
         private readonly FabricClient _fabricClient;
         private readonly StatelessServiceContext _serviceContext;

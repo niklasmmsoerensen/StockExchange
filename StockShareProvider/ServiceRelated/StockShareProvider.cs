@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Fabric;
 using System.IO;
+using System.Net.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
@@ -36,6 +38,9 @@ namespace StockShareProvider.ServiceRelated
                                     .UseKestrel()
                                     .ConfigureServices(
                                         services => services
+                                            .AddSingleton(serviceContext)
+                                            .AddSingleton(new HttpClient())
+                                            .AddSingleton(new FabricClient())
                                             .AddSingleton<StatelessServiceContext>(serviceContext))
                                     .UseContentRoot(Directory.GetCurrentDirectory())
                                     .UseStartup<Startup>()
@@ -44,6 +49,12 @@ namespace StockShareProvider.ServiceRelated
                                     .Build();
                     }))
             };
+        }
+
+        internal static Uri GetPublicShareOwnerControlServiceName(ServiceContext context)
+        {
+            return new Uri($"{context.CodePackageActivationContext.ApplicationName}/StockShareTrader");
+            //return new Uri($"{context.CodePackageActivationContext.ApplicationName}/PublicShareOwnerControl");
         }
     }
 }

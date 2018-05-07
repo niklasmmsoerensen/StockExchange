@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Fabric;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Shared.Infrastructure;
 using Shared.Models;
 using StockShareRequester.Handlers;
-using StockShareRequester.Queue;
 using StockShareRequester.Queue.Abstract;
 
 namespace StockShareRequester.Controllers
@@ -15,7 +17,8 @@ namespace StockShareRequester.Controllers
     {
         private BuyOrderHandler _handler { get; set; }
         private readonly IQueueGateWay _queueGateWay;
-        public BuyOrderController(BuyOrderHandler handler, IQueueGateWay queueGateway)
+
+        public BuyOrderController(HttpClient httpClient, FabricClient fabricClient, StatelessServiceContext serviceContext, BuyOrderHandler handler, IQueueGateWay queueGateway)
         {
             _handler = handler;
             _queueGateWay = queueGateway;
@@ -28,7 +31,7 @@ namespace StockShareRequester.Controllers
         }
 
         [HttpPost("Insert")]
-        public IActionResult Insert([FromBody] BuyOrderModel model)
+        public async Task<IActionResult> Insert([FromBody] BuyOrderModel model)
         {
             var result = _handler.InsertBuyOrder(model);
 
@@ -57,6 +60,11 @@ namespace StockShareRequester.Controllers
                 return new ObjectResult("GetMatchingBuyOrders exception: " + e);
             }
             
+        }
+
+        private Uri GetProxyAddress(Uri serviceName)
+        {
+            return new Uri($"http://localhost:19081{serviceName.AbsolutePath}");
         }
     }
 }

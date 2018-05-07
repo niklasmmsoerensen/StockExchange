@@ -10,5 +10,6 @@ namespace Shared.Models
         public int StockID { get; set; }
         public string StockName { get; set; }
         public int UserID { get; set; }
+        public int NewOwnerID { get; set; }
     }
 }
