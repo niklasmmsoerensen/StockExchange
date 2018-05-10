@@ -22,19 +22,10 @@ namespace StockShareProvider.Handlers
 
         public ResultModel InsertSellOrder(SellOrderModel insertModel)
         {
-            var usersSellOrders = _dbContext.SellOrders.Where(t => t.UserID.Equals(insertModel.UserID)).ToList();
+            var usersSellOrders = _dbContext.SellOrders.Where(t => t.UserID.Equals(insertModel.UserID) && t.StockID.Equals(insertModel.StockID)).ToList();
 
-            if(HasEqualSellOrders(usersSellOrders, insertModel))
-            {
-                return new ResultModel
-                       {
-                           ResultCode = Result.Error,
-                           Error = "User has existing duplicate sell order"
-                       };
-            }
+            _dbContext.RemoveRange(usersSellOrders);
 
-            // TODO Sell order added even though there might be existing sell order of differenct price value
-            // might be better or overwrite existing sell order?
             _dbContext.SellOrders.Add(new SellOrder()
                                       {
                                           UserID = insertModel.UserID,
@@ -76,11 +67,5 @@ namespace StockShareProvider.Handlers
                        };
             }
         }
-
-        private bool HasEqualSellOrders(List<SellOrder> usersSellOrders, SellOrderModel insertModel)
-        {
-            return usersSellOrders.Any(t =>
-                t.StockID.Equals(insertModel.StockID) && t.SellPrice.Equals(insertModel.SellPrice));
-        }   
     }
 }
