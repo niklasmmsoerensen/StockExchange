@@ -12,23 +12,19 @@ namespace StockShareRequester.Queue
 
         public IModel Channel => _channel;
 
-        public string NewOrderQueue => _newOrderQueue;
-
         public string OrderFulfilledQueue => _orderFulfilledQueue;
 
         private readonly string _exchange;
         private readonly IModel _channel;
-        private readonly string _newOrderQueue;
         private readonly string _orderFulfilledQueue;
         private readonly string _newOrderRoutingKey;
         private readonly string _orderFulfilledRoutingKey;
 
-        public QueueGateWay(string exchange, IModel queue, string newBuyOrderQueue, string orderFulfilledQueue, string newOrderRoutingKey, string orderFulfilledRoutingKey)
+        public QueueGateWay(string exchange, IModel queue, string orderFulfilledQueue, string orderFulfilledRoutingKey, string newOrderRoutingKey)
         {
             _newOrderRoutingKey = newOrderRoutingKey;
             _exchange = exchange;
             _channel = queue;
-            _newOrderQueue = newBuyOrderQueue;
             _orderFulfilledQueue = orderFulfilledQueue;
             _orderFulfilledRoutingKey = orderFulfilledRoutingKey;
         }

@@ -83,7 +83,6 @@ namespace StockShareProvider
             //only run if queue doesn't already exist
             rabbitMQChannel.ExchangeDeclare(_mainExhange, ExchangeType.Direct);
             
-
             rabbitMQChannel.QueueDeclare(queue: _sellOrderFulfilledQueue,
                 durable: false,
                 exclusive: false,
@@ -119,6 +118,7 @@ namespace StockShareProvider
             var channel = (IModel)app.ApplicationServices.GetService(typeof(IModel));
             var messageHandler = (MessageHandler)app.ApplicationServices.GetService(typeof(MessageHandler));
 
+            //setup sell order fulfilled subscriber
             var consumer = new EventingBasicConsumer(channel);
             consumer.Received += (ch, ea) => {messageHandler.SellOrderFulfilled(Encoding.UTF8.GetString(ea.Body)); };
             channel.BasicConsume(_sellOrderFulfilledQueue, true, consumer);
