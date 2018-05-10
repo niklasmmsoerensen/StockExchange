@@ -44,7 +44,7 @@ namespace StockShareBroker.Handlers
                     var transactionModel = new TransactionModel
                                            {
                                                StockId = matchingBuyOrder.StockId,
-                                               UserId = matchingBuyOrder.UserId,
+                                               BuyerUserId = matchingBuyOrder.UserId,
                                                Price = newSellOrder.SellPrice
                                            };
                     var response = PostPurchase(transactionModel);
@@ -78,7 +78,7 @@ namespace StockShareBroker.Handlers
                     var transactionModel = new TransactionModel
                                            {
                                                StockId = matchingSellOrder.StockID,
-                                               UserId = matchingSellOrder.UserID,
+                                               BuyerUserId = newBuyOrder.UserId,
                                                Price = matchingSellOrder.SellPrice
                                            };
 
@@ -105,7 +105,7 @@ namespace StockShareBroker.Handlers
 
             using (HttpResponseMessage response = await _httpClient.GetAsync(proxyUrl))
             {
-                var jsonStringResult = response.Content.ReadAsStringAsync();
+                var jsonStringResult = response.Content.ReadAsStringAsync().Result;
                 return JsonConvert.DeserializeObject<List<BuyOrderModel>>(jsonStringResult.ToString());
             }
         }
@@ -119,7 +119,7 @@ namespace StockShareBroker.Handlers
             
             using (HttpResponseMessage response = await _httpClient.GetAsync(proxyUrl))
             {
-                var jsonStringResult = response.Content.ReadAsStringAsync();
+                var jsonStringResult = response.Content.ReadAsStringAsync().Result;
                 return JsonConvert.DeserializeObject<List<SellOrderModel>>(jsonStringResult.ToString());
             }
         }

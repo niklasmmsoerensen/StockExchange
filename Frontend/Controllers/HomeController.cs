@@ -65,6 +65,42 @@ namespace Frontend.Controllers
             }
         }
 
+        [HttpPost("SendSellRequest")]
+        public async Task<IActionResult> SendSellRequest(int stockId, int userId, int price)
+        {
+            Uri serviceName = Frontend.GetHTTPGatewayServiceName(_serviceContext);
+            Uri proxyAddress = this.GetProxyAddress(serviceName);
+
+            string requestUrl =
+                $"{proxyAddress}/api/Order/Sell";
+
+            SellOrderModel test = new SellOrderModel();
+            test.StockID = stockId;
+            test.UserID = userId;
+            test.SellPrice = price;
+
+            using (HttpRequestMessage request =
+                new HttpRequestMessage(HttpMethod.Post, requestUrl)
+                {
+                    Content = new StringContent(JsonConvert.SerializeObject(test),
+                        System.Text.Encoding.UTF8, "application/json")
+                })
+            {
+                using (HttpResponseMessage response = await _httpClient.SendAsync(request))
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        return new ObjectResult(new ResultModel(Result.Error, "HTTPGateway returned an error"));
+                    }
+
+                    else
+                    {
+                        return Ok();
+                    }
+                }
+            }
+        }
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
