@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Fabric;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Shared.Abstract;
 using Shared.Infrastructure;
 using Shared.Models;
 using StockShareProvider.Queue.Abstract;
@@ -39,24 +36,10 @@ namespace StockShareProvider.Controllers
             try
             {
                 //call validate on StockShareOwnerControl
-                Uri serviceName = ServiceRelated.StockShareProvider.GetPublicShareOwnerControlServiceName(_serviceContext);
-                Uri proxyAddress = this.GetProxyAddress(serviceName);
-
-                string requestUrl =
-                    $"{proxyAddress}/api/Stock/ValidateStockOwnership/{insertModel.StockID}/{insertModel.UserID}";
-
-                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUrl))
+                var isValidated = ValidateOwnerShip(insertModel);
+                if (!isValidated.Result)
                 {
-                    using (HttpResponseMessage response = await this._httpClient.SendAsync(request))
-                    {
-                        //check if validation was OK
-                        var result = response.Content.ReadAsStringAsync().Result;
-                        if (result.Equals("false"))
-                        {
-                            //user does not own this stock
-                            return new ObjectResult(new ResultModel<bool>(Result.Ok, false, "User " + insertModel.UserID + " does not own stock with ID " + insertModel.StockID)); 
-                        }
-                    }
+                    return BadRequest("User " + insertModel.UserID + " does not own stock with ID " + insertModel.StockID);
                 }
 
                 var resultModel = _handler.InsertSellOrder(insertModel);
@@ -75,6 +58,34 @@ namespace StockShareProvider.Controllers
                 return BadRequest(new ResultModel(Result.Error, e.ToString()));
             }
         }
+
+        private async Task<bool> ValidateOwnerShip(SellOrderModel insertModel)
+        {
+            Uri serviceName = ServiceRelated.StockShareProvider.GetPublicShareOwnerControlServiceName(_serviceContext);
+            Uri proxyAddress = this.GetProxyAddress(serviceName);
+
+            string requestUrl =
+                $"{proxyAddress}/api/Stock/ValidateStockOwnership/{insertModel.StockID}/{insertModel.UserID}";
+
+            using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUrl))
+            {
+                using (HttpResponseMessage response = await this._httpClient.SendAsync(request))
+                {
+                    //check if validation was OK
+                    var result = response.Content.ReadAsStringAsync().Result;
+                    if (result.Equals("false"))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+       
 
         [HttpGet("GetMatchingSellOrders/{stockId}")]
         public IActionResult MatchingSellOrders(int stockId)
