@@ -43,6 +43,8 @@
                 $.postBUY('/SendBuyRequest', { StockId: $("#stockToBuyID").text(), UserId: $("#modalBuyUid").val(), Price: $("#modalBuyPid").val() }, function (data, status, xhr) {
 
                 });
+
+                $('#loading').show();
             });
 
             $("#sellStock").click(function () {
@@ -134,8 +136,8 @@
         </div>
 
         <!-- Loader -->
-        <div class="loader">
-
+        <div id="loading">
+            <p><img src="/images/loading.gif" /> Please Wait</p>
         </div>
 
         <!-- Modal sell-->
