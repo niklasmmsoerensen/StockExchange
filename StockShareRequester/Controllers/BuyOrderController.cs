@@ -41,14 +41,14 @@ namespace StockShareRequester.Controllers
             }
         }
 
-        [HttpGet("GetMatchingBuyOrders")]
+        [HttpGet("GetMatchingBuyOrders/{stockId}")]
         public IActionResult GetMatchingBuyOrders(int stockId)
         {
             var result = _handler.GetMatchingBuyOrders(stockId);
 
             if (result.ResultCode == Result.Ok)
             {
-                return new ObjectResult(result);
+                return new ObjectResult(result.Result);
             }
             else
             {

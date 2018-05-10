@@ -28,7 +28,7 @@ namespace TobinTaxControl.Handlers
                                          StockID = insertModel.StockId,
                                          TaxPercentage = _taxPercentage,
                                          TaxSum = taxSum,
-                                         UserToTaxID = insertModel.UserId
+                                         UserToTaxID = insertModel.BuyerUserId
                                      });
 
                 _dbContext.SaveChanges();
@@ -38,7 +38,7 @@ namespace TobinTaxControl.Handlers
                             ResultCode = Result.Ok,
                             Result = new TaxationModel()
                                      {
-                                         UserToTaxID = insertModel.UserId,
+                                         UserToTaxID = insertModel.BuyerUserId,
                                          TaxSum = taxSum
                             }
                        };

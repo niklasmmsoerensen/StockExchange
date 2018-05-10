@@ -21,7 +21,7 @@ namespace StockShareTrader.Handlers
                 _dbContext.Transactions.Add(new Transaction()
                 {
                     StockId = transaction.StockId,
-                    UserId = transaction.UserId,
+                    UserId = transaction.BuyerUserId,
                     Price = transaction.Price,
                     CreateTime = DateTime.UtcNow
                 });

@@ -10,7 +10,7 @@ namespace Shared.Models
         public TransactionModel(int stockId, int userId, decimal price)
         {
             StockId = stockId;
-            UserId = userId;
+            BuyerUserId = userId;
             Price = price;
         }
 
@@ -20,7 +20,7 @@ namespace Shared.Models
         }
         
         public int StockId { get; set; }
-        public int UserId { get; set; }
+        public int BuyerUserId { get; set; }
         public decimal Price { get; set; }
     }
 }

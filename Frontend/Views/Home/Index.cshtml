@@ -5,87 +5,129 @@
 <html>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <title>
         Bootstrap Site
     </title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
     <script>
-        $(document).ready(function ()
-        {
-            $(".btn.btn-success.btn-xs").click(function ()
-            {
-            jQuery["postBUY"] = function (url, data, callback) {
-                if (jQuery.isFunction(data)) {
-                    callback = data;
-                    data = undefined;
-                }
+        $(document).ready(function () {
+            //Buy request
+            $(".btn.btn-success.btn-xs").click(function () {
+                jQuery["postBUY"] = function (url, data, callback) {
+                    if (jQuery.isFunction(data)) {
+                        callback = data;
+                        data = undefined;
+                    }
 
-                return jQuery.ajax({
-                    url: url,
-                    type: "POST",
-                    //contentType: "application/json; charset=utf-8",
-                    //dataType: "json",
-                    data: data,
-                    success: callback
-                });
+                    return jQuery.ajax({
+                        url: url,
+                        type: "POST",
+                        //contentType: "application/json; charset=utf-8",
+                        //dataType: "json",
+                        data: data,
+                        success: callback
+                    });
                 };
-        
-                $.postBUY('/SendBuyRequest', { StockId: $(this).closest('tr').find('td:eq(0)').text(), UserId: $(this).closest('tr').find('#uid').val(), Price: '1' }, function (data, status, xhr) {
-                    alert($(this).closest('tr').find('#uid').val())
+
+                $.postBUY('/SendBuyRequest', { StockId: $(this).closest('tr').find('td:eq(0)').text(), UserId: $(this).closest('tr').find('#uid').val(), Price: $(this).closest('tr').find('#pid').val() }, function (data, status, xhr) {
                 });
-                
+
             });
-            
+
+            //Sell request
+            $(".btn.btn-danger.btn-xs").click(function () {
+                jQuery["postSELL"] = function (url, data, callback) {
+                    if (jQuery.isFunction(data)) {
+                        callback = data;
+                        data = undefined;
+                    }
+
+                    return jQuery.ajax({
+                        url: url,
+                        type: "POST",
+                        //contentType: "application/json; charset=utf-8",
+                        //dataType: "json",
+                        data: data,
+                        success: callback
+                    });
+                };
+
+                $.postSELL('/SendSellRequest', { StockId: $(this).closest('tr').find('td:eq(0)').text(), UserId: $(this).closest('tr').find('#uid').val(), Price: $(this).closest('tr').find('#pid').val() }, function (data, status, xhr) {
+                });
+
+            });
         });
     </script>
 </head>
 
 <body>
-
-    <div class="container">
-        <div class="row col-md-6 col-md-offset-2 custyle">
-            <table class="table table-striped custab">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Stock name</th>
-                        <th>Owner</th>
-                        <th class="text-center">Action</th>
-                        <th>Requesting User</th>
-                    </tr>
-                </thead>
-                @foreach (var stock in Model)
-                {
-                    var index = Model.IndexOf(stock);
+  
+<div class="container">
+    <div class="row col-md-6 col-md-offset-2 custyle">
+        <table class="table table-striped custab">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Stock name</th>
+                <th>Owner</th>
+                <th class="text-center" style="width: 100px">Action</th>
+                <th class="text-center" style="width: 120px">Requesting User</th>
+                <th class="text-center" style="width: 100px">Buy/Sell Price</th>
+            </tr>
+            </thead>
+            @foreach (var stock in Model)
+            {
+                var index = Model.IndexOf(stock);
                 <tr>
                     <td>@stock.StockID</td>
                     <td>@stock.StockName</td>
                     <td>User @stock.UserID</td>
                     <td class="text-center">
-                        <a class='btn btn-success btn-xs' id='@index' href='' data-toggle="tooltip" title="This stock belongs to user @stock.UserID"><span class="glyphicon glyphicon-usd"></span> Buy</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Sell</a>
+                        <a class='btn btn-success btn-xs' id='@index' href='' data-toggle="modal" data-target="#myModal">
+                            <span class="glyphicon glyphicon-usd"></span> Buy
+                        </a> 
+                        <a href="#" class="btn btn-danger btn-xs">
+                            <span class="glyphicon glyphicon-remove"></span> Sell
+                        </a>
                     </td>
-                    <td><input type='text' id='uid' value='' style="width:50px" /></td>
+                    <td class="text-center"><input type='text' id='uid' value='' class="text-center" style="width: 50px"/></td>
+                    <td class="text-center"><input type='text' id='pid' value='' style="width: 50px"/></td>
                 </tr>
-                }
-            </table>
+            }
+        </table>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+    
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Modal Header</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Some text in the modal.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+      
+            </div>
         </div>
     </div>
+</div>
 
-
-    <div class="container">
-        <div class="row col-md-6 col-md-offset-2 custyle">
-        </div>
-    </div>
-
-    <script src="http://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous"></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="http://code.jquery.com/jquery-3.3.1.min.js"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+                crossorigin="anonymous"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 
 </html>

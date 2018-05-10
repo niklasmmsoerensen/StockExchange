@@ -66,7 +66,7 @@ namespace StockShareTrader.Controllers
             using (HttpRequestMessage request =
                 new HttpRequestMessage(HttpMethod.Post, requestUrl)
                 {
-                    Content = new StringContent(JsonConvert.SerializeObject(new StockModel(model.StockId, model.UserId)),
+                    Content = new StringContent(JsonConvert.SerializeObject(new StockModel(model.StockId, model.BuyerUserId)),
                         System.Text.Encoding.UTF8, "application/json")
                 })
             {
