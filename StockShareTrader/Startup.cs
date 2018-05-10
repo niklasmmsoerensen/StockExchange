@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
 using Shared;
 using Shared.Abstract;
+using Shared.Models;
 using StockShareTrader.DbAccess;
 using StockShareTrader.Handlers;
 using StockShareTrader.Queue;
@@ -73,19 +74,18 @@ namespace StockShareTrader
 
         private void SetupMQ(IServiceCollection services)
         {
-            string hostName = Configuration.GetSection("RabbitMQ")["HostName"];
-            string mainExhange = Configuration.GetSection("RabbitMQ")["Exchange"];
-            string sellOrderFulfilledRoutingKey = Configuration.GetSection("RabbitMQ")["RoutingKeySellOrderFulfilled"];
-            string buyOrderFulfilledRoutingKey = Configuration.GetSection("RabbitMQ")["RoutingKeyBuyOrderFulfilled"];
+            RabbitMqConfigurationModel configuration = RabbitMq.Setup();
+
+            string hostName = configuration.HostName;
+            string mainExhange = configuration.MainExhange;
+            string sellOrderFulfilledRoutingKey = configuration.SellOrderFulfilledRoutingKey;
+            string buyOrderFulfilledRoutingKey = configuration.BuyOrderFulfilledRoutingKey;
 
             var connectionFactory = new ConnectionFactory() { HostName = hostName };
 
             var rabbitMQConnection = connectionFactory.CreateConnection();
 
             var rabbitMQChannel = rabbitMQConnection.CreateModel();
-
-            //doesn't make a new exchange if it already exists
-            rabbitMQChannel.ExchangeDeclare(mainExhange, ExchangeType.Direct);
 
             services.AddSingleton<IModel>(rabbitMQChannel);
             services.AddScoped<IQueueGateWay>(t => new QueueGateWay(mainExhange, rabbitMQChannel, sellOrderFulfilledRoutingKey, buyOrderFulfilledRoutingKey));

@@ -11,6 +11,7 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Shared;
 using Shared.Abstract;
+using Shared.Models;
 using StockShareProvider.DbAccess;
 using StockShareProvider.Handlers;
 using StockShareProvider.Queue;
@@ -28,7 +29,6 @@ namespace StockShareProvider
         private string _mainExhange;
         private string _sellOrderFulfilledQueue;
         private string _newSellOrderRoutingKey;
-        private string _sellOrderFulfilledRoutingKey;
 
 
         public Startup(IConfiguration configuration)
@@ -64,13 +64,14 @@ namespace StockShareProvider
 
         private void SetupMQ(IServiceCollection services)
         {
-            _hostName = Configuration.GetSection("RabbitMQ")["HostName"];
-            _mainExhange = Configuration.GetSection("RabbitMQ")["Exchange"];
+            RabbitMqConfigurationModel configuration = RabbitMq.Setup();
 
-            _newSellOrderRoutingKey = Configuration.GetSection("RabbitMQ")["NewSellOrderRoutingKey"];
+            _hostName = configuration.HostName;
+            _mainExhange = configuration.MainExhange;
 
-            _sellOrderFulfilledRoutingKey = Configuration.GetSection("RabbitMQ")["SellOrderFulfilledKey"];
-            _sellOrderFulfilledQueue = Configuration.GetSection("RabbitMQ")["SellOrderFulfilledQueue"];
+            _newSellOrderRoutingKey = configuration.NewSellOrderRoutingKey;
+            
+            _sellOrderFulfilledQueue = configuration.SellOrderFulfilledQueue;
             
 
             var connectionFactory = new ConnectionFactory() { HostName = _hostName };
@@ -78,17 +79,6 @@ namespace StockShareProvider
             var rabbitMQConnection = connectionFactory.CreateConnection();
 
             var rabbitMQChannel = rabbitMQConnection.CreateModel();
-
-            //only run if queue doesn't already exist
-            rabbitMQChannel.ExchangeDeclare(_mainExhange, ExchangeType.Direct);
-            
-            rabbitMQChannel.QueueDeclare(queue: _sellOrderFulfilledQueue,
-                durable: false,
-                exclusive: false,
-                autoDelete: false,
-                arguments: null);
-
-            rabbitMQChannel.QueueBind(_sellOrderFulfilledQueue, _mainExhange, _sellOrderFulfilledRoutingKey, null);
             
             services.AddSingleton<IModel>(rabbitMQChannel);
             services.AddScoped(typeof(MessageHandler));

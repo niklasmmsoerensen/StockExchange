@@ -273,7 +273,7 @@ The Stock Share Trader
 --
 Publishes:
 &lt;&lt;event&gt;&gt; sellOrderFulfilled
-&lt;&lt;event&gt;&gt; newBuyOrder
+&lt;&lt;event&gt;&gt; buyOrderFulfilled
 
 </panel_attributes>
     <additional_attributes/>

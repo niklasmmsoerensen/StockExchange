@@ -13,6 +13,7 @@ using System.IO;
 using System.Net.Http;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using Shared.Models;
 using StockShareRequester.DbAccess;
 using StockShareRequester.Queue;
 using StockShareRequester.Queue.Abstract;
@@ -85,31 +86,22 @@ namespace StockShareRequester
 
         private void SetupMQ(IServiceCollection services)
         {
-            string hostName = Configuration.GetSection("RabbitMQ")["HostName"];
-            string mainExhange = Configuration.GetSection("RabbitMQ")["Exchange"];
-            string newBuyOrderRoutingKey = Configuration.GetSection("RabbitMQ")["RoutingKeyNewOrder"];
-            string orderFulfilledQueue = Configuration.GetSection("RabbitMQ")["QueueOrderFulfilled"];
-            string orderFulfilledRoutingKey = Configuration.GetSection("RabbitMQ")["RoutingKeyOrderFulfilled"];
+            RabbitMqConfigurationModel configuration = RabbitMq.Setup();
+
+            string hostName = configuration.HostName;
+            string mainExhange = configuration.MainExhange;
+            string newBuyOrderRoutingKey = configuration.NewBuyOrderRoutingKey;
+            string buyOrderFulfilledQueue = configuration.BuyOrderFulfilledQueue;
+            string buyOrderFulfilledRoutingKey = configuration.BuyOrderFulfilledRoutingKey;
 
             var connectionFactory = new ConnectionFactory() { HostName = hostName };
 
             var rabbitMQConnection = connectionFactory.CreateConnection();
 
             var rabbitMQChannel = rabbitMQConnection.CreateModel();
-
-            //doesn't make a new exchange if it already exists
-            rabbitMQChannel.ExchangeDeclare(mainExhange, ExchangeType.Direct);
-
-            //declare order fulfilled queue
-            rabbitMQChannel.QueueDeclare(queue: orderFulfilledQueue,
-                durable: false,
-                exclusive: false,
-                autoDelete: false,
-                arguments: null);
-            rabbitMQChannel.QueueBind(orderFulfilledQueue, mainExhange, orderFulfilledRoutingKey, null);
             
             services.AddSingleton<IModel>(rabbitMQChannel);
-            services.AddScoped<IQueueGateWay>(t => new QueueGateWay(mainExhange, rabbitMQChannel, orderFulfilledQueue, orderFulfilledRoutingKey, newBuyOrderRoutingKey));
+            services.AddScoped<IQueueGateWay>(t => new QueueGateWay(mainExhange, rabbitMQChannel, buyOrderFulfilledQueue, buyOrderFulfilledRoutingKey, newBuyOrderRoutingKey));
         }
 
         private void SetupDb(IServiceCollection services)
