@@ -10,16 +10,21 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shared;
 using Shared.Abstract;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Frontend
 {
     public class Startup
     {
-        private Logger myLog = new Logger("Frontend");
+        private Logger _myLog = new Logger("Frontend");
 
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json");
+
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -29,39 +34,57 @@ namespace Frontend
         {
             try
             {
-                myLog.Info("Adding service");
-                services.AddScoped<ILogger>(t => myLog);
+                _myLog.Info("Adding service");
+                services.AddScoped<ILogger>(t => _myLog);
                 services.AddMvc();
+
+                services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new Info { Title = "Frontend", Version = "v1" });
+                });
             }
             catch(Exception e)
             {
-                myLog.Error("Error in adding service: ", e);
+                _myLog.Error("Error in adding service: ", e);
             }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
-
-            if (env.IsDevelopment())
+            try
             {
-                app.UseBrowserLink();
-                app.UseDeveloperExceptionPage();
+                _myLog.Info("Configure called ");
+                app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+
+                app.UseSwagger();
+
+                app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
+
+                if (env.IsDevelopment())
+                {
+                    app.UseBrowserLink();
+                    app.UseDeveloperExceptionPage();
+                }
+                else
+                {
+                    app.UseExceptionHandler("/Home/Error");
+                }
+
+                app.UseStaticFiles();
+
+                app.UseMvc(routes =>
+                {
+                    routes.MapRoute(
+                        name: "default",
+                        template: "{controller=Home}/{action=Index}/{id?}");
+                });
+
             }
-            else
+            catch(Exception e)
             {
-                app.UseExceptionHandler("/Home/Error");
+                _myLog.Error("Error in Configure: ", e);
             }
-
-            app.UseStaticFiles();
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
         }
     }
 }

@@ -2,8 +2,6 @@
 
 @model List<Shared.Models.StockModel>
 
-
-
 <html>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -14,23 +12,35 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-<script>
-    $(document).ready(function () {
-        $(".btn.btn-success.btn-xs").click(function ()
+    <script>
+        $(document).ready(function ()
         {
-            //$.post("/Home/Index", { StockID: '3', UserID: '7' });
+            $(".btn.btn-success.btn-xs").click(function ()
+            {
+            jQuery["postBUY"] = function (url, data, callback) {
+                if (jQuery.isFunction(data)) {
+                    callback = data;
+                    data = undefined;
+                }
 
-
-            //$.post("HomeController/Niklas", { StockID: $("#txtFirstName").val(), LastName: $("#txtLastName") }, function (data)
-            //{
-            //}
-
-            //alert("test");
-            alert("StockID: " + $(this).closest('tr').find('td:eq(0)').text() + "  \nCompany name: " + $(this).closest('tr').find('td:eq(1)').text() + "  \nRequesting user " + $(this).closest('tr').find('#uid').val());
+                return jQuery.ajax({
+                    url: url,
+                    type: "POST",
+                    //contentType: "application/json; charset=utf-8",
+                    //dataType: "json",
+                    data: data,
+                    success: callback
+                });
+                };
+        
+                $.postBUY('/SendBuyRequest', { StockId: $(this).closest('tr').find('td:eq(0)').text(), UserId: $(this).closest('tr').find('#uid').val(), Price: '1' }, function (data, status, xhr) {
+                    alert($(this).closest('tr').find('#uid').val())
+                });
+                
+            });
             
         });
-    });
-</script>
+    </script>
 </head>
 
 <body>
@@ -55,7 +65,7 @@
                     <td>@stock.StockName</td>
                     <td>User @stock.UserID</td>
                     <td class="text-center">
-                        <a class='btn btn-success btn-xs' id='@index' href=''><span class="glyphicon glyphicon-usd"></span> Buy</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Sell</a>
+                        <a class='btn btn-success btn-xs' id='@index' href='' data-toggle="tooltip" title="This stock belongs to user @stock.UserID"><span class="glyphicon glyphicon-usd"></span> Buy</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Sell</a>
                     </td>
                     <td><input type='text' id='uid' value='' style="width:50px" /></td>
                 </tr>

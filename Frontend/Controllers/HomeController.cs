@@ -28,9 +28,9 @@ namespace Frontend.Controllers
             _serviceContext = serviceContext;
         }
 
-        /*
-        [HttpPost]
-        public async Task<IActionResult> SendBuyRequest([FromBody]BuyOrderModel buyModel)
+
+        [HttpPost("SendBuyRequest")]
+        public async Task<IActionResult> SendBuyRequest(int stockId, int userId, int price)
         {
             Uri serviceName = Frontend.GetHTTPGatewayServiceName(_serviceContext);
             Uri proxyAddress = this.GetProxyAddress(serviceName);
@@ -38,10 +38,15 @@ namespace Frontend.Controllers
             string requestUrl =
                 $"{proxyAddress}/api/Order/Buy";
 
+            BuyOrderModel test = new BuyOrderModel();
+            test.StockId = stockId;
+            test.UserId = userId;
+            test.Price = price;
+
             using (HttpRequestMessage request =
                 new HttpRequestMessage(HttpMethod.Post, requestUrl)
                 {
-                    Content = new StringContent(JsonConvert.SerializeObject(buyModel),
+                    Content = new StringContent(JsonConvert.SerializeObject(test),
                         System.Text.Encoding.UTF8, "application/json")
                 })
             {
@@ -58,7 +63,7 @@ namespace Frontend.Controllers
                     }
                 }
             }
-        }*/
+        }
 
         [HttpGet]
         public async Task<IActionResult> Index()
