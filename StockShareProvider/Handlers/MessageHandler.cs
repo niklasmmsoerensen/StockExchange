@@ -17,7 +17,7 @@ namespace StockShareProvider.Handlers
             _log = log;
         }
 
-        public void SellOrderFulfilled(string sellOrderId)
+        public void SellOrderFulfilledHandler(string sellOrderId)
         {
             try
             {
@@ -27,9 +27,8 @@ namespace StockShareProvider.Handlers
             }
             catch (Exception e)
             {
-                _log.Error($"Error on SellOrderFulfilledEvent: {e.Message}");
-            }
-            
+                _log.Error($"Error on SellOrderFulfilledHandler: {e.Message}");
+            }            
         }   
     }
 }

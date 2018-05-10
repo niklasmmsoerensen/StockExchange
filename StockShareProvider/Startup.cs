@@ -48,7 +48,6 @@ namespace StockShareProvider
             services.AddScoped<ILogger>(t => _myLog);
 
             services.AddScoped(typeof(SellOrderHandler));
-            services.AddScoped(typeof(MessageHandler));
 
             services.AddMvc();
             
@@ -92,7 +91,7 @@ namespace StockShareProvider
             rabbitMQChannel.QueueBind(_sellOrderFulfilledQueue, _mainExhange, _sellOrderFulfilledRoutingKey, null);
             
             services.AddSingleton<IModel>(rabbitMQChannel);
-
+            services.AddScoped(typeof(MessageHandler));
             services.AddScoped<IQueueGateway>(t => new QueueGateway(rabbitMQChannel, _mainExhange, _newSellOrderRoutingKey));
         }
 
@@ -120,12 +119,12 @@ namespace StockShareProvider
 
             //setup sell order fulfilled subscriber
             var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += (ch, ea) => {messageHandler.SellOrderFulfilled(Encoding.UTF8.GetString(ea.Body)); };
+            consumer.Received += (ch, ea) => {messageHandler.SellOrderFulfilledHandler(Encoding.UTF8.GetString(ea.Body)); };
             channel.BasicConsume(_sellOrderFulfilledQueue, true, consumer);
 
             app.UseSwagger();
 
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "StockShareProvider"); });
 
             if (env.IsDevelopment())
             {

@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using System.IO;
+using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using Shared;
+using StockShareBroker.Handlers;
 using Swashbuckle.AspNetCore.Swagger;
 using ILogger = Shared.Abstract.ILogger;
 
@@ -25,6 +20,8 @@ namespace StockShareBroker
         private string _mainExhange;
         private string _newSellOrderQueue;
         private string _newSellOrderRoutingKey;
+        private string _newBuyOrderQueue;
+        private string _newBuyOrderRoutingKey;
 
 
         public Startup(IConfiguration configuration)
@@ -61,28 +58,34 @@ namespace StockShareBroker
             _newSellOrderQueue = Configuration.GetSection("RabbitMQ")["NewSellOrderQueue"];
             _newSellOrderRoutingKey = Configuration.GetSection("RabbitMQ")["NewSellOrderRoutingKey"];
 
+            _newBuyOrderQueue = Configuration.GetSection("RabbitMQ")["NewBuyOrderQueue"];
+            _newBuyOrderRoutingKey = Configuration.GetSection("RabbitMQ")["NewBuyOrderRoutingKey"];
 
             var connectionFactory = new ConnectionFactory() { HostName = _hostName };
-
             var rabbitMQConnection = connectionFactory.CreateConnection();
-
             var rabbitMQChannel = rabbitMQConnection.CreateModel();
 
             //only run if queue doesn't already exist
             rabbitMQChannel.ExchangeDeclare(_mainExhange, ExchangeType.Direct);
-
-
             rabbitMQChannel.QueueDeclare(queue: _newSellOrderQueue,
                 durable: false,
                 exclusive: false,
                 autoDelete: false,
                 arguments: null);
-
             rabbitMQChannel.QueueBind(_newSellOrderQueue, _mainExhange, _newSellOrderRoutingKey, null);
+
+            rabbitMQChannel.ExchangeDeclare(_mainExhange, ExchangeType.Direct);
+            rabbitMQChannel.QueueDeclare(queue: _newBuyOrderQueue,
+                durable: false,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+            rabbitMQChannel.QueueBind(_newBuyOrderQueue, _mainExhange, _newBuyOrderRoutingKey, null);
+
 
             services.AddSingleton<IModel>(rabbitMQChannel);
 
-            // TODO tilføj handler til queue events 
+            services.AddScoped(typeof(MessageHandler));
         }
 
 
@@ -91,14 +94,22 @@ namespace StockShareBroker
         {
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            var rabbitMQchannel = (IModel)app.ApplicationServices.GetService(typeof(IModel));
+            var messageHandler = (MessageHandler)app.ApplicationServices.GetService(typeof(MessageHandler));
+
+            // new buy order event setup
+            var consumerBuyorder = new EventingBasicConsumer(rabbitMQchannel);
+            consumerBuyorder.Received += (ch, ea) => { messageHandler.NewBuyOrderHandler(ea.Body); };
+            rabbitMQchannel.BasicConsume(_newBuyOrderQueue, true, consumerBuyorder);
+
+            // new sell order event setup
+            var consumerSellOrder = new EventingBasicConsumer(rabbitMQchannel);
+            consumerSellOrder.Received += (ch, ea) => { messageHandler.NewSellOrderHandler(ea.Body); };
+            rabbitMQchannel.BasicConsume(_newSellOrderQueue, true, consumerSellOrder);
 
             app.UseSwagger();
 
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "StockShareBroker"); });
 
             if (env.IsDevelopment())
             {

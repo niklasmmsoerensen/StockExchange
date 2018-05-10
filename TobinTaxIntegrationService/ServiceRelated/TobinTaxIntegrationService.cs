@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Fabric;
 using System.IO;
+using System.Net.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
@@ -35,7 +36,9 @@ namespace TobinTaxIntegrationService.ServiceRelated
                                     .UseKestrel()
                                     .ConfigureServices(
                                         services => services
-                                            .AddSingleton<StatelessServiceContext>(serviceContext))
+                                            .AddSingleton<StatelessServiceContext>(serviceContext)
+                                            .AddSingleton(new HttpClient())
+                                            .AddSingleton(new FabricClient()))
                                     .UseContentRoot(Directory.GetCurrentDirectory())
                                     .UseStartup<Startup>()
                                     .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)

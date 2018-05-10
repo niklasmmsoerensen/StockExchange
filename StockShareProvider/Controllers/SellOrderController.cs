@@ -78,7 +78,7 @@ namespace StockShareProvider.Controllers
             }
         }
 
-        [HttpGet("Matching")]
+        [HttpGet("GetMatchingSellOrders")]
         public IActionResult MatchingSellOrders(int stockId)
         {
             var result = _handler.Matching(stockId);
