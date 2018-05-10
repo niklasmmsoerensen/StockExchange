@@ -30,7 +30,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TobinTaxControl", "TobinTax
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TobinTaxIntegrationService", "TobinTaxIntegrationService\TobinTaxIntegrationService.csproj", "{FF5832D9-DC97-4663-BD30-7A970AD61DC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitMqSetup", "RabbitMqSetup\RabbitMqSetup.csproj", "{EA81DEB0-2CE1-47EE-BE54-4D22DFD1EF09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitMqSetup", "RabbitMqSetup\RabbitMqSetup.csproj", "{EA81DEB0-2CE1-47EE-BE54-4D22DFD1EF09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
