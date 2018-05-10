@@ -65,7 +65,7 @@ namespace StockShareProvider.Controllers
 
                 if (resultModel.ResultCode == Result.Error)
                 {
-                    return new ObjectResult(resultModel);
+                    return BadRequest(resultModel);
                 }
 
                 _queueGateWay.PublishNewSellOrder(JsonConvert.SerializeObject(insertModel));
@@ -74,14 +74,14 @@ namespace StockShareProvider.Controllers
             }
             catch (Exception e)
             {
-                return Ok(new ResultModel(Result.Error, e.ToString()));
+                return BadRequest(new ResultModel(Result.Error, e.ToString()));
             }
         }
 
         [HttpGet("GetMatchingSellOrders")]
         public IActionResult MatchingSellOrders(int stockId)
         {
-            var result = _handler.Matching(stockId);
+            var result = _handler.MatchingSellOrders(stockId);
 
             if (result.ResultCode == Result.Error)
             {

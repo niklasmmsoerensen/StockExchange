@@ -27,7 +27,7 @@ namespace StockShareProvider.Handlers
             }
             catch (Exception e)
             {
-                _log.Error($"Error on SellOrderFulfilledHandler: {e.Message}");
+                _log.Error($"Error on SellOrderFulfilledHandler: {e}");
             }            
         }   
     }

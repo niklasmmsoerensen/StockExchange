@@ -57,7 +57,7 @@ namespace StockShareBroker.Handlers
             }
             catch (Exception e)
             {
-                _log.Error($"Error on NewSellOrderHandler: {e.Message}");
+                _log.Error($"Error on NewSellOrderHandler: {e}");
             }
         }
 
@@ -92,7 +92,7 @@ namespace StockShareBroker.Handlers
             }
             catch (Exception e)
             {
-                _log.Error($"Error on NewSellOrderHandler: {e.Message}");
+                _log.Error($"Error on NewSellOrderHandler: {e}");
             }
         }
 
