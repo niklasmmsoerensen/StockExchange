@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Shared;
+using Shared.Models;
 using StockShareBroker.Handlers;
 using Swashbuckle.AspNetCore.Swagger;
 using ILogger = Shared.Abstract.ILogger;
@@ -17,11 +18,8 @@ namespace StockShareBroker
     {
         private readonly ILogger _myLog = new Logger("StockShareBroker");
         private string _hostName;
-        private string _mainExhange;
         private string _newSellOrderQueue;
-        private string _newSellOrderRoutingKey;
         private string _newBuyOrderQueue;
-        private string _newBuyOrderRoutingKey;
 
 
         public Startup(IConfiguration configuration)
@@ -52,36 +50,17 @@ namespace StockShareBroker
 
         private void SetupMQ(IServiceCollection services)
         {
-            _hostName = Configuration.GetSection("RabbitMQ")["HostName"];
-            _mainExhange = Configuration.GetSection("RabbitMQ")["Exchange"];
+            RabbitMqConfigurationModel configuration = RabbitMq.Setup();
 
-            _newSellOrderQueue = Configuration.GetSection("RabbitMQ")["NewSellOrderQueue"];
-            _newSellOrderRoutingKey = Configuration.GetSection("RabbitMQ")["NewSellOrderRoutingKey"];
+            _hostName = configuration.HostName;
 
-            _newBuyOrderQueue = Configuration.GetSection("RabbitMQ")["NewBuyOrderQueue"];
-            _newBuyOrderRoutingKey = Configuration.GetSection("RabbitMQ")["NewBuyOrderRoutingKey"];
+            _newSellOrderQueue = configuration.NewSellOrderQueue;
+
+            _newBuyOrderQueue = configuration.NewBuyOrderQueue;
 
             var connectionFactory = new ConnectionFactory() { HostName = _hostName };
             var rabbitMQConnection = connectionFactory.CreateConnection();
             var rabbitMQChannel = rabbitMQConnection.CreateModel();
-
-            //only run if queue doesn't already exist
-            rabbitMQChannel.ExchangeDeclare(_mainExhange, ExchangeType.Direct);
-            rabbitMQChannel.QueueDeclare(queue: _newSellOrderQueue,
-                durable: false,
-                exclusive: false,
-                autoDelete: false,
-                arguments: null);
-            rabbitMQChannel.QueueBind(_newSellOrderQueue, _mainExhange, _newSellOrderRoutingKey, null);
-
-            rabbitMQChannel.ExchangeDeclare(_mainExhange, ExchangeType.Direct);
-            rabbitMQChannel.QueueDeclare(queue: _newBuyOrderQueue,
-                durable: false,
-                exclusive: false,
-                autoDelete: false,
-                arguments: null);
-            rabbitMQChannel.QueueBind(_newBuyOrderQueue, _mainExhange, _newBuyOrderRoutingKey, null);
-
 
             services.AddSingleton<IModel>(rabbitMQChannel);
 

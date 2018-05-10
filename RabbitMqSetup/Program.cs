@@ -25,24 +25,23 @@ namespace RabbitMqSetup
             //buy related
             string buyOrderFulfilledRoutingKey = configuration.GetSection("RabbitMQ")["BuyOrderFulfilledRoutingKey"];
             string buyOrderFulfilledQueue = configuration.GetSection("RabbitMQ")["BuyOrderFulfilledQueue"];
-            string newBuyOrderRoutingKey = configuration.GetSection("RabbitMQ")["SellOrderFulfilledRoutingKey"];
-            string newBuyOrderQueue = configuration.GetSection("RabbitMQ")["SellOrderFulfilledQueue"];
+            string newBuyOrderRoutingKey = configuration.GetSection("RabbitMQ")["NewBuyOrderRoutingKey"];
+            string newBuyOrderQueue = configuration.GetSection("RabbitMQ")["NewBuyOrderQueue"];
 
             //sell related
             string sellOrderFulfilledRoutingKey = configuration.GetSection("RabbitMQ")["SellOrderFulfilledRoutingKey"];
             string sellOrderFulfilledQueue = configuration.GetSection("RabbitMQ")["SellOrderFulfilledQueue"];
-            string newSellOrderRoutingKey = configuration.GetSection("RabbitMQ")["SellOrderFulfilledRoutingKey"];
-            string newSellOrderQueue = configuration.GetSection("RabbitMQ")["SellOrderFulfilledQueue"];
+            string newSellOrderRoutingKey = configuration.GetSection("RabbitMQ")["NewSellOrderRoutingKey"];
+            string newSellOrderQueue = configuration.GetSection("RabbitMQ")["NewSellOrderQueue"];
 
             var connectionFactory = new ConnectionFactory() { HostName = hostName };
 
             var rabbitMQConnection = connectionFactory.CreateConnection();
 
             var rabbitMQChannel = rabbitMQConnection.CreateModel();
-
             rabbitMQChannel.ExchangeDeclare(mainExhange, ExchangeType.Direct);
 
-            //declare order fulfilled queue
+            #region Buy related queue setup
             rabbitMQChannel.QueueDeclare(queue: buyOrderFulfilledQueue,
                 durable: false,
                 exclusive: false,
@@ -50,21 +49,29 @@ namespace RabbitMqSetup
                 arguments: null);
             rabbitMQChannel.QueueBind(buyOrderFulfilledQueue, mainExhange, buyOrderFulfilledRoutingKey, null);
 
+            rabbitMQChannel.QueueDeclare(queue: newBuyOrderQueue,
+                durable: false,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+            rabbitMQChannel.QueueBind(newBuyOrderQueue, mainExhange, newBuyOrderRoutingKey, null);
+            #endregion
+
+            #region Sell related queue setup
             rabbitMQChannel.QueueDeclare(queue: sellOrderFulfilledQueue,
                 durable: false,
                 exclusive: false,
                 autoDelete: false,
                 arguments: null);
-
             rabbitMQChannel.QueueBind(sellOrderFulfilledQueue, mainExhange, sellOrderFulfilledRoutingKey, null);
 
-            rabbitMQChannel.QueueDeclare(queue: sellOrderFulfilledQueue,
+            rabbitMQChannel.QueueDeclare(queue: newSellOrderQueue,
                 durable: false,
                 exclusive: false,
                 autoDelete: false,
                 arguments: null);
-
-            rabbitMQChannel.QueueBind(sellOrderFulfilledQueue, mainExhange, sellOrderFulfilledRoutingKey, null);
+            rabbitMQChannel.QueueBind(newSellOrderQueue, mainExhange, newSellOrderRoutingKey, null);
+            #endregion
 
             Console.WriteLine("RabbitMQ setup done!");
         }

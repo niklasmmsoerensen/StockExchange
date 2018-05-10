@@ -25,7 +25,7 @@ namespace StockShareRequester.Handlers
             var routingKey = ea.RoutingKey;
             switch (routingKey)
             {
-                case "NewBuyOrder":
+                case "BuyOrderFulfilledRoutingKey":
                     HandleBuyOrderFulfilled(body);
                     break;
                 default:
@@ -34,14 +34,12 @@ namespace StockShareRequester.Handlers
             }
         }
 
-        private void HandleBuyOrderFulfilled(string body)
+        private void HandleBuyOrderFulfilled(string buyOrderId)
         {
             try
             {
-                BuyOrderModel model = JsonConvert.DeserializeObject<BuyOrderModel>(body);
-                
-                var toRemove = DbContext.BuyOrders.Where(x => x.StockId == model.StockId).ToList();
-                DbContext.BuyOrders.RemoveRange(toRemove);
+                var buyOrderToRemove = DbContext.BuyOrders.Single(t => t.StockId.Equals(Int32.Parse(buyOrderId)));
+                DbContext.Remove(buyOrderToRemove);
                 DbContext.SaveChanges();
             }
             catch (Exception e)
