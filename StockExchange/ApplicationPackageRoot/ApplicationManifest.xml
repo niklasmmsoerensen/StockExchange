@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="StockExchangeType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
-    <Parameter Name="GuestRabbitMqSetup_InstanceCount" DefaultValue="-1" />
     <Parameter Name="TobinTaxIntegrationService_InstanceCount" DefaultValue="-1" />
     <Parameter Name="TobinTaxControl_InstanceCount" DefaultValue="-1" />
     <Parameter Name="StockShareBroker_InstanceCount" DefaultValue="-1" />
@@ -15,10 +14,6 @@
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
        ServiceManifest.xml file. -->
-  <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="GuestRabbitMqSetupPkg" ServiceManifestVersion="1.0.0" />
-    <ConfigOverrides />
-  </ServiceManifestImport>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="TobinTaxIntegrationServicePkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
@@ -61,11 +56,6 @@
          ServiceFabric PowerShell module.
          
          The attribute ServiceTypeName below must match the name defined in the imported ServiceManifest.xml file. -->
-    <Service Name="GuestRabbitMqSetup" ServicePackageActivationMode="ExclusiveProcess">
-      <StatelessService ServiceTypeName="GuestRabbitMqSetupType" InstanceCount="[GuestRabbitMqSetup_InstanceCount]">
-        <SingletonPartition />
-      </StatelessService>
-    </Service>
     <Service Name="TobinTaxIntegrationService" ServicePackageActivationMode="ExclusiveProcess">
       <StatelessService ServiceTypeName="TobinTaxIntegrationServiceType" InstanceCount="[TobinTaxIntegrationService_InstanceCount]">
         <SingletonPartition />

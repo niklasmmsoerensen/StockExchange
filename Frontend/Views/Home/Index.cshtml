@@ -34,8 +34,17 @@
                 };
 
                 $.postBUY('/SendBuyRequest', { StockId: $(this).closest('tr').find('td:eq(0)').text(), UserId: $(this).closest('tr').find('#uid').val(), Price: $(this).closest('tr').find('#pid').val() }, function (data, status, xhr) {
-                });
-
+                        alert("sucecss");
+                    })
+                    .done(function() {
+                        alert( "second success" );
+                    })
+                    .fail(function(data) {
+                        alert( "error" + data);
+                    })
+                    .always(function() {
+                        alert( "finished" );
+                    });
             });
 
             //Sell request
@@ -57,9 +66,18 @@
                 };
 
                 $.postSELL('/SendSellRequest', { StockId: $(this).closest('tr').find('td:eq(0)').text(), UserId: $(this).closest('tr').find('#uid').val(), Price: $(this).closest('tr').find('#pid').val() }, function (data, status, xhr) {
+                    alert("sucecss");
+                    })
+                    .done(function (data) {
+                        alert("second success" + data.toString());
+                    })
+                    .fail(function (data) {
+                        alert("error" + data);
+                    })
+                    .always(function () {
+                        alert("finished");
+                    });
                 });
-
-            });
         });
     </script>
 </head>
