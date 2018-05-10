@@ -48,7 +48,6 @@ namespace StockShareProvider
             services.AddScoped<ILogger>(t => _myLog);
 
             services.AddScoped(typeof(SellOrderHandler));
-            services.AddScoped(typeof(MessageHandler));
 
             services.AddMvc();
             
@@ -83,7 +82,6 @@ namespace StockShareProvider
             //only run if queue doesn't already exist
             rabbitMQChannel.ExchangeDeclare(_mainExhange, ExchangeType.Direct);
             
-
             rabbitMQChannel.QueueDeclare(queue: _sellOrderFulfilledQueue,
                 durable: false,
                 exclusive: false,
@@ -93,7 +91,7 @@ namespace StockShareProvider
             rabbitMQChannel.QueueBind(_sellOrderFulfilledQueue, _mainExhange, _sellOrderFulfilledRoutingKey, null);
             
             services.AddSingleton<IModel>(rabbitMQChannel);
-
+            services.AddScoped(typeof(MessageHandler));
             services.AddScoped<IQueueGateway>(t => new QueueGateway(rabbitMQChannel, _mainExhange, _newSellOrderRoutingKey));
         }
 
@@ -119,6 +117,7 @@ namespace StockShareProvider
             var channel = (IModel)app.ApplicationServices.GetService(typeof(IModel));
             var messageHandler = (MessageHandler)app.ApplicationServices.GetService(typeof(MessageHandler));
 
+            //setup sell order fulfilled subscriber
             var consumer = new EventingBasicConsumer(channel);
             consumer.Received += (ch, ea) => {messageHandler.SellOrderFulfilledHandler(Encoding.UTF8.GetString(ea.Body)); };
             channel.BasicConsume(_sellOrderFulfilledQueue, true, consumer);

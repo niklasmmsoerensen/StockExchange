@@ -22,17 +22,15 @@ namespace StockShareProvider.Controllers
         private readonly HttpClient _httpClient;
         private readonly FabricClient _fabricClient;
         private readonly StatelessServiceContext _serviceContext;
-        private readonly ILogger _log;
 
         public SellOrderController(HttpClient httpClient, FabricClient fabricClient, StatelessServiceContext serviceContext,
-            SellOrderHandler handler, IQueueGateway mqChannel, ILogger log)
+            SellOrderHandler handler, IQueueGateway mqChannel)
         {
             _httpClient = httpClient;
             _fabricClient = fabricClient;
             _serviceContext = serviceContext;
             _handler = handler;
             _queueGateWay = mqChannel;
-            _log = log;
         }
 
         [HttpPost]
@@ -65,7 +63,7 @@ namespace StockShareProvider.Controllers
 
                 if (resultModel.ResultCode == Result.Error)
                 {
-                    return new ObjectResult(resultModel);
+                    return BadRequest(resultModel.Error);
                 }
 
                 _queueGateWay.PublishNewSellOrder(JsonConvert.SerializeObject(insertModel));
@@ -74,18 +72,17 @@ namespace StockShareProvider.Controllers
             }
             catch (Exception e)
             {
-                return Ok(new ResultModel(Result.Error, e.ToString()));
+                return BadRequest(new ResultModel(Result.Error, e.ToString()));
             }
         }
 
         [HttpGet("GetMatchingSellOrders")]
         public IActionResult MatchingSellOrders(int stockId)
         {
-            var result = _handler.Matching(stockId);
+            var result = _handler.MatchingSellOrders(stockId);
 
             if (result.ResultCode == Result.Error)
             {
-                _log.Error($"Error matching sell order: {result.Error}");
                 return BadRequest(result.Error);
             }
 

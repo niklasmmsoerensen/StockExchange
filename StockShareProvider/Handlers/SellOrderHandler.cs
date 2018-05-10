@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Shared.Abstract;
 using Shared.Infrastructure;
 using Shared.Models;
 using StockShareProvider.DbAccess;
@@ -11,10 +12,12 @@ namespace StockShareProvider.Handlers
     public class SellOrderHandler
     {
         private readonly ProviderContext _dbContext;
+        private readonly ILogger _log;
 
-        public SellOrderHandler(ProviderContext dbContext)
+        public SellOrderHandler(ProviderContext dbContext, ILogger log)
         {
             _dbContext = dbContext;
+            _log = log;
         }
 
         public ResultModel InsertSellOrder(SellOrderModel insertModel)
@@ -30,7 +33,8 @@ namespace StockShareProvider.Handlers
                        };
             }
 
-            // Sell order added even though there might be existing sell order of differenct price value
+            // TODO Sell order added even though there might be existing sell order of differenct price value
+            // might be better or overwrite existing sell order?
             _dbContext.SellOrders.Add(new SellOrder()
                                       {
                                           UserID = insertModel.UserID,
@@ -46,7 +50,7 @@ namespace StockShareProvider.Handlers
                    };
         }
 
-        public ResultModel<List<SellOrderModel>> Matching(int stockId)
+        public ResultModel<List<SellOrderModel>> MatchingSellOrders(int stockId)
         {
             try
             {
@@ -64,6 +68,7 @@ namespace StockShareProvider.Handlers
             }
             catch (Exception e)
             {
+                _log.Error($"Error on MatchingSellOrders: {e}");
                 return new ResultModel<List<SellOrderModel>>()
                        {
                            Error = e.Message,

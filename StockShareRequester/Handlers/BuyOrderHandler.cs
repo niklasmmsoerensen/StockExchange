@@ -37,7 +37,7 @@ namespace StockShareRequester.Handlers
             }
             catch(Exception e)
             {
-                _logger.Error($"Error on InsertBuyOrder: {e.Message}");
+                _logger.Error($"Error on InsertBuyOrder: {e}");
                 return new ResultModel(Result.Error, e.Message);
             }
         }
@@ -61,7 +61,7 @@ namespace StockShareRequester.Handlers
             }
             catch (Exception e)
             {
-                _logger.Error($"Error on GetMatchingBuyOrders: {e.Message}");
+                _logger.Error($"Error on GetMatchingBuyOrders: {e}");
                 return new ResultModel<List<BuyOrderModel>>
                        {
                            ResultCode = Result.Error,

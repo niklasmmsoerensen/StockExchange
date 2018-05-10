@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using PublicShareOwnerControl.DbAccess;
 using PublicShareOwnerControl.DbAccess.Entities;
 using Shared;
+using Shared.Abstract;
 using Shared.Infrastructure;
 using Shared.Models;
 
@@ -13,10 +14,12 @@ namespace PublicShareOwnerControl.Handlers
     public class StockHandler
     {
         private readonly OwnerControlContext _dbContext;
-    
-        public StockHandler(OwnerControlContext dbcontext)
+        private readonly ILogger _log;
+
+        public StockHandler(OwnerControlContext dbcontext, ILogger log)
         {
             _dbContext = dbcontext;
+            _log = log;
         }
 
         public ResultModel UpdateStock(StockModel stockToUpdate)
@@ -32,6 +35,7 @@ namespace PublicShareOwnerControl.Handlers
             }
             catch(Exception e)
             {
+                _log.Error($"Error on UpdateStock: {e}");
                 return new ResultModel { ResultCode = Result.Error, Error = e.ToString() };
             }
         }
@@ -40,7 +44,10 @@ namespace PublicShareOwnerControl.Handlers
         {
             try
             {
-                var matchingStockInDb = _dbContext.Stocks.Where(T => T.StockID == stockValidationModel.StockID && T.UserID == stockValidationModel.UserIdToCheck ).Select(T => new StockModel {StockID = T.StockID, UserID = T.UserID}).ToList();
+                var matchingStockInDb = _dbContext.Stocks
+                    .Where(T => T.StockID == stockValidationModel.StockID && T.UserID == stockValidationModel.UserIdToCheck )
+                    .Select(T => new StockModel {StockID = T.StockID, UserID = T.UserID})
+                    .ToList();
 
                 if(matchingStockInDb.Count > 0)
                 {
@@ -51,6 +58,7 @@ namespace PublicShareOwnerControl.Handlers
             }
             catch (Exception e)
             {
+                _log.Error($"Error on ValidateStockOwnership: {e}");
                 return new ResultModel<bool> { ResultCode = Result.Error, Error = e.ToString(), Result = false };
             }
         }
@@ -59,12 +67,16 @@ namespace PublicShareOwnerControl.Handlers
         {
             try
             {
-                var allStocksInDb = _dbContext.Stocks.OrderBy(T => T.StockID).Select(T => new StockModel { StockID = T.StockID, StockName = T.StockName, UserID = T.UserID }).ToList();
+                var allStocksInDb = _dbContext.Stocks
+                    .OrderBy(T => T.StockID)
+                    .Select(T => new StockModel {StockID = T.StockID, StockName = T.StockName, UserID = T.UserID})
+                    .ToList();
 
                 return new ResultModel<List<StockModel>>{ ResultCode = Result.Ok, Result = allStocksInDb};
             }
             catch(Exception e)
             {
+                _log.Error($"Error on GetAllStocks: {e}");
                 return new ResultModel<List<StockModel>> { ResultCode = Result.Error, Error = e.ToString()};
             }
         }

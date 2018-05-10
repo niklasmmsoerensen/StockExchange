@@ -16,7 +16,7 @@ namespace PublicShareOwnerControl.Controllers
     [Route("api/[controller]")]
     public class StockController : Controller
     {
-        private StockHandler _handler { get; set; }
+        private readonly StockHandler _handler;
 
         public StockController(StockHandler handler)
         {
