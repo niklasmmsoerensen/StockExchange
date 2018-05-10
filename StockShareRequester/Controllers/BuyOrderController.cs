@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Fabric;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Shared.Infrastructure;
@@ -14,16 +17,33 @@ namespace StockShareRequester.Controllers
     {
         private readonly BuyOrderHandler _handler;
         private readonly IQueueGateWay _queueGateWay;
+        private readonly StatelessServiceContext _serviceContext;
+        private readonly HttpClient _httpClient;
 
-        public BuyOrderController(BuyOrderHandler handler, IQueueGateWay queueGateway)
+        public BuyOrderController(BuyOrderHandler handler, IQueueGateWay queueGateway, StatelessServiceContext serviceContext,
+            HttpClient httpClient)
         {
             _handler = handler;
             _queueGateWay = queueGateway;
+            _serviceContext = serviceContext;
+            _httpClient = httpClient;
         }
         
         [HttpPost]
         public async Task<IActionResult> Insert([FromBody] BuyOrderModel model)
         {
+            var validatedResult = ValidateOwnerShip(model);
+            var validateContent = validatedResult.Result.Content.ReadAsStringAsync();
+
+            if (!validatedResult.Result.IsSuccessStatusCode)
+            {
+                return BadRequest(validateContent.Result);
+            }
+            if (validateContent.Result.Equals("true")) //you're not allowed to create buy order of stock you own
+            {
+                return BadRequest("User " + model.UserId + " already owns stock with ID " + model.StockId);
+            }
+
             var result = _handler.InsertBuyOrder(model);
 
             if (result.ResultCode.Equals(Result.Ok))
@@ -65,6 +85,26 @@ namespace StockShareRequester.Controllers
             {
                 return BadRequest(result.Error);
             }
+        }
+
+        private async Task<HttpResponseMessage> ValidateOwnerShip(BuyOrderModel model)
+        {
+            Uri serviceName = StockShareRequester.GetPublicShareOwnerControlServiceName(_serviceContext);
+            Uri proxyAddress = this.GetProxyAddress(serviceName);
+
+            string requestUrl =
+                $"{proxyAddress}/api/Stock/ValidateStockOwnership/{model.StockId}/{model.UserId}";
+
+            using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUrl))
+            {
+                HttpResponseMessage response = await this._httpClient.SendAsync(request);
+                return response;
+            }
+        }
+
+        private Uri GetProxyAddress(Uri serviceName)
+        {
+            return new Uri($"http://localhost:19081{serviceName.AbsolutePath}");
         }
     }
 }

@@ -31,6 +31,7 @@ namespace HTTPGateway.Controllers
             List<StockModel> stocks = new List<StockModel>();
             List<BuyOrderModel> buyOrders = new List<BuyOrderModel>();
             List<SellOrderModel> sellOrders = new List<SellOrderModel>();
+            List<TransactionModel> transactions = new List<TransactionModel>();
 
             Uri serviceName = HTTPGateway.GetPublicShareOwnerControlServiceName(_serviceContext);
             Uri proxyAddress = this.GetProxyAddress(serviceName);
@@ -86,11 +87,31 @@ namespace HTTPGateway.Controllers
                 sellOrders = JsonConvert.DeserializeObject<List<SellOrderModel>>(result);
             }
 
+            //get transactions
+            serviceName = HTTPGateway.GetStockShareTraderServiceName(_serviceContext);
+            proxyAddress = this.GetProxyAddress(serviceName);
+
+            proxyUrl =
+                $"{proxyAddress}/api/Purchase/GetTransactions";
+
+            using (HttpResponseMessage response = await this._httpClient.GetAsync(proxyUrl))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    return BadRequest("GetTransactions failed");
+                }
+
+                var result = await response.Content.ReadAsStringAsync();
+
+                transactions = JsonConvert.DeserializeObject<List<TransactionModel>>(result);
+            }
+
             StockDataModel stocksData = new StockDataModel()
             {
                 Stocks = stocks,
                 BuyOrders = buyOrders,
-                SellOrders = sellOrders
+                SellOrders = sellOrders,
+                Transactions = transactions
             };
             return Ok(stocksData);
         }

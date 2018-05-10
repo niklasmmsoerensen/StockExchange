@@ -35,6 +35,20 @@ namespace StockShareTrader.Controllers
             _log = log;
         }
 
+        [HttpGet("GetTransactions")]
+        public IActionResult GetTransactions()
+        {
+            var result = _handler.GetTransactions();
+            if (result.ResultCode == Result.Ok)
+            {
+                return Ok(result.Result);
+            }
+            else
+            {
+                return BadRequest(result.Error);
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Insert([FromBody] TransactionModel model)
         {
@@ -61,7 +75,7 @@ namespace StockShareTrader.Controllers
             {
                 //Let Provider and Requester know order has been fulfilled
                 _queueGateWay.PublishSellOrderFulfilled(model.StockId.ToString());
-                _queueGateWay.PublishBuyOrderFulfilled(JsonConvert.SerializeObject(model));
+                _queueGateWay.PublishBuyOrderFulfilled(model.StockId.ToString());
                 return Ok(result.Error);
             }
             else

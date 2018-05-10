@@ -171,6 +171,30 @@
                 }
             </table>
         }
+        
+        @if (Model.Transactions.Count > 0)
+        {
+            <table class="table table-striped custab">
+                <caption>Transactions in the last hour</caption>
+                <thead>
+                <tr>
+                    <th>Stock ID</th>
+                    <th>Buyer ID</th>
+                    <th>Price</th>
+                    <th>Timestamp</th>
+                </tr>
+                </thead>
+                @foreach (var transaction in Model.Transactions)
+                {
+                <tr>
+                    <td>@transaction.StockId</td>
+                    <td>User @transaction.BuyerUserId</td>
+                    <td>@transaction.Price</td>
+                    <td>@transaction.CreationTime</td>
+                </tr>
+                }
+            </table>
+        }
         <!-- Modal buy-->
         <div class="modal fade" id="myModalBuy" role="dialog">
             <div class="modal-dialog">

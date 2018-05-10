@@ -42,6 +42,9 @@ namespace StockShareRequester
                                     .UseKestrel()
                                     .ConfigureServices(
                                         services => services
+                                            .AddSingleton(serviceContext)
+                                            .AddSingleton(new HttpClient())
+                                            .AddSingleton(new FabricClient())
                                             .AddSingleton<StatelessServiceContext>(serviceContext))
                                     .UseContentRoot(Directory.GetCurrentDirectory())
                                     .UseStartup<Startup>()
@@ -51,5 +54,10 @@ namespace StockShareRequester
                     }))
             };
         }
+        internal static Uri GetPublicShareOwnerControlServiceName(ServiceContext context)
+        {
+            return new Uri($"{context.CodePackageActivationContext.ApplicationName}/PublicShareOwnerControl");
+        }
     }
+
 }

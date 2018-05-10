@@ -13,5 +13,6 @@ namespace Shared.Models
         public List<StockModel> Stocks { get; set; }
         public List<BuyOrderModel> BuyOrders { get; set; }
         public List<SellOrderModel> SellOrders { get; set; }
+        public List<TransactionModel> Transactions { get; set; }
     }
 }
