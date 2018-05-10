@@ -1,0 +1,39 @@
+Design af gruppens  applikation. Brug gerne ASE standard (N+1  view). I design lægges der primært vægt på at beskrive opbygningen af applikationens infrastruktur på den valgte cluster
+samt overvejelser for opdelingen af funktionalitet og microservices. Selve ”business logic’en” er som sådan sekundær (kræver ikke den store dokumentation),
+idet den forventes at være brugt, som ”driver” for design af infrastruktur (microservices og cluster).
+	- De forskellige microservices og deres ansvar
+	- Shared projektet og dets indhold
+	- Nuværende arkitektur sammenlignet med hvordan man ville gøre med en større applikation (bedre opdeling af DbLogik, BSLogik og Grænsefladelogik) 
+		allerede nu meget kode til grænseflade/kommunikation som "forstyrrer" billedet af BS logik. God idé med klar opdeling af businesslogik og grænsefladelogik (http osv)
+	
+   
+Udførelse på valgte platform, Azure Service Fabric eller/og Google Kubernetes, og inddrag her en overordnet en beskrivelse af udviklingsmiljø.
+	- Brug af docker
+	- Èn visual studio solution indeholdende alle services - betyder at alle har adgang til forskellige microservices - gjorde det måske lidt mere forvirrende.
+	- 
+
+
+Brug referencer til brugte artikler og hjemmesider. Og gør det gerne i ”overdrevent” omfang, 
+dels af hensyn til den videre brug af jeres projekt men også i forhold til andres læsning af rapporten (Eksaminator).
+    - https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/powershell
+	- 
+
+
+
+Fremhævelse af ”guldkorn (/ …bamsefrø) ” for gennemførelse af tekniske løsning og en eller flere givne problemstillinger,
+dvs. beskriv en særlig smart, elegant eller på anden måde ”bemærkelsesværdig” løsning. 
+Et eksempel herpå er inddragelsen af eksisterende standard services/komponenter til f.eks. persistering.
+    - Logging var meget hjælpsomt (nævn middleware)
+	- docker gjorde opsætning af udviklingsmiljø mere simpelt (nævn forrige problemer med entity framework)
+	- dependency injection
+	- Swagger er OP
+	- Vi brugte en "HTTP Gateway" (ikke at forveksle med den indbyggede gateway - reverse proxy og load balancing) til at separere MVC servicen (frontend) med resten af vores services.
+
+
+
+
+Opsummering af problemer, som ikke er løst eller udeståender som kan ses som mangler for projektet. Konkretiser om muligt betydningen heraf.
+	- opsætning af rabbitMQ - ville være dejligt med et konsol projekt der kører opsætning af RabbitMQ serveren - nævn forsøg med guest executable
+	- Lidt irriterende at skulle "Update-Database" for de microservices med persistering (muligvis noget vi når at få kigget på)
+	- "Kontrakten" (JSON modeller) mellem services var en betydelig fejkilde (json deserialisering fejler hårdt hvis skemaet ikke passer)
+	
