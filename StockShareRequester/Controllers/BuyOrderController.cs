@@ -52,5 +52,19 @@ namespace StockShareRequester.Controllers
                 return BadRequest(result.Error);
             }
         }
+
+        [HttpGet("GetBuyOrders")]
+        public IActionResult GetBuyOrders()
+        {
+            var result = _handler.GetBuyOrders();
+            if (result.ResultCode == Result.Ok)
+            {
+                return Ok(result.Result);
+            }
+            else
+            {
+                return BadRequest(result.Error);
+            }
+        }
     }
 }

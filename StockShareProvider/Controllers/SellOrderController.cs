@@ -84,13 +84,24 @@ namespace StockShareProvider.Controllers
                 }
             }
         }
-
-       
-
+        
         [HttpGet("GetMatchingSellOrders/{stockId}")]
         public IActionResult MatchingSellOrders(int stockId)
         {
             var result = _handler.MatchingSellOrders(stockId);
+
+            if (result.ResultCode == Result.Error)
+            {
+                return BadRequest(result.Error);
+            }
+
+            return new ObjectResult(result.Result);
+        }
+
+        [HttpGet("GetSellOrders")]
+        public IActionResult GetSellOrders()
+        {
+            var result = _handler.GetSellOrders();
 
             if (result.ResultCode == Result.Error)
             {

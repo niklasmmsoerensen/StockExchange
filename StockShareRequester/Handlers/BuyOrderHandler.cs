@@ -26,6 +26,9 @@ namespace StockShareRequester.Handlers
         {
             try
             {
+                var orders = _dbContext.BuyOrders.Where(x => x.StockId == buyOrder.StockId && x.UserId == buyOrder.UserId).ToList();
+                _dbContext.BuyOrders.RemoveRange(orders);
+                
                 _dbContext.BuyOrders.Add(new BuyOrder {
                     StockId = buyOrder.StockId,
                     UserId = buyOrder.UserId,
@@ -67,6 +70,34 @@ namespace StockShareRequester.Handlers
                            ResultCode = Result.Error,
                            Error = e.Message
                        };
+            }
+        }
+
+        public ResultModel<List<BuyOrderModel>> GetBuyOrders()
+        {
+            try
+            {
+                var result = _dbContext.BuyOrders.Select(x => new BuyOrderModel()
+                {
+                    StockId = x.StockId,
+                    UserId = x.UserId,
+                    Price = x.Price
+                }).ToList();
+
+                return new ResultModel<List<BuyOrderModel>>
+                {
+                    Result = result,
+                    ResultCode = Result.Ok
+                };
+            }
+            catch (Exception e)
+            {
+                _logger.Error($"Error on GetBuyOrders: {e}");
+                return new ResultModel<List<BuyOrderModel>>
+                {
+                    ResultCode = Result.Error,
+                    Error = e.Message
+                };
             }
         }
     }

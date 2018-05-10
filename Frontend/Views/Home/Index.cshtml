@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 
-@model List<Shared.Models.StockModel>
+@model Shared.Models.StockDataModel
 
 <html>
 <head>
@@ -50,7 +50,8 @@
                 $.postBUY('/SendBuyRequest', { StockId: $("#stockToBuyID").text(), UserId: $("#modalBuyUid").val(), Price: $("#modalBuyPid").val() }, function (data, status, xhr) {
                     })
                     .done(function() {
-                        alert( "The buy request was placed!" );
+                        alert("The buy request was placed!");
+                        location.reload();
                     })
                     .fail(function(data) {
                         alert( "Error the buy request was not placed");
@@ -81,6 +82,7 @@
                     })
                     .done(function (data) {
                         alert("Success - the sell request was placed");
+                        location.reload();
                     })
                     .fail(function (data) {
                         alert("Error - the sell request was not placed. Make sure that you own the stock before you try to sell it.");
@@ -98,6 +100,7 @@
 <div class="container">
     <div class="row col-md-6 col-md-offset-2 custyle">
         <table class="table table-striped custab">
+            <caption>Stocks</caption>
             <thead>
                 <tr>
                     <th>ID</th>
@@ -106,24 +109,68 @@
                     <th class="text-center" style="width: 100px">Action</th>
                 </tr>
             </thead>
-            @foreach (var stock in Model)
-        {
-            var index = Model.IndexOf(stock);
-            <tr>
-                <td>@stock.StockID</td>
-                <td>@stock.StockName</td>
-                <td>User @stock.UserID</td>
-                <td class="text-center">
-                    <a class='btn btn-success btn-xs' id='@index' href='' data-toggle="modal" data-target="#myModalBuy">
-                        <span class="glyphicon glyphicon-usd"></span> Buy
-                    </a>
-                    <a href="#" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModalSell">
-                        <span class="glyphicon glyphicon-remove"></span> Sell
-                    </a>
-                </td>
-            </tr>
-    }
+            @foreach (var stock in Model.Stocks)
+                {
+                var index = Model.Stocks.IndexOf(stock);
+                <tr>
+                    <td>@stock.StockID</td>
+                    <td>@stock.StockName</td>
+                    <td>User @stock.UserID</td>
+                    <td class="text-center">
+                        <a class='btn btn-success btn-xs' id='@index' href='' data-toggle="modal" data-target="#myModalBuy">
+                            <span class="glyphicon glyphicon-usd"></span> Buy
+                        </a>
+                        <a href="#" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModalSell">
+                            <span class="glyphicon glyphicon-remove"></span> Sell
+                        </a>
+                    </td>
+                </tr>
+                }
         </table>
+        
+        @if (Model.BuyOrders.Count > 0)
+        {
+        <table class="table table-striped custab">
+            <caption>Buy orders</caption>
+            <thead>
+            <tr>
+                <th>Stock ID</th>
+                <th>User ID</th>
+                <th>Price</th>
+            </tr>
+            </thead>
+            @foreach (var buyOrder in Model.BuyOrders)
+            {
+                <tr>
+                    <td>@buyOrder.StockId</td>
+                    <td>User @buyOrder.UserId</td>
+                    <td>@buyOrder.Price</td>
+                </tr>
+            }
+        </table>
+        }
+
+        @if (Model.SellOrders.Count > 0)
+        {
+            <table class="table table-striped custab">
+                <caption>Sell orders</caption>
+                <thead>
+                <tr>
+                    <th>Stock ID</th>
+                    <th>User ID</th>
+                    <th>Asking price</th>
+                </tr>
+                </thead>
+                @foreach (var sellOrder in Model.SellOrders)
+                {
+                    <tr>
+                        <td>@sellOrder.StockID</td>
+                        <td>User @sellOrder.UserID</td>
+                        <td>@sellOrder.SellPrice</td>
+                    </tr>
+                }
+            </table>
+        }
         <!-- Modal buy-->
         <div class="modal fade" id="myModalBuy" role="dialog">
             <div class="modal-dialog">

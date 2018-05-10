@@ -76,6 +76,32 @@ namespace StockShareProvider.Handlers
                        };
             }
         }
+        public ResultModel<List<SellOrderModel>> GetSellOrders()
+        {
+            try
+            {
+                var matchingBuyOrders = _dbContext.SellOrders.Select(t => new SellOrderModel()
+                {
+                    UserID = t.UserID,
+                    StockID = t.StockID,
+                    SellPrice = t.SellPrice
+                }).ToList();
+                return new ResultModel<List<SellOrderModel>>
+                {
+                    Result = matchingBuyOrders,
+                    ResultCode = Result.Ok
+                };
+            }
+            catch (Exception e)
+            {
+                _log.Error($"Error on GetSellOrders: {e}");
+                return new ResultModel<List<SellOrderModel>>()
+                {
+                    Error = e.Message,
+                    ResultCode = Result.Error
+                };
+            }
+        }
 
         private bool HasEqualSellOrders(List<SellOrder> usersSellOrders, SellOrderModel insertModel)
         {

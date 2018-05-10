@@ -111,9 +111,9 @@ namespace Frontend.Controllers
 
             List<string> result = new List<string>();
 
-
+            //get all owned stocks, buy orders and sell orders
             string proxyUrl =
-                $"{proxyAddress}/api/Test";
+                $"{proxyAddress}/api/Data";
 
             using (HttpResponseMessage response = await this._httpClient.GetAsync(proxyUrl))
             {
@@ -121,7 +121,7 @@ namespace Frontend.Controllers
 
                 try
                 {
-                    var tempStockModel = JsonConvert.DeserializeObject<List<StockModel>>(resultTest.Result);
+                    var tempStockModel = JsonConvert.DeserializeObject<StockDataModel>(resultTest.Result);
 
                     return View("Index", tempStockModel);
                 }
