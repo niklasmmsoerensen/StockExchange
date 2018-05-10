@@ -59,6 +59,19 @@ namespace StockShareProvider.Controllers
             }
         }
 
+        [HttpGet("GetMatchingSellOrders/{stockId}")]
+        public IActionResult MatchingSellOrders(int stockId)
+        {
+            var result = _handler.MatchingSellOrders(stockId);
+
+            if (result.ResultCode == Result.Error)
+            {
+                return BadRequest(result.Error);
+            }
+
+            return new ObjectResult(result.Result);
+        }
+
         private async Task<bool> ValidateOwnerShip(SellOrderModel insertModel)
         {
             Uri serviceName = ServiceRelated.StockShareProvider.GetPublicShareOwnerControlServiceName(_serviceContext);
@@ -83,21 +96,6 @@ namespace StockShareProvider.Controllers
                     }
                 }
             }
-        }
-
-       
-
-        [HttpGet("GetMatchingSellOrders/{stockId}")]
-        public IActionResult MatchingSellOrders(int stockId)
-        {
-            var result = _handler.MatchingSellOrders(stockId);
-
-            if (result.ResultCode == Result.Error)
-            {
-                return BadRequest(result.Error);
-            }
-
-            return new ObjectResult(result.Result);
         }
 
         private Uri GetProxyAddress(Uri serviceName)

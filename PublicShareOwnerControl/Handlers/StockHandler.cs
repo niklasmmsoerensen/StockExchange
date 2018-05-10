@@ -49,17 +49,12 @@ namespace PublicShareOwnerControl.Handlers
                     .Select(T => new StockModel {StockID = T.StockID, UserID = T.UserID})
                     .ToList();
 
-                if(matchingStockInDb.Count > 0)
-                {
-                    return new ResultModel<bool> { ResultCode = Result.Ok, Result = true};
-                }
-
-                return new ResultModel<bool>{ ResultCode = Result.Error, Error = "User does not have the stock", Result = false};
+                return new ResultModel<bool> { ResultCode = Result.Ok, Result = matchingStockInDb.Count > 0 };
             }
             catch (Exception e)
             {
                 _log.Error($"Error on ValidateStockOwnership: {e}");
-                return new ResultModel<bool> { ResultCode = Result.Error, Error = e.ToString(), Result = false };
+                return new ResultModel<bool> { ResultCode = Result.Error, Error = e.ToString()};
             }
         }
 

@@ -33,7 +33,7 @@ namespace StockShareRequester.Controllers
             {
                 string jsonBuyOrder = JsonConvert.SerializeObject(model);
                 _queueGateWay.PublishNewBuyOrder(jsonBuyOrder);
-                return Ok(result.Error);
+                return Ok();
             }
             else
             {
