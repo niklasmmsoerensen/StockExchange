@@ -46,7 +46,7 @@ namespace HTTPGateway.Controllers
             {
                 using (HttpResponseMessage response = await _httpClient.SendAsync(request))
                 {
-                    if (response.StatusCode != HttpStatusCode.OK)
+                    if (!response.IsSuccessStatusCode)
                     {
                         return new ObjectResult(new ResultModel(Result.Error, "Creating buy order failed"));
                     }
