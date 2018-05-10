@@ -48,7 +48,6 @@ namespace StockShareProvider
             services.AddScoped<ILogger>(t => _myLog);
 
             services.AddScoped(typeof(SellOrderHandler));
-            services.AddScoped(typeof(MessageHandler));
 
             services.AddMvc();
             
@@ -93,7 +92,7 @@ namespace StockShareProvider
             rabbitMQChannel.QueueBind(_sellOrderFulfilledQueue, _mainExhange, _sellOrderFulfilledRoutingKey, null);
             
             services.AddSingleton<IModel>(rabbitMQChannel);
-
+            services.AddScoped(typeof(MessageHandler));
             services.AddScoped<IQueueGateway>(t => new QueueGateway(rabbitMQChannel, _mainExhange, _newSellOrderRoutingKey));
         }
 
