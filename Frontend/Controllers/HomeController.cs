@@ -54,7 +54,7 @@ namespace Frontend.Controllers
                 {
                     if (response.StatusCode != HttpStatusCode.OK)
                     {
-                        return new ObjectResult(new ResultModel(Result.Error, "HTTPGateway returned an error"));
+                        return BadRequest("HTTPGateway returned an error");
                     }
 
                     else
@@ -90,7 +90,7 @@ namespace Frontend.Controllers
                 {
                     if (response.StatusCode != HttpStatusCode.OK)
                     {
-                        return new ObjectResult(new ResultModel(Result.Error, "HTTPGateway returned an error"));
+                        return BadRequest("HTTPGateway returned an error");
                     }
 
                     else

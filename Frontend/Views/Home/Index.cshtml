@@ -40,11 +40,18 @@
                     });
                 };
 
-                $.postBUY('/SendBuyRequest', { StockId: $("#stockToBuyID").text(), UserId: $("#modalBuyUid").val(), Price: $("#modalBuyPid").val() }, function (data, status, xhr) {
-
-                });
-
-                $('#loading').show();
+                $.postBUY('/SendBuyRequest', { StockId: $(this).closest('tr').find('td:eq(0)').text(), UserId: $(this).closest('tr').find('#uid').val(), Price: $(this).closest('tr').find('#pid').val() }, function (data, status, xhr) {
+                        alert("sucecss");
+                    })
+                    .done(function() {
+                        alert( "second success" );
+                    })
+                    .fail(function(data) {
+                        alert( "error" + data);
+                    })
+                    .always(function() {
+                        alert( "finished" );
+                    });
             });
 
             $("#sellStock").click(function () {
@@ -64,17 +71,19 @@
                     });
                 };
 
-                $.postSELL('/SendSellRequest', { StockId: $("#stockToSellID").text(), UserId: $("#modalSellUid").val(), Price: $("#modalSellPid").val() }, function (data, status, xhr) {
+                $.postSELL('/SendSellRequest', { StockId: $(this).closest('tr').find('td:eq(0)').text(), UserId: $(this).closest('tr').find('#uid').val(), Price: $(this).closest('tr').find('#pid').val() }, function (data, status, xhr) {
+                    alert("sucecss");
+                    })
+                    .done(function (data) {
+                        alert("second success" + data.toString());
+                    })
+                    .fail(function (data) {
+                        alert("error" + data);
+                    })
+                    .always(function () {
+                        alert("finished");
+                    });
                 });
-            });
-
-
-            //Sell request
-            $(".btn.btn-danger.btn-xs").click(function ()
-            {
-                $("#stockToSellName").text($(this).closest('tr').find('td:eq(1)').text());
-                $("#stockToSellID").text($(this).closest('tr').find('td:eq(0)').text());
-            });
         });
     </script>
 </head>

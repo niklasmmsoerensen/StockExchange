@@ -1,7 +1,4 @@
-﻿using System;
-using System.Fabric;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Shared.Infrastructure;
@@ -48,17 +45,12 @@ namespace StockShareRequester.Controllers
 
             if (result.ResultCode == Result.Ok)
             {
-                return new ObjectResult(result.Result);
+                return Ok(result.Result);
             }
             else
             {
                 return BadRequest(result.Error);
             }
-        }
-
-        private Uri GetProxyAddress(Uri serviceName)
-        {
-            return new Uri($"http://localhost:19081{serviceName.AbsolutePath}");
         }
     }
 }
