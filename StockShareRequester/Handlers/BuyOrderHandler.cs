@@ -64,7 +64,7 @@ namespace StockShareRequester.Handlers
             }
             catch (Exception e)
             {
-                _logger.Error($"Error on GetMatchingBuyOrders: {e}");
+                _logger.Error($"GetMatchingBuyOrders: {e}");
                 return new ResultModel<List<BuyOrderModel>>
                        {
                            ResultCode = Result.Error,

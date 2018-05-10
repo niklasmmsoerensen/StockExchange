@@ -28,8 +28,15 @@ namespace PublicShareOwnerControl.Controllers
         {
             var model = new StockValidationModel(stockId, userIdToCheck);
             var result = _handler.ValidateStockOwnership(model);
-            
-            return new ObjectResult(result.Result);
+
+            if (result.ResultCode.Equals(Result.Ok))
+            {
+                return new ObjectResult(result.Result);
+            }
+            else
+            {
+                return BadRequest(result.Error);
+            }
         }
 
         [HttpPost("UpdateOwnership")]
@@ -41,8 +48,10 @@ namespace PublicShareOwnerControl.Controllers
             {
                 return BadRequest(result.Error);
             }
-
-            return Ok();
+            else
+            {
+                return Ok();
+            }
         }
 
         [HttpGet("GetAllStocks")]

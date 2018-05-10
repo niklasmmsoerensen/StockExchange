@@ -105,8 +105,15 @@ namespace StockShareBroker.Handlers
 
             using (HttpResponseMessage response = await _httpClient.GetAsync(proxyUrl))
             {
-                var jsonStringResult = response.Content.ReadAsStringAsync().Result;
-                return JsonConvert.DeserializeObject<List<BuyOrderModel>>(jsonStringResult.ToString());
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonStringResult = response.Content.ReadAsStringAsync().Result;
+                    return JsonConvert.DeserializeObject<List<BuyOrderModel>>(jsonStringResult);
+                }
+                else
+                {
+                    return new List<BuyOrderModel>();
+                }
             }
         }
 
@@ -119,8 +126,15 @@ namespace StockShareBroker.Handlers
             
             using (HttpResponseMessage response = await _httpClient.GetAsync(proxyUrl))
             {
-                var jsonStringResult = response.Content.ReadAsStringAsync().Result;
-                return JsonConvert.DeserializeObject<List<SellOrderModel>>(jsonStringResult.ToString());
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonStringResult = response.Content.ReadAsStringAsync().Result;
+                    return JsonConvert.DeserializeObject<List<SellOrderModel>>(jsonStringResult);
+                }
+                else
+                {
+                    return new List<SellOrderModel>();
+                }
             }
         }
 
