@@ -48,7 +48,7 @@ namespace StockShareTrader.Controllers
 
             //change ownership - TODO burde det forrige annulleres hvis dette fejler?
             var changeOwnershipResult = ChangeOwnership(model);
-            if (changeOwnershipResult.Result.IsSuccessStatusCode)
+            if (!changeOwnershipResult.Result.IsSuccessStatusCode)
             {
                 _log.Error("Insert Purchase - ownership change failed");
                 return BadRequest(changeOwnershipResult.Result.Content.ReadAsStringAsync());
@@ -82,10 +82,8 @@ namespace StockShareTrader.Controllers
                                                         System.Text.Encoding.UTF8, "application/json")
                                                 })
             {
-                using (HttpResponseMessage response = await _httpClient.SendAsync(request))
-                {
-                    return response;
-                }
+                HttpResponseMessage response = await _httpClient.SendAsync(request);
+                return response;
             }
         }
 
@@ -104,10 +102,8 @@ namespace StockShareTrader.Controllers
                                                         System.Text.Encoding.UTF8, "application/json")
                                                 })
             {
-                using (HttpResponseMessage response = await _httpClient.SendAsync(request))
-                {
-                    return response;
-                }
+                HttpResponseMessage response = await _httpClient.SendAsync(request);
+                return response;
             }
         }
 

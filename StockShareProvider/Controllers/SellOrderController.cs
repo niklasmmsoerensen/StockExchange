@@ -35,9 +35,14 @@ namespace StockShareProvider.Controllers
         {
             try
             {
-                //call validate on StockShareOwnerControl
-                var isValidated = ValidateOwnerShip(insertModel);
-                if (!isValidated.Result)
+                var validatedResult = ValidateOwnerShip(insertModel);
+                var validateContent = validatedResult.Result.Content.ReadAsStringAsync();
+
+                if (!validatedResult.Result.IsSuccessStatusCode)
+                {
+                    return BadRequest(validateContent.Result);
+                }
+                if(validateContent.Result.Equals("false"))
                 {
                     return BadRequest("User " + insertModel.UserID + " does not own stock with ID " + insertModel.StockID);
                 }
@@ -72,7 +77,7 @@ namespace StockShareProvider.Controllers
             return new ObjectResult(result.Result);
         }
 
-        private async Task<bool> ValidateOwnerShip(SellOrderModel insertModel)
+        private async Task<HttpResponseMessage> ValidateOwnerShip(SellOrderModel insertModel)
         {
             Uri serviceName = ServiceRelated.StockShareProvider.GetPublicShareOwnerControlServiceName(_serviceContext);
             Uri proxyAddress = this.GetProxyAddress(serviceName);
@@ -82,19 +87,8 @@ namespace StockShareProvider.Controllers
 
             using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUrl))
             {
-                using (HttpResponseMessage response = await this._httpClient.SendAsync(request))
-                {
-                    //check if validation was OK
-                    var result = response.Content.ReadAsStringAsync().Result;
-                    if (result.Equals("false"))
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                }
+                HttpResponseMessage response = await this._httpClient.SendAsync(request);
+                return response;
             }
         }
 
