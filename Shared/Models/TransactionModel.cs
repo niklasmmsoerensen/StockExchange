@@ -22,5 +22,6 @@ namespace Shared.Models
         public int StockId { get; set; }
         public int BuyerUserId { get; set; }
         public decimal Price { get; set; }
+        public DateTime CreationTime { get; set; }
     }
 }

@@ -79,5 +79,10 @@ namespace HTTPGateway
         {
             return new Uri($"{context.CodePackageActivationContext.ApplicationName}/StockShareRequester");
         }
+
+        internal static Uri GetStockShareTraderServiceName(ServiceContext context)
+        {
+            return new Uri($"{context.CodePackageActivationContext.ApplicationName}/StockShareTrader");
+        }
     }
 }

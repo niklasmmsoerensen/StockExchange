@@ -34,12 +34,11 @@ namespace StockShareRequester.Handlers
             }
         }
 
-        private void HandleBuyOrderFulfilled(string jsonMessage)
+        private void HandleBuyOrderFulfilled(string stockId)
         {
             try
             {
-                TransactionModel model = JsonConvert.DeserializeObject<TransactionModel>(jsonMessage);
-                var buyOrderToRemove = DbContext.BuyOrders.Single(t => t.StockId.Equals(model.StockId) && t.UserId.Equals(model.BuyerUserId) && t.Price.Equals(model.Price));
+                var buyOrderToRemove = DbContext.BuyOrders.Single(t => t.StockId.Equals(Int32.Parse(stockId)));
                 DbContext.Remove(buyOrderToRemove);
                 DbContext.SaveChanges();
             }
