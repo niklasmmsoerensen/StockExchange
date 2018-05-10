@@ -4,7 +4,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>520</x>
+      <x>510</x>
       <y>370</y>
       <w>120</w>
       <h>90</h>
@@ -15,7 +15,7 @@
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>210</x>
+      <x>200</x>
       <y>370</y>
       <w>60</w>
       <h>110</h>
@@ -26,7 +26,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>480</x>
+      <x>470</x>
       <y>190</y>
       <w>190</w>
       <h>90</h>
@@ -37,7 +37,7 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>270</x>
+      <x>260</x>
       <y>430</y>
       <w>270</w>
       <h>40</h>
@@ -49,7 +49,7 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>270</x>
+      <x>260</x>
       <y>380</y>
       <w>270</w>
       <h>50</h>
@@ -62,7 +62,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>480</x>
+      <x>470</x>
       <y>550</y>
       <w>190</w>
       <h>90</h>
@@ -73,7 +73,7 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>520</x>
+      <x>510</x>
       <y>450</y>
       <w>140</w>
       <h>120</h>
@@ -88,7 +88,7 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>620</x>
+      <x>610</x>
       <y>450</y>
       <w>60</w>
       <h>120</h>
@@ -100,7 +100,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>780</x>
+      <x>770</x>
       <y>360</y>
       <w>170</w>
       <h>90</h>
@@ -111,7 +111,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1030</x>
+      <x>1020</x>
       <y>650</y>
       <w>230</w>
       <h>90</h>
@@ -122,7 +122,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1080</x>
+      <x>1070</x>
       <y>190</y>
       <w>190</w>
       <h>90</h>
@@ -133,7 +133,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>170</x>
+      <x>160</x>
       <y>180</y>
       <w>110</w>
       <h>120</h>
@@ -157,7 +157,7 @@ drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, he
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>170</x>
+      <x>160</x>
       <y>540</y>
       <w>110</w>
       <h>120</h>
@@ -181,7 +181,7 @@ drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, he
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1460</x>
+      <x>1450</x>
       <y>640</y>
       <w>140</w>
       <h>140</h>
@@ -205,7 +205,7 @@ drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, he
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>660</x>
+      <x>650</x>
       <y>440</y>
       <w>200</w>
       <h>160</h>
@@ -218,7 +218,7 @@ drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, he
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>660</x>
+      <x>650</x>
       <y>200</y>
       <w>440</w>
       <h>180</h>
@@ -233,7 +233,7 @@ drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, he
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>270</x>
+      <x>260</x>
       <y>190</y>
       <w>230</w>
       <h>50</h>
@@ -246,7 +246,7 @@ matching buy order</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>660</x>
+      <x>650</x>
       <y>240</y>
       <w>290</w>
       <h>140</h>
@@ -260,34 +260,31 @@ matching buy order</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>270</x>
+      <x>260</x>
       <y>550</y>
       <w>230</w>
-      <h>50</h>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-3. insert buy order
-19. delete buy order</panel_attributes>
+3. insert buy order</panel_attributes>
     <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>270</x>
+      <x>260</x>
       <y>610</y>
       <w>230</w>
-      <h>60</h>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
-4. OK
-20. OK
-</panel_attributes>
+4. OK</panel_attributes>
     <additional_attributes>10.0;20.0;210.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1100</x>
+      <x>1090</x>
       <y>440</y>
       <w>180</w>
       <h>230</h>
@@ -299,7 +296,7 @@ matching buy order</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1250</x>
+      <x>1240</x>
       <y>660</y>
       <w>230</w>
       <h>50</h>
@@ -312,7 +309,7 @@ matching buy order</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1250</x>
+      <x>1240</x>
       <y>700</y>
       <w>230</w>
       <h>40</h>
@@ -324,7 +321,7 @@ matching buy order</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1120</x>
+      <x>1110</x>
       <y>270</y>
       <w>110</w>
       <h>110</h>
@@ -336,7 +333,7 @@ matching buy order</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1210</x>
+      <x>1200</x>
       <y>270</y>
       <w>70</w>
       <h>110</h>
@@ -348,7 +345,7 @@ matching buy order</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1180</x>
+      <x>1170</x>
       <y>440</y>
       <w>70</w>
       <h>230</h>
@@ -365,20 +362,27 @@ matching buy order</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>660</x>
+      <x>650</x>
       <y>440</y>
       <w>500</w>
-      <h>170</h>
+      <h>200</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
+
+
+
+
+
+
+
 &lt;&lt;event&gt;&gt;
 18. Buy order fulfilled</panel_attributes>
-    <additional_attributes>420.0;10.0;350.0;10.0;350.0;150.0;10.0;150.0</additional_attributes>
+    <additional_attributes>420.0;10.0;350.0;10.0;350.0;180.0;10.0;180.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1420</x>
+      <x>1410</x>
       <y>190</y>
       <w>190</w>
       <h>90</h>
@@ -389,7 +393,7 @@ matching buy order</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1260</x>
+      <x>1250</x>
       <y>200</y>
       <w>180</w>
       <h>40</h>
@@ -401,7 +405,7 @@ matching buy order</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1260</x>
+      <x>1250</x>
       <y>240</y>
       <w>180</w>
       <h>40</h>
@@ -413,7 +417,7 @@ matching buy order</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>270</x>
+      <x>260</x>
       <y>240</y>
       <w>230</w>
       <h>40</h>
@@ -425,7 +429,7 @@ matching buy order</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1080</x>
+      <x>1070</x>
       <y>360</y>
       <w>170</w>
       <h>90</h>
@@ -436,7 +440,7 @@ matching buy order</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>940</x>
+      <x>930</x>
       <y>390</y>
       <w>160</w>
       <h>40</h>
@@ -448,7 +452,7 @@ matching buy order</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1430</x>
+      <x>1420</x>
       <y>350</y>
       <w>110</w>
       <h>120</h>
@@ -471,7 +475,7 @@ drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, he
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1240</x>
+      <x>1230</x>
       <y>370</y>
       <w>210</w>
       <h>40</h>
@@ -483,7 +487,7 @@ drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, he
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1240</x>
+      <x>1230</x>
       <y>400</y>
       <w>210</w>
       <h>40</h>
@@ -491,5 +495,75 @@ drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, he
     <panel_attributes>lt=.&gt;
 18. OK</panel_attributes>
     <additional_attributes>190.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>600</x>
+      <y>140</y>
+      <w>560</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+
+
+
+
+
+
+
+
+
+&lt;&lt;event&gt;&gt;
+19. Buy order fulfilled</panel_attributes>
+    <additional_attributes>470.0;240.0;410.0;240.0;410.0;10.0;10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>210</x>
+      <y>490</y>
+      <w>310</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+delete order on fulfilled buy order event</panel_attributes>
+    <additional_attributes>290.0;60.0;290.0;20.0;10.0;20.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>210</x>
+      <y>630</y>
+      <w>310</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+Order deleted - OK</panel_attributes>
+    <additional_attributes>10.0;30.0;10.0;60.0;290.0;60.0;290.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>220</x>
+      <y>130</y>
+      <w>310</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+delete order on fulfilled sell order event</panel_attributes>
+    <additional_attributes>290.0;60.0;290.0;20.0;10.0;20.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>220</x>
+      <y>270</y>
+      <w>310</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+Order deleted - OK</panel_attributes>
+    <additional_attributes>10.0;30.0;10.0;60.0;290.0;60.0;290.0;10.0</additional_attributes>
   </element>
 </diagram>

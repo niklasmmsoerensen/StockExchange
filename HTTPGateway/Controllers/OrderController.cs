@@ -46,9 +46,10 @@ namespace HTTPGateway.Controllers
             {
                 using (HttpResponseMessage response = await _httpClient.SendAsync(request))
                 {
-                    if (response.StatusCode != HttpStatusCode.OK)
+                    if (!response.IsSuccessStatusCode)
                     {
-                        return new ObjectResult(new ResultModel(Result.Error, "Creating buy order failed"));
+                        var content = await response.Content.ReadAsStringAsync();
+                        return BadRequest(content);
                     }
                 }
             }
@@ -73,11 +74,10 @@ namespace HTTPGateway.Controllers
             {
                 using (HttpResponseMessage response = await _httpClient.SendAsync(request))
                 {
-                    var content = response.Content.ReadAsStringAsync().Result;
-                    ResultModel<bool> result = JsonConvert.DeserializeObject<ResultModel<bool>>(content);
-                    if (result?.Result == false) //something went wrong creating sell order
+                    if (!response.IsSuccessStatusCode)
                     {
-                        return new ObjectResult(result);
+                        var content = await response.Content.ReadAsStringAsync();
+                        return BadRequest(content);
                     }
                 }
             }
