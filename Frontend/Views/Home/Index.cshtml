@@ -22,6 +22,11 @@
                 $("#stockToBuyID").text($(this).closest('tr').find('td:eq(0)').text());
             });
 
+            $(".btn.btn-danger.btn-xs").click(function () {
+                $("#stockToSellName").text($(this).closest('tr').find('td:eq(1)').text());
+                $("#stockToSellID").text($(this).closest('tr').find('td:eq(0)').text());
+            });
+
             $("#buyStock").click(function ()
             {
                 jQuery["postBUY"] = function (url, data, callback) {
@@ -40,9 +45,19 @@
                     });
                 };
 
-                $.postBUY('/SendBuyRequest', { StockId: $("#stockToBuyID").text(), UserId: $("#modalBuyUid").val(), Price: $("#modalBuyPid").val() }, function (data, status, xhr) {
+                $("#loading").show();
 
-                });
+                $.postBUY('/SendBuyRequest', { StockId: $("#stockToBuyID").text(), UserId: $("#modalBuyUid").val(), Price: $("#modalBuyPid").val() }, function (data, status, xhr) {
+                    })
+                    .done(function() {
+                        alert( "The buy request was placed!" );
+                    })
+                    .fail(function(data) {
+                        alert( "Error the buy request was not placed");
+                    })
+                    .always(function() {
+                        //alert("finished");
+                    });
             });
 
             $("#sellStock").click(function () {
@@ -63,16 +78,17 @@
                 };
 
                 $.postSELL('/SendSellRequest', { StockId: $("#stockToSellID").text(), UserId: $("#modalSellUid").val(), Price: $("#modalSellPid").val() }, function (data, status, xhr) {
+                    })
+                    .done(function (data) {
+                        alert("Success - the sell request was placed");
+                    })
+                    .fail(function (data) {
+                        alert("Error - the sell request was not placed. Make sure that you own the stock before you try to sell it.");
+                    })
+                    .always(function () {
+                        //alert("finished");
+                    });
                 });
-            });
-
-
-            //Sell request
-            $(".btn.btn-danger.btn-xs").click(function ()
-            {
-                $("#stockToSellName").text($(this).closest('tr').find('td:eq(1)').text());
-                $("#stockToSellID").text($(this).closest('tr').find('td:eq(0)').text());
-            });
         });
     </script>
 </head>
@@ -132,12 +148,7 @@
 
             </div>
         </div>
-
-        <!-- Loader -->
-        <div class="loader">
-
-        </div>
-
+        
         <!-- Modal sell-->
         <div class="modal fade" id="myModalSell" role="dialog">
             <div class="modal-dialog">
