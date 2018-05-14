@@ -55,7 +55,7 @@
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-[HTTP]
+[HTTP request]
 1. request buy order</panel_attributes>
     <additional_attributes>10.0;20.0;250.0;20.0</additional_attributes>
   </element>
@@ -81,7 +81,7 @@
     <panel_attributes>lt=-&gt;
 
 
-
+&lt;&lt;command&gt;&gt;
 2. insert buy order </panel_attributes>
     <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
   </element>
@@ -225,7 +225,7 @@ drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, he
     </coordinates>
     <panel_attributes>lt=-&gt;
 
-
+&lt;&lt;query&gt;&gt;
 8. Matching sell order?
 </panel_attributes>
     <additional_attributes>280.0;160.0;280.0;10.0;10.0;10.0</additional_attributes>
@@ -266,7 +266,7 @@ matching buy order</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-3. insert buy order</panel_attributes>
+5. insert buy order</panel_attributes>
     <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
@@ -278,7 +278,7 @@ matching buy order</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
-4. OK</panel_attributes>
+6. OK</panel_attributes>
     <additional_attributes>10.0;20.0;210.0;20.0</additional_attributes>
   </element>
   <element>
@@ -290,7 +290,8 @@ matching buy order</panel_attributes>
       <h>230</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-19. Share owner change</panel_attributes>
+&lt;&lt;command&gt;&gt;
+17. Share owner change</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;210.0</additional_attributes>
   </element>
   <element>
@@ -302,7 +303,7 @@ matching buy order</panel_attributes>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-20. Update ownership
+18. Update ownership
 </panel_attributes>
     <additional_attributes>10.0;20.0;210.0;20.0</additional_attributes>
   </element>
@@ -315,7 +316,7 @@ matching buy order</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
-21. OK</panel_attributes>
+19. OK</panel_attributes>
     <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
@@ -327,6 +328,7 @@ matching buy order</panel_attributes>
       <h>110</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
+&lt;&lt;command&gt;&gt;
 13. Tax order</panel_attributes>
     <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
   </element>
@@ -356,7 +358,7 @@ matching buy order</panel_attributes>
 
 
 
-22. OK</panel_attributes>
+20. OK</panel_attributes>
     <additional_attributes>10.0;210.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -396,9 +398,10 @@ matching buy order</panel_attributes>
       <x>1250</x>
       <y>200</y>
       <w>180</w>
-      <h>40</h>
+      <h>50</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
+&lt;&lt;command&gt;&gt;
 14. Tax order</panel_attributes>
     <additional_attributes>10.0;20.0;160.0;20.0</additional_attributes>
   </element>
@@ -443,9 +446,10 @@ matching buy order</panel_attributes>
       <x>930</x>
       <y>390</y>
       <w>160</w>
-      <h>40</h>
+      <h>50</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
+&lt;&lt;command&gt;&gt;
 12. New purchase</panel_attributes>
     <additional_attributes>10.0;20.0;140.0;20.0</additional_attributes>
   </element>
@@ -481,7 +485,7 @@ drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, he
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-17. Insert Transaction</panel_attributes>
+21. Insert Transaction</panel_attributes>
     <additional_attributes>10.0;20.0;190.0;20.0</additional_attributes>
   </element>
   <element>
@@ -493,7 +497,7 @@ drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, he
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
-18. OK</panel_attributes>
+22. OK</panel_attributes>
     <additional_attributes>190.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
@@ -565,5 +569,37 @@ delete order on fulfilled sell order event</panel_attributes>
     <panel_attributes>lt=.&gt;
 Order deleted - OK</panel_attributes>
     <additional_attributes>10.0;30.0;10.0;60.0;290.0;60.0;290.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>610</x>
+      <y>590</y>
+      <w>430</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+
+
+
+
+
+&lt;&lt;query&gt;&gt;
+3. Validate user does not already own stock
+</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;80.0;410.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>580</x>
+      <y>630</y>
+      <w>460</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+
+4. OK</panel_attributes>
+    <additional_attributes>440.0;90.0;10.0;90.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>

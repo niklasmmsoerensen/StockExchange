@@ -43,6 +43,7 @@
       <h>132</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
+&lt;&lt;command&gt;&gt;
 2. insert sell order</panel_attributes>
     <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
   </element>
@@ -79,7 +80,7 @@
       <h>55</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-[HTTP]
+[HTTP request]
 1. request sell order</panel_attributes>
     <additional_attributes>10.0;20.0;250.0;20.0</additional_attributes>
   </element>
@@ -219,6 +220,7 @@ drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, he
       <h>187</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
+&lt;&lt;query&gt;&gt;
 9. Matching buy order?
 </panel_attributes>
     <additional_attributes>260.0;10.0;110.0;10.0;110.0;150.0;10.0;150.0</additional_attributes>
@@ -295,6 +297,7 @@ Order deleted - OK
       <h>187</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
+&lt;&lt;command&gt;&gt;
 16. Share owner change</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;150.0</additional_attributes>
   </element>
@@ -332,6 +335,7 @@ Order deleted - OK
       <h>143</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
+&lt;&lt;command&gt;&gt;
 14. Tax order</panel_attributes>
     <additional_attributes>10.0;110.0;10.0;10.0</additional_attributes>
   </element>
@@ -393,9 +397,10 @@ Order deleted - OK
       <x>1518</x>
       <y>429</y>
       <w>253</w>
-      <h>44</h>
+      <h>55</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
+&lt;&lt;command&gt;&gt;
 13. Tax order</panel_attributes>
     <additional_attributes>10.0;20.0;210.0;20.0</additional_attributes>
   </element>
@@ -475,9 +480,10 @@ drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, he
       <x>1188</x>
       <y>649</y>
       <w>176</w>
-      <h>44</h>
+      <h>55</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
+&lt;&lt;command&gt;&gt;
 13. New purchase</panel_attributes>
     <additional_attributes>10.0;20.0;140.0;20.0</additional_attributes>
   </element>
@@ -486,11 +492,13 @@ drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, he
     <coordinates>
       <x>616</x>
       <y>363</y>
-      <w>1562</w>
+      <w>1529</w>
       <h>715</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-3. Validate ownership
+&lt;&lt;query&gt;&gt;
+3. Validate user
+owns stock
 </panel_attributes>
     <additional_attributes>10.0;70.0;10.0;10.0;1270.0;10.0;1270.0;630.0;750.0;630.0;750.0;560.0</additional_attributes>
   </element>
@@ -503,6 +511,15 @@ drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, he
       <h>671</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
+
+
+
+
+
+
+
+
+
 
 
 
