@@ -8,6 +8,7 @@ using PublicShareOwnerControl.Handlers;
 using Shared;
 using Shared.Models;
 using Newtonsoft.Json;
+using Shared.Abstract;
 using Shared.Infrastructure;
 
 
@@ -17,15 +18,19 @@ namespace PublicShareOwnerControl.Controllers
     public class StockController : Controller
     {
         private readonly StockHandler _handler;
+        private readonly ILogger _log;
 
-        public StockController(StockHandler handler)
+        public StockController(StockHandler handler, ILogger log)
         {
             _handler = handler;
+            _log = log;
         }
 
         [HttpGet("ValidateStockOwnership/{stockId}/{userIdToCheck}")]
         public IActionResult ValidateStockOwnership(int stockId, int userIdToCheck)
         {
+            _log.Info("ValidateStockOwnership called");
+
             var model = new StockValidationModel(stockId, userIdToCheck);
             var result = _handler.ValidateStockOwnership(model);
 
@@ -42,6 +47,8 @@ namespace PublicShareOwnerControl.Controllers
         [HttpPost("UpdateOwnership")]
         public IActionResult UpdateOwnership([FromBody]StockModel stockModel)
         {
+            _log.Info("UpdateOwnership called");
+
             var result = _handler.UpdateStock(stockModel);
 
             if (result.ResultCode == Result.Error)
@@ -57,6 +64,8 @@ namespace PublicShareOwnerControl.Controllers
         [HttpGet("GetAllStocks")]
         public IActionResult GetAllStocks()
         {
+            _log.Info("GetAllStocks called");
+
             var resultModel = _handler.GetAllStocks();
 
             if(resultModel.ResultCode == Result.Error)

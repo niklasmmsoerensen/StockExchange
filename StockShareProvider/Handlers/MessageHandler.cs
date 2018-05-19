@@ -19,6 +19,7 @@ namespace StockShareProvider.Handlers
 
         public void SellOrderFulfilledHandler(string sellOrderId)
         {
+            _log.Info("SellOrderFulfilledHandler invoked");
             try
             {
                 var sellOrderToRemove = _dbContext.SellOrders.Single(t => t.StockID.Equals(Int32.Parse(sellOrderId)));

@@ -38,6 +38,8 @@ namespace StockShareTrader.Controllers
         [HttpGet("GetTransactions")]
         public IActionResult GetTransactions()
         {
+            _log.Info("Get Transactions called");
+
             var result = _handler.GetTransactions();
             if (result.ResultCode == Result.Ok)
             {
@@ -52,6 +54,8 @@ namespace StockShareTrader.Controllers
         [HttpPost]
         public async Task<IActionResult> Insert([FromBody] TransactionModel model)
         {
+            _log.Info("Insert called");
+
             //tax order
             var taxResult = TaxOrder(model);
             if (!taxResult.Result.IsSuccessStatusCode)

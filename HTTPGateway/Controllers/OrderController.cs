@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Shared.Abstract;
 using Shared.Infrastructure;
 using Shared.Models;
 
@@ -20,17 +21,21 @@ namespace HTTPGateway.Controllers
         private readonly HttpClient _httpClient;
         private readonly FabricClient _fabricClient;
         private readonly StatelessServiceContext _serviceContext;
+        private readonly ILogger _log;
 
-        public OrderController(HttpClient httpClient, FabricClient fabricClient, StatelessServiceContext serviceContext)
+        public OrderController(HttpClient httpClient, FabricClient fabricClient, StatelessServiceContext serviceContext, ILogger log)
         {
             _httpClient = httpClient;
             _fabricClient = fabricClient;
             _serviceContext = serviceContext;
+            _log = log;
         }
 
         [HttpPost("Buy")]
         public async Task<IActionResult> Buy([FromBody] BuyOrderModel model)
         {
+            _log.Info("Buy called");
+
             //Call requester and insert order
             Uri serviceName = HTTPGateway.GetStockShareRequesterServiceName(_serviceContext);
             Uri proxyAddress = this.GetProxyAddress(serviceName);
@@ -59,6 +64,8 @@ namespace HTTPGateway.Controllers
         [HttpPost("Sell")]
         public async Task<IActionResult> Sell([FromBody] SellOrderModel model)
         {
+            _log.Info("Sell called");
+
             //Call provider and insert order
             Uri serviceName = HTTPGateway.GetStockShareProviderServiceName(_serviceContext);
             Uri proxyAddress = this.GetProxyAddress(serviceName);

@@ -12,6 +12,7 @@ using Shared.Infrastructure;
 using Shared;
 using Shared.Models;
 using Newtonsoft.Json;
+using Shared.Abstract;
 
 namespace Frontend.Controllers
 {
@@ -20,18 +21,22 @@ namespace Frontend.Controllers
         private readonly HttpClient _httpClient;
         private readonly FabricClient _fabricClient;
         private readonly StatelessServiceContext _serviceContext;
+        private readonly ILogger _log;
 
-        public HomeController(HttpClient httpClient, FabricClient fabricClient, StatelessServiceContext serviceContext)
+        public HomeController(HttpClient httpClient, FabricClient fabricClient, StatelessServiceContext serviceContext, ILogger log)
         {
             _httpClient = httpClient;
             _fabricClient = fabricClient;
             _serviceContext = serviceContext;
+            _log = log;
         }
 
 
         [HttpPost("SendBuyRequest")]
         public async Task<IActionResult> SendBuyRequest(int stockId, int userId, int price)
         {
+            _log.Info("SendBuyRequest called");
+
             Uri serviceName = Frontend.GetHTTPGatewayServiceName(_serviceContext);
             Uri proxyAddress = this.GetProxyAddress(serviceName);
 
@@ -68,6 +73,8 @@ namespace Frontend.Controllers
         [HttpPost("SendSellRequest")]
         public async Task<IActionResult> SendSellRequest(int stockId, int userId, int price)
         {
+            _log.Info("SendSellRequest called");
+
             Uri serviceName = Frontend.GetHTTPGatewayServiceName(_serviceContext);
             Uri proxyAddress = this.GetProxyAddress(serviceName);
 
@@ -104,6 +111,8 @@ namespace Frontend.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            _log.Info("Index called");
+
             Uri serviceName = Frontend.GetHTTPGatewayServiceName(_serviceContext);
             Uri proxyAddress = this.GetProxyAddress(serviceName);
 

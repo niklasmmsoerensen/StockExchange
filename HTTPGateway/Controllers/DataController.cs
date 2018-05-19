@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Shared.Abstract;
 using Shared.Models;
 
 namespace HTTPGateway.Controllers
@@ -17,21 +18,25 @@ namespace HTTPGateway.Controllers
         private readonly HttpClient _httpClient;
         private readonly FabricClient _fabricClient;
         private readonly StatelessServiceContext _serviceContext;
+        private readonly ILogger _log;
 
-        public DataController(HttpClient httpClient, FabricClient fabricClient, StatelessServiceContext serviceContext)
+        public DataController(HttpClient httpClient, FabricClient fabricClient, StatelessServiceContext serviceContext, ILogger log)
         {
             _httpClient = httpClient;
             _fabricClient = fabricClient;
             _serviceContext = serviceContext;
+            _log = log;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            List<StockModel> stocks = new List<StockModel>();
-            List<BuyOrderModel> buyOrders = new List<BuyOrderModel>();
-            List<SellOrderModel> sellOrders = new List<SellOrderModel>();
-            List<TransactionModel> transactions = new List<TransactionModel>();
+            _log.Info("Get called");
+
+            List<StockModel> stocks;
+            List<BuyOrderModel> buyOrders;
+            List<SellOrderModel> sellOrders;
+            List<TransactionModel> transactions;
 
             Uri serviceName = HTTPGateway.GetPublicShareOwnerControlServiceName(_serviceContext);
             Uri proxyAddress = this.GetProxyAddress(serviceName);
@@ -113,7 +118,7 @@ namespace HTTPGateway.Controllers
                 SellOrders = sellOrders,
                 Transactions = transactions
             };
-            return Ok(stocksData);
+            return new ObjectResult(stocksData);
         }
 
         private Uri GetProxyAddress(Uri serviceName)

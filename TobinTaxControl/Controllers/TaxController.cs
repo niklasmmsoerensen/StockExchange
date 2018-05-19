@@ -35,6 +35,8 @@ namespace TobinTaxControl.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]TransactionModel transactionModel)
         {
+            _logger.Info("Post called");
+
             var result = _taxHandler.TaxTransaction(transactionModel);
 
             if (result.ResultCode == Result.Ok)
@@ -48,7 +50,6 @@ namespace TobinTaxControl.Controllers
                 }
                 else
                 {
-                    _logger.Error("Error on post to TobinTaxIntegrationService");
                     return BadRequest();
                 }
             }

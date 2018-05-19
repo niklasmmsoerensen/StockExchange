@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Shared.Abstract;
 using Shared.Infrastructure;
 using Shared.Models;
 using StockShareProvider.Queue.Abstract;
@@ -16,23 +17,27 @@ namespace StockShareProvider.Controllers
     {
         private readonly SellOrderHandler _handler;
         private readonly IQueueGateway _queueGateWay;
+        private readonly ILogger _log;
         private readonly HttpClient _httpClient;
         private readonly FabricClient _fabricClient;
         private readonly StatelessServiceContext _serviceContext;
 
         public SellOrderController(HttpClient httpClient, FabricClient fabricClient, StatelessServiceContext serviceContext,
-            SellOrderHandler handler, IQueueGateway mqChannel)
+            SellOrderHandler handler, IQueueGateway mqChannel, ILogger log)
         {
             _httpClient = httpClient;
             _fabricClient = fabricClient;
             _serviceContext = serviceContext;
             _handler = handler;
             _queueGateWay = mqChannel;
+            _log = log;
         }
 
         [HttpPost]
         public async Task<IActionResult> Insert([FromBody] SellOrderModel insertModel)
         {
+            _log.Info("Insert called");
+
             try
             {
                 var validatedResult = ValidateOwnerShip(insertModel);
@@ -67,6 +72,8 @@ namespace StockShareProvider.Controllers
         [HttpGet("GetMatchingSellOrders/{stockId}")]
         public IActionResult MatchingSellOrders(int stockId)
         {
+            _log.Info("GetMatchingSellOrders called");
+
             var result = _handler.MatchingSellOrders(stockId);
 
             if (result.ResultCode == Result.Error)
@@ -80,6 +87,8 @@ namespace StockShareProvider.Controllers
         [HttpGet("GetSellOrders")]
         public IActionResult GetSellOrders()
         {
+            _log.Info("GetSellOrders called");
+
             var result = _handler.GetSellOrders();
 
             if (result.ResultCode == Result.Error)

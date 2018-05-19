@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Shared.Abstract;
 using Shared.Infrastructure;
 using Shared.Models;
 using StockShareRequester.Handlers;
@@ -19,19 +20,23 @@ namespace StockShareRequester.Controllers
         private readonly IQueueGateWay _queueGateWay;
         private readonly StatelessServiceContext _serviceContext;
         private readonly HttpClient _httpClient;
+        private readonly ILogger _log;
 
         public BuyOrderController(BuyOrderHandler handler, IQueueGateWay queueGateway, StatelessServiceContext serviceContext,
-            HttpClient httpClient)
+            HttpClient httpClient, ILogger log)
         {
             _handler = handler;
             _queueGateWay = queueGateway;
             _serviceContext = serviceContext;
             _httpClient = httpClient;
+            _log = log;
         }
         
         [HttpPost]
         public async Task<IActionResult> Insert([FromBody] BuyOrderModel model)
         {
+            _log.Info("Insert called");
+
             var validatedResult = ValidateOwnerShip(model);
             var validateContent = validatedResult.Result.Content.ReadAsStringAsync();
 
@@ -61,6 +66,8 @@ namespace StockShareRequester.Controllers
         [HttpGet("GetMatchingBuyOrders/{stockId}")]
         public IActionResult GetMatchingBuyOrders(int stockId)
         {
+            _log.Info("GetMatchingBuyOrders called");
+
             var result = _handler.GetMatchingBuyOrders(stockId);
 
             if (result.ResultCode == Result.Ok)
@@ -76,6 +83,8 @@ namespace StockShareRequester.Controllers
         [HttpGet("GetBuyOrders")]
         public IActionResult GetBuyOrders()
         {
+            _log.Info("GetBuyOrders called");
+
             var result = _handler.GetBuyOrders();
             if (result.ResultCode == Result.Ok)
             {

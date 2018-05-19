@@ -3,6 +3,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using RabbitMQ.Client.Events;
 using Shared;
+using Shared.Abstract;
 using Shared.Models;
 using StockShareRequester.DbAccess;
 
@@ -10,13 +11,13 @@ namespace StockShareRequester.Handlers
 {
     public class MessageHandler
     {
-        private RequesterContext DbContext { get; set; }
-        private Logger Logger { get; set; }
+        private readonly RequesterContext _dbContext;
+        private readonly ILogger _log;
 
-        public MessageHandler(RequesterContext dbContext, Logger logger)
+        public MessageHandler(RequesterContext dbContext, ILogger logger)
         {
-            DbContext = dbContext;
-            Logger = logger;
+            _dbContext = dbContext;
+            _log = logger;
         }
 
         public void HandleMessage(BasicDeliverEventArgs ea)
@@ -29,22 +30,23 @@ namespace StockShareRequester.Handlers
                     HandleBuyOrderFulfilled(body);
                     break;
                 default:
-                    Logger.Error("HandleMessage: Invalid routing key " + routingKey);
+                    _log.Error("HandleMessage: Invalid routing key " + routingKey);
                     break;
             }
         }
 
         private void HandleBuyOrderFulfilled(string stockId)
         {
+            _log.Info("SellOrderFulfilledHandler invoked");
             try
             {
-                var buyOrderToRemove = DbContext.BuyOrders.Single(t => t.StockId.Equals(Int32.Parse(stockId)));
-                DbContext.Remove(buyOrderToRemove);
-                DbContext.SaveChanges();
+                var buyOrderToRemove = _dbContext.BuyOrders.Single(t => t.StockId.Equals(Int32.Parse(stockId)));
+                _dbContext.Remove(buyOrderToRemove);
+                _dbContext.SaveChanges();
             }
             catch (Exception e)
             {
-                Logger.Error("HandleBuyOrderFulfilled exception: " + e);
+                _log.Error("HandleBuyOrderFulfilled exception: " + e);
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Shared.Abstract;
 using Shared.Infrastructure;
 using Shared.Models;
 using StockShareTrader.DbAccess;
@@ -10,10 +11,13 @@ namespace StockShareTrader.Handlers
 {
     public class PurchaseHandler
     {
-        private TraderContext _dbContext { get; set; }
-        public PurchaseHandler(TraderContext dbContext)
+        private readonly TraderContext _dbContext;
+        private readonly ILogger _log;
+
+        public PurchaseHandler(TraderContext dbContext, ILogger log)
         {
             _dbContext = dbContext;
+            _log = log;
         }
 
         public ResultModel InsertTransaction(TransactionModel transaction)
@@ -32,6 +36,7 @@ namespace StockShareTrader.Handlers
             }
             catch(Exception e)
             {
+                _log.Error($"Error on InsertTransaction - {e}");
                 return new ResultModel(Result.Error, e.ToString());
             }
         }
@@ -53,6 +58,7 @@ namespace StockShareTrader.Handlers
             }
             catch (Exception e)
             {
+                _log.Error($"Error on GetTransactions - {e}");
                 return new ResultModel<List<TransactionModel>>(Result.Error, new List<TransactionModel>(), e.ToString());
             }
         }

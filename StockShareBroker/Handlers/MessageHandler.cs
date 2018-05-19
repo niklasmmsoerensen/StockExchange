@@ -28,6 +28,8 @@ namespace StockShareBroker.Handlers
 
         public void NewSellOrderHandler(byte[] messageBody)
         {
+            _log.Info("NewSellOrderHandler invoked");
+
             try
             {
                 var messageBodyString = Encoding.UTF8.GetString(messageBody);
@@ -63,6 +65,8 @@ namespace StockShareBroker.Handlers
 
         public void NewBuyOrderHandler(byte[] messageBody)
         {
+            _log.Info("NewBuyOrderHandler invoked");
+
             try
             {
                 var messageBodyString = Encoding.UTF8.GetString(messageBody);

@@ -26,7 +26,7 @@ namespace StockShareProvider.Handlers
 
             _dbContext.RemoveRange(usersSellOrders);
 
-            _dbContext.SellOrders.Add(new SellOrder()
+            _dbContext.SellOrders.Add(new SellOrder
                                       {
                                           UserID = insertModel.UserID,
                                           SellPrice = insertModel.SellPrice,

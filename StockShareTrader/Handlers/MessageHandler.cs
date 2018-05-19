@@ -1,19 +1,20 @@
 ﻿using System;
 using RabbitMQ.Client.Events;
 using Shared;
+using Shared.Abstract;
 using StockShareTrader.DbAccess;
 
 namespace StockShareTrader.Handlers
 {
     public class MessageHandler
     {
-        private TraderContext DbContext { get; set; }
-        private Logger Logger { get; set; }
+        private readonly TraderContext _dbContext;
+        private readonly ILogger _logger;
 
         public MessageHandler(TraderContext dbContext, Logger logger)
         {
-            DbContext = dbContext;
-            Logger = logger;
+            _dbContext = dbContext;
+            _logger = logger;
         }
 
         public void HandleMessage(BasicDeliverEventArgs ea)
@@ -26,20 +27,21 @@ namespace StockShareTrader.Handlers
                     HandleBuyOrderFulfilled(body);
                     break;
                 default:
-                    Logger.Error("HandleMessage: Invalid routing key " + routingKey);
+                    _logger.Error("HandleMessage: Invalid routing key " + routingKey);
                     break;
             }
         }
 
         private void HandleBuyOrderFulfilled(string body)
         {
+            _logger.Info("HandleBuyOrderFulfilled invoked");
             try
             {
                 
             }
             catch (Exception e)
             {
-                Logger.Error("HandleBuyOrderFulfilled exception: " + e);
+                _logger.Error("HandleBuyOrderFulfilled exception: " + e);
             }
         }
     }
