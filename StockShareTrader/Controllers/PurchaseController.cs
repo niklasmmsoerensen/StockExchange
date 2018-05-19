@@ -79,7 +79,7 @@ namespace StockShareTrader.Controllers
             {
                 //Let Provider and Requester know order has been fulfilled
                 _queueGateWay.PublishSellOrderFulfilled(model.StockId.ToString());
-                _queueGateWay.PublishBuyOrderFulfilled(model.StockId.ToString());
+                _queueGateWay.PublishBuyOrderFulfilled(JsonConvert.SerializeObject(model));
                 return Ok(result.Error);
             }
             else

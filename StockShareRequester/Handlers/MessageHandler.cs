@@ -2,7 +2,6 @@
 using System.Linq;
 using Newtonsoft.Json;
 using RabbitMQ.Client.Events;
-using Shared;
 using Shared.Abstract;
 using Shared.Models;
 using StockShareRequester.DbAccess;
@@ -35,12 +34,16 @@ namespace StockShareRequester.Handlers
             }
         }
 
-        private void HandleBuyOrderFulfilled(string stockId)
+        private void HandleBuyOrderFulfilled(string message)
         {
-            _log.Info("SellOrderFulfilledHandler invoked");
+            _log.Info("HandleBuyOrderFulfilled invoked");
             try
             {
-                var buyOrderToRemove = _dbContext.BuyOrders.Single(t => t.StockId.Equals(Int32.Parse(stockId)));
+                var transaction = JsonConvert.DeserializeObject<TransactionModel>(message);
+                var buyOrderToRemove = _dbContext.BuyOrders.Single(buyordr =>
+                    buyordr.StockId.Equals(transaction.StockId)
+                    && buyordr.UserId.Equals(transaction.BuyerUserId));
+
                 _dbContext.Remove(buyOrderToRemove);
                 _dbContext.SaveChanges();
             }
